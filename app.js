@@ -1,21 +1,25 @@
 'use strict'
 
-var app = require('koa')();
+const Koa = require('koa');
+const app = new Koa();
+
 var router = require('koa-router')();
 
 router.get('/', function* (next) {
+    yield next
     this.body = 'Hello World';
 });
+
+app.use(function* chat(next) {
+    console.log('123232');
+    yield next
+})
 
 router.get('/dd', function* (next) {
     this.body = 'Hello World2';
 });
 app.use(router.routes())
 app.use(router.allowedMethods());
-
-// app.use(function* () {
-//     this.body = 'Hello World';
-// });
 
 
 app.use(function* pageNotFound(next) {
