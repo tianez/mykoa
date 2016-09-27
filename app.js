@@ -7,12 +7,14 @@ var router = require('koa-router')();
 
 router.get('/', function* (next) {
     yield next
+    console.log('1wode');
     this.body = 'Hello World';
 });
 
 app.use(function* chat(next) {
     console.log('123232');
     yield next
+    console.log('123232222');
 })
 
 router.get('/dd', function* (next) {
@@ -23,6 +25,7 @@ app.use(router.allowedMethods());
 
 
 app.use(function* pageNotFound(next) {
+    console.log('89');
     yield next;
 
     if (404 != this.status) return;
