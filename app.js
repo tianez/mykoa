@@ -2,51 +2,32 @@
 
 const Koa = require('koa');
 const app = new Koa();
+const bodyParser = require('koa-bodyparser');
+app.use(bodyParser());
 
-var router = require('koa-router')();
-
-router.get('/', function*(next) {
-    yield next
-    console.log('1wode');
-    this.body = 'Hello World';
+app.use(async(ctx, next) => {
+    const start = new Date().getTime(); // 当前时间
+    console.log('start:' + start);
+    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
+    await next(); // 调用下一个middleware
+    const ms = new Date().getTime() - start; // 耗费时间
+    console.log(`Time: ${ms}ms`); // 打印耗费时间
 });
 
-app.use(function* chat(next) {
-    console.log('123232');
-    yield next
-    console.log('123232222');
-})
+const render = require('./function/render');
+app.use(render('view', {
+    noCache: true,
+    watch: true,
+    extname: 'html'
+}));
 
-router.get('/dd', function*(next) {
-    this.body = 'Hello World2';
+const router = require('./router');
+app.use(router.routes());
+
+app.on('error', function(err, ctx) {
+    console.log(err);
 });
-app.use(router.routes())
-app.use(router.allowedMethods());
 
-app.use(function* pageNotFound(next) {
-    console.log('89');
-    yield next;
-
-    if (404 != this.status) return;
-
-    // we need to explicitly set 404 here
-    // so that koa doesn't assign 200 on body=
-    this.status = 404;
-
-    switch (this.accepts('html', 'json')) {
-        case 'html':
-            this.type = 'html';
-            this.body = '<p>Page Not Found</p>';
-            break;
-        case 'json':
-            this.body = {
-                message: 'Page Not Found'
-            };
-            break;
-        default:
-            this.type = 'text';
-            this.body = 'Page Not Found';
-    }
-})
-
-app.listen(3001);
+const server = app.listen(3000, function() {
+    console.log('Koa is listening to http://localhost:3000');
+});
