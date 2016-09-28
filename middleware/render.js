@@ -1,3 +1,4 @@
+'use strict'
 const nunjucks = require('nunjucks');
 
 function createEnv(path, opts) {
@@ -27,7 +28,7 @@ function templating(path, opts) {
     var env = createEnv(path, opts);
     return async(ctx, next) => {
         // 给ctx绑定render函数:
-        ctx.render = function(view, model) {
+        ctx.render = function (view, model) {
             // 把render后的内容赋值给response.body:
             const extname = opts.extname || 'html'
             view += '.' + extname
