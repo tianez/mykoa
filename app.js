@@ -1,18 +1,20 @@
 'use strict'
 
 const Koa = require('koa');
+// var Koa = require('koa.io');
 const app = new Koa();
-const bodyParser = require('koa-bodyparser');
-app.use(bodyParser());
 
-app.use(async(ctx, next) => {
-    const start = new Date().getTime(); // 当前时间
-    console.log('start:' + start);
-    console.log(`Process ${ctx.request.method} ${ctx.request.url}...`);
-    await next(); // 调用下一个middleware
-    const ms = new Date().getTime() - start; // 耗费时间
-    console.log(`Time: ${ms}ms`); // 打印耗费时间
-});
+app.use(require('koa-bodyparser')());
+app.use(require('./middleware/logs'));
+
+const serve = require("koa-static2")
+app.use(serve("static", __dirname + "/public"));
+app.use(serve("css", __dirname + "/public/css"));
+app.use(serve("js", __dirname + "/public/js"));
+
+const session = require('koa-session');
+app.keys = ['some secret hurr'];
+app.use(session(app));
 
 const render = require('./middleware/render');
 app.use(render('view', {
@@ -32,7 +34,7 @@ app.use(async(ctx, next) => {
     }
 })
 
-app.on('error', function (err, ctx) {
+app.on('error', function(err, ctx) {
     console.log('err:' + err.message);
     console.log(err);
 });
@@ -42,7 +44,7 @@ app.use(router.routes());
 
 app.use(require('./middleware/page404'))
 
-const server = app.listen(3000, function () {
+const server = app.listen(3000, function() {
     console.log('Koa is listening to http://localhost:3000');
 });
 

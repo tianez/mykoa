@@ -1,33 +1,18 @@
 'use strict'
 const server = require('./app');
 
-const WebSocket = require('ws');
-const WebSocketServer = WebSocket.Server;
-let wss = new WebSocketServer({
-    server: server
+const sockets = require('socket.io').listen(server).sockets
+
+sockets.on('connection', function(socket) {
+    socket.emit('news', '你好！测试人员01');
+    socket.broadcast.emit('user connected', '有新人员加入！');
+    socket.on('news2', function(data) {
+        console.log(data);
+        // setTimeout(function() {
+        //     socket.emit('news', '你好啊，我是测试人员02' + new Date());
+        // }, 1000)
+    });
+    socket.on('disconnect', function() {
+        socket.broadcast.emit('user connected', '有人员下线了！');
+    });
 });
-
-wss.on('connection', function (ws) {
-    console.log(`[SERVER] connection()`);
-    ws.on('message', function (message) {
-        console.log(`[SERVER] Received: ${message}`);
-        ws.send(`ECHO: ${message}`, (err) => {
-            if (err) {
-                console.log(`[SERVER] error: ${err}`);
-            }
-        });
-    })
-});
-
-let ws = new WebSocket('ws://localhost:3000/test');
-
-// 打开WebSocket连接后立刻发送一条消息:
-ws.on('open', function () {
-    console.log(`[CLIENT] open()`);
-    ws.send('Hello!');
-});
-
-// 响应收到的消息:
-ws.on('message', function (message) {
-    console.log(`[CLIENT] Received: ${message}`);
-})
