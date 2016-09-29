@@ -17,16 +17,14 @@ async function chat() {
 
 async function home(ctx, next) {
     let time = await chat()
-    //     dbmd.user2.sync()
-    // var dog = await dbmd.user2.create({
-    //     user_name: 'Odie222222222',
-    //     id: 'd-' + Date.now(),
-    //     version: 2
+        // await User.sync()
+    // var dog = await User.create({
+    //     user_name: 'Odie222222222' + Date.now()
     // });
     // console.log('created: ' + JSON.stringify(dog));
     let user = await User.findAll()
-    let user2 = await dbmd.user2.findAll()
-    let uu = user2[0];
+    // let user2 = await dbmd.user2.findAll()
+    let uu = user[0];
     uu.user_name = 'haodes22222222222s'
     await uu.save()
 
