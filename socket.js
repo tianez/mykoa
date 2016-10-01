@@ -12,6 +12,10 @@ sockets.on('connection', function(socket) {
         //     socket.emit('news', '你好啊，我是测试人员02' + new Date());
         // }, 1000)
     });
+    socket.on('chat', function(data) {
+        console.log(data);
+            socket.emit('chat', data);
+    });
     socket.on('disconnect', function() {
         socket.broadcast.emit('user connected', '有人员下线了！');
     });

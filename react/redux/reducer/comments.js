@@ -2,7 +2,7 @@
 
 export function comments(state = [], action) {
     switch (action.type) {
-        case 'comment':
+        case 'comment': 
             return [
                 action,
                 ...state

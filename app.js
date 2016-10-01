@@ -5,7 +5,7 @@ const Koa = require('koa');
 const app = new Koa();
 
 app.use(require('koa-bodyparser')());
-app.use(require('./middleware/logs'));
+// app.use(require('./middleware/logs')); 
 
 const serve = require("koa-static2")
 app.use(serve("static", __dirname + "/public"));
