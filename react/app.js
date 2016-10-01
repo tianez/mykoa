@@ -28,7 +28,7 @@ import {
 window.connect = connect
 window.Rd = require('./redux/actions')
 
-const routers = require('./config/router')
+const routers = require('./router')
 
 function render() {
     ReactDOM.render(
@@ -39,7 +39,7 @@ function render() {
         document.getElementById('app')
     )
 }
-
+render()
 function Init() {
     getfetch("admin/user")
         .then(function (response) {
@@ -50,4 +50,4 @@ function Init() {
         });
 }
 
-Init()
+// Init()

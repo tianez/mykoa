@@ -11,8 +11,8 @@ var webpack = require("gulp-webpack")
 
 
 var dir = 'front'
-var dirin = './resources/' + dir + '/'
-var out = './public/front/' + dir + '/'
+var dirin = './react/'
+var out = './public/' + dir + '/'
 
 var webpackConfig = require(dirin + 'webpack.config.js')
 
@@ -56,7 +56,7 @@ gulp.task('web', function(cb) {
 
 gulp.task('connect', function() {
     connect.server({
-        port: 3000,
+        port: 3001,
         livereload: true
     })
 })
