@@ -2,40 +2,24 @@
 
 const User = require('../model/user')
 const dbmd = require('../model/dbmd')
+const Db = require('./Db')
+const bcrypt = require('bcrypt-nodejs')
+const md5 = require('crypto').createHash('md5');
 
-
-async function chat() {
-    return new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve('111111111111111')
-            }, 200)
-        })
-        .catch(function (err) {
-            throw new Error(err);
-        });
-}
-
+// bcrypt
 async function home(ctx, next) {
-    let time = await chat()
-        // await User.sync()
-    // var dog = await User.create({
-    //     user_name: 'Odie222222222' + Date.now()
-    // });
-    // console.log('created: ' + JSON.stringify(dog));
-    let user = await User.findAll()
-    // let user2 = await dbmd.user2.findAll()
-    let uu = user[0];
-    uu.user_name = 'haodes22222222222s'
-    await uu.save()
-
-    // console.log(JSON.parse(JSON.stringify(user2)));
-
     var n = ctx.session.views || 0;
-    ctx.session.views = ++n;
+    // let users = await new Db('users').where({id:1}).get();
+    // console.log(users);
+
+    // console.log(md5('sssssssssss'));
+    var hash = bcrypt.hashSync('gebilaowang');
+    var yz = bcrypt.compareSync("gebilaowang", hash);
+    console.log(yz);
+    console.log(bcrypt.hashSync('gebilaowang'));
+
     ctx.render('home', {
-        user_name: 'tianez',
-        counter: ctx.session.views,
-        user: JSON.parse(JSON.stringify(user))[0]
+        user_name: 'tianez'
     });
 }
 

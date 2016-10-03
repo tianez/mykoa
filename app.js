@@ -25,6 +25,7 @@ app.use(render('view', {
 
 app.use(async(ctx, next) => {
     try {
+        ctx.cookies.set('name', '123456');
         await next();
     } catch (err) {
         ctx.status = err.status || 500;
@@ -34,17 +35,21 @@ app.use(async(ctx, next) => {
     }
 })
 
-app.on('error', function(err, ctx) {
-    console.log('err:' + err.message);
-    console.log(err);
-});
+// app.on('error', function (err, ctx) {
+//     console.log('err:' + err.status + err.message);
+//     console.log(err);
+// });
+
+
 
 const router = require('./router');
+const api = require('./router/api');
 app.use(router.routes());
+app.use(api.routes());
 
 app.use(require('./middleware/page404'))
 
-const server = app.listen(3000, function() {
+const server = app.listen(3000, function () {
     console.log('Koa is listening to http://localhost:3000');
 });
 

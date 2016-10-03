@@ -64,32 +64,64 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	window.socket = io('http://localhost:3000');
-	socket.on('news', function (data) {
-	    console.log(data);
-	    alert(data);
-	    // setTimeout(function() {
-	    socket.emit('news2', '你好啊，我是测试人员01' + new Date());
-	    // }, 1000)
+	window.socket = io('http://localhost:3000', {
+	    reconnect: true
 	});
+	socket.on('connect', function () {
+	    // TIP: you can avoid listening on `connect` and listen on events directly too!
+	    socket.on('ping', function (name, fn) {
+	        // console.log(name);
+	        fn('ping ' + new Date());
+	    });
+	});
+	socket.on('login', function (data) {
+	    console.log(data);
+	    Rd.comment({
+	        chat: data
+	    });
+	    // // setTimeout(function() {
+	    // socket.emit('news2', '你好啊，我是测试人员01' + new Date());
+	    // // }, 1000)
+	});
+
+	// socket.on('ping', function (d) {
+	//     console.log(d);
+	//     socket.emit('pong', 'pong' + new Date());
+	// })
 
 	socket.on('chat', function (data) {
-	    Rd.comment({ chat: data });
+	    Rd.comment({
+	        chat: data
+	    });
 	});
 
-	socket.on('user connected', function (data) {
-	    console.log(data);
-	    // setTimeout(function() {
-	    // socket.emit('news2', '你好啊，我是测试人员01' + new Date());
-	    // }, 1000) 
+	socket.on('userconnected', function (data) {
+	    Rd.comment({
+	        chat: data
+	    });
 	});
-
+	socket.on('userdisconnect', function (data) {
+	    Rd.comment({
+	        chat: data
+	    });
+	});
+	socket.on('disconnect', function () {
+	    console.log('连接已断开...');
+	    // intervalID = setInterval(function () {
+	    //     socket.reconnect();
+	    //     clearInterval(intervalID);
+	    // }, 4000);
+	});
+	socket.on('reconnecting', function () {
+	    console.log('正在连接中...');
+	});
+	socket.on('reconnect', function () {
+	    console.log('断线重连成功！');
+	});
 	socket.on('reconnect_failed', function (data) {
 	    console.log('data');
-	    // setTimeout(function() {
-	    // socket.emit('news2', '你好啊，我是测试人员01' + new Date());
-	    // }, 1000) 
 	});
+
 	// const React = require('react');
 	// const ReactDOM = require('react-dom');
 	// const ReactRouter = require('react-router');
@@ -118,6 +150,7 @@
 	    }, routers), document.getElementById('app'));
 	}
 	render();
+
 	function Init() {
 	    getfetch("admin/user").then(function (response) {
 	        Rd.user(response);

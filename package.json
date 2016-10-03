@@ -21,6 +21,11 @@
   },
   "homepage": "https://github.com/tianez/mykoa#readme",
   "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
+    "classnames": "^2.2.5",
+    "draft-js": "^0.8.1",
+    "flux": "^2.1.1",
+    "jsonwebtoken": "^7.1.9",
     "koa": "^2.0.0",
     "koa-bodyparser": "3.2.0",
     "koa-router": "7.0.0",
@@ -29,11 +34,6 @@
     "mysql": "^2.11.1",
     "node-uuid": "^1.4.7",
     "nunjucks": "^2.5.2",
-    "sequelize": "^3.24.3",
-    "socket.io": "^1.4.8",
-    "classnames": "^2.2.5",
-    "draft-js": "^0.8.1",
-    "flux": "^2.1.1",
     "object-assign": "^4.1.0",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",
@@ -43,6 +43,8 @@
     "react-weui": "^0.4.0",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
+    "sequelize": "^3.24.3",
+    "socket.io": "^1.4.8",
     "superagent": "^2.0.0"
   },
   "devDependencies": {
