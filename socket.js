@@ -1,6 +1,8 @@
 'use strict'
 const server = require('./app');
 
+const jwt = require('jsonwebtoken');
+
 const sockets = require('socket.io').listen(server, {
         'timeout': 300000,
         'reconnection': true,
@@ -12,12 +14,6 @@ var onlineUsers = {};
 //当前在线人数
 var onlineCount = 0;
 sockets.on('connection', function (socket) {
-    setInterval(function () {
-        socket.volatile.emit('ping', 'ping ' + new Date(), function (data) {
-            console.log(data); // data will be 'woot'
-        });
-    }, 10000)
-
     // 获得客户端的Cookie
     // console.log(socket.handshake.headers.cookie);
     let cookie = socket.handshake.headers.cookie
@@ -26,10 +22,14 @@ sockets.on('connection', function (socket) {
         let parts = c.split('=');
         cookies[parts[0].trim()] = (parts[1] || '').trim();
     });
-    // console.log(cookies)
+    setInterval(function () {
+            socket.volatile.emit('ping', 'ping ' + new Date(), function (data) {
+                console.log(data); // data will be 'woot'
+            });
+        }, 30000)
     if (!onlineUsers[cookies.uuid]) {
         onlineCount++
-        console.log(onlineCount);
+        console.log('当前在线人数：' + onlineCount);
         onlineUsers[cookies.uuid] = {
             socket: socket,
             user: {
