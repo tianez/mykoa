@@ -16,9 +16,13 @@ async function getHome(ctx, next) {
 }
 
 async function getUser(ctx, next) {
-    let token = ctx.cookies.get('token')
-    let users = await new Db('users').where({id:1}).get();
+    const start = new Date().getTime(); // 当前时间
+    let users = await new Db('users').where({
+        id: 1
+    }).get();
     ctx.body = JSON.stringify(users)
+    const ms = new Date().getTime() - start; // 耗费时间
+    console.log('<-- ' + ctx.request.method + ' ' + ctx.request.url + '  ' + ms + 'ms');
 }
 
 module.exports = {

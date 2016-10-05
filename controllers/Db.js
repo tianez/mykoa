@@ -90,8 +90,9 @@ Db.prototype.update = function (data) {
     var i = '';
     for (var key in data) {
         console.log(key);
-        i = key + "= '" + data[key] + "'";
+        i = key + "= '" + data[key] + "',";
     }
+    i += "updated_at = " + new Date()
     this.querys = "UPDATE " + this.datasheet + " SET " + i + this.search;
     return this.query();
 }
