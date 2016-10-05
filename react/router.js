@@ -15,7 +15,8 @@ const {
 const history = syncHistoryWithStore(hashHistory, store)
 
 const {
-    Home
+    Home,
+    Login
 } = require('./pages')
 
 function onEnter(nextState, replace) {
@@ -41,6 +42,10 @@ const routers = (
         React.createElement(Route, {
             path: "/",
             component: Home
+        }),
+        React.createElement(Route, {
+            path: "login",
+            component: Login
         })
     )
 )

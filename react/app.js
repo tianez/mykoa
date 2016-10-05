@@ -1,28 +1,26 @@
 'use strict'
 
-window.socket = io('http://localhost:3000', {
+window.socket = io('http://' + document.domain + ':3000', {
     reconnect: true
 });
 socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!
-    socket.on('ping', function (name, fn) {
+    socket.on('ping', function (data, fn) {
         // console.log(name);
         fn('ping ' + new Date());
+    });
+    socket.emit('login', {
+        userid: localStorage.userid,
+        username: localStorage.username
     });
 });
 socket.on('login', function (data) {
     console.log(data);
+    localStorage.userid = data.userid
+    localStorage.username = data.username
     Rd.comment({
-        chat: data
+        chat: data.message
     });
-    // // setTimeout(function() {
-    // socket.emit('news2', '你好啊，我是测试人员01' + new Date());
-    // // }, 1000)
 });
-
-// socket.on('ping', function (d) {
-//     console.log(d);
-//     socket.emit('pong', 'pong' + new Date());
-// })
 
 socket.on('chat', function (data) {
     Rd.comment({

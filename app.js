@@ -1,9 +1,8 @@
 'use strict'
 
-
+require('./event');
 
 const Koa = require('koa');
-// var Koa = require('koa.io');
 const app = new Koa();
 
 app.use(require('koa-bodyparser')());
@@ -27,7 +26,6 @@ app.use(render('view', {
 
 app.use(async(ctx, next) => {
     try {
-        ctx.cookies.set('name', '123456');
         await next();
     } catch (err) {
         ctx.status = err.status || 500;

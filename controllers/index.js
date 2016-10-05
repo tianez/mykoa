@@ -17,7 +17,6 @@ async function home(ctx, next) {
     var yz = bcrypt.compareSync("gebilaowang", hash);
     console.log(yz);
     console.log(bcrypt.hashSync('gebilaowang'));
-
     ctx.render('home', {
         user_name: 'tianez'
     });

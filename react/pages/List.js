@@ -40,14 +40,12 @@ class List extends React.Component {
     constructor() {
         super()
     }
-    render() {
-        console.log(this.props);
-        
+    render() {     
         let ul = this.props.comments.map(function (d, index) {
             return React.createElement('div', {
                     className: 'li',
                     key: index
-                },
+                }, 
                 React.createElement('div', {
                         className: 'c'
                     },

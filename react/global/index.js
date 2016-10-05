@@ -1,10 +1,11 @@
 /** 
  * 请求数据
  */
-window.request = require('superagent')
+// window.request = require('superagent')
+window.request = superagent
 
 //获取url参数数组
-window.get = function (url) { 
+window.get = function (url) {
     if (!url) {
         var url = window.document.location.href.toString();
     }
@@ -40,6 +41,9 @@ window.GetRequest = function GetRequest() {
     }
     return theRequest;
 }
-import { getfetch2, postfetch } from './getfetch'
+import {
+    getfetch2,
+    postfetch2
+} from './getfetch'
 window.getfetch = getfetch2
-window.postfetch = postfetch
+window.postfetch = postfetch2
