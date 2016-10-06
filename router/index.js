@@ -11,7 +11,6 @@ router.get('/', controller.home);
 router.get('/upload', controller.getUpload);
 router.post('/upload', controller.postUpload);
 
-
 async function chat() {
     return new Promise(function (resolve, reject) {
             setTimeout(function () {
@@ -28,9 +27,7 @@ router.get('/dd', async(ctx, next) => {
 
     let chat2 = await chat()
 
-
     console.log(chat2);
-
     ctx.throw(400, 'name required')
     ctx.render('home', {
         username: 'James'

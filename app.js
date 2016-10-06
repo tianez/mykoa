@@ -8,6 +8,42 @@ const app = new Koa();
 // app.use(require('koa-bodyparser')());
 // app.use(require('./middleware/logs')); 
 
+var os = require('os');
+var path = require('path');
+var fs = require('co-fs');
+var parse = require('co-busboy');
+var saveTo = require('save-to');
+
+app.use(function* (next) {
+    if (this.method != 'POST') {
+        return yield next
+    }
+    var parts = parse(this, {
+        autoFields: true // saves the fields to parts.field(s)
+    });
+    var tmpdir = path.join(os.tmpdir(), uid());
+    yield fs.mkdir(tmpdir);
+    var files = [];
+    var part;
+    while (part = yield parts) {
+        let file = {}
+        file.fliename = part.filename
+        file.mimeType = part.mimeType
+        file.size = part._readableState.length
+        file.filepath = path.join(tmpdir, part.filename)
+        files.push(file);
+        yield saveTo(part, file.filepath);
+    }
+    this.request.files = files;
+    this.request.body = parts.field;
+    yield next
+})
+
+function uid() {
+    return Math.random().toString(36).slice(2);
+}
+
+
 const serve = require("koa-static2")
 app.use(serve("static", __dirname + "/public"));
 app.use(serve("css", __dirname + "/public/css"));
@@ -23,55 +59,6 @@ app.use(render('view', {
     watch: true,
     extname: 'html'
 }));
-
-
-var os = require('os');
-var path = require('path');
-var fs = require('co-fs');
-var parse = require('co-busboy');
-var saveTo = require('save-to');
-
-app.use(function* (next) {
-    if (this.method != 'POST') {
-        return yield next
-    }
-    // parse the multipart body
-    var parts = parse(this, {
-        autoFields: true // saves the fields to parts.field(s)
-    });
-    // create a temporary folder to store files
-    var tmpdir = path.join(os.tmpdir(), uid());
-    console.log(tmpdir);
-    var tmpdir2 = path.join(__dirname+'uploads/', uid());
-    console.log(tmpdir2);
-    // make the temporary directory
-    yield fs.mkdir(tmpdir);
-    yield fs.mkdir(tmpdir2);
-
-    // list of all the files
-    var files = [];
-    var file;
-
-    // yield each part as a stream
-    var part;
-    console.log(parts);
-
-    while (part = yield parts) {
-        // filename for this part
-        files.push(file = path.join(tmpdir, part.filename));
-        // save the file
-        yield saveTo(part, file);
-    }
-
-    // return all the filenames as an array
-    // after all the files have finished downloading
-    this.body = files;
-})
-
-function uid() {
-    return Math.random().toString(36).slice(2);
-}
-
 
 app.use(async(ctx, next) => {
     try {
