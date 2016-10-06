@@ -17,6 +17,9 @@ router.all('*', auth)
 router.get('/', apicontroller.getHome);
 router.get('/user', apicontroller.getUser);
 
+
+router.post('/upload', apicontroller.postUpload);
+
 router.get('/dd', async(ctx, next) => {
     ctx.throw(400, 'name required')
     ctx.render('home', {
@@ -43,9 +46,7 @@ async function getToken(ctx, next) {
 }
 
 async function auth(ctx, next) {
-    global.event.emit('chat','haodeasd');
-    console.log('1111111111');
-    
+    // global.event.emit('chat','haodeasd');
     let token
     if (ctx.query.token) {
         token = ctx.query.token

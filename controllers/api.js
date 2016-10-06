@@ -1,7 +1,7 @@
 'use strict'
 
-const jwt = require('jsonwebtoken');
 const uuid = require('node-uuid');
+const moment = require('moment')
 
 const Db = require('./Db')
 const User = require('../model/user')
@@ -25,7 +25,32 @@ async function getUser(ctx, next) {
     console.log('<-- ' + ctx.request.method + ' ' + ctx.request.url + '  ' + ms + 'ms');
 }
 
+async function postUpload(ctx, next) {
+    // var files = ctx.request.body
+    // console.log(ctx.request.files);
+    // console.log(ctx.request.body);
+    // console.log(ctx.request.fields);
+    let floder = './uploads/' + moment().format("YYYYMMDD/")
+    if (!fs.existsSync(floder)) {
+        await fs.mkdir(floder);
+    }
+    let files = ctx.request.fields.upfile
+    for (let i in files) {
+        if (files[i].size == 0) {
+            return
+        }
+        let is = fs.createReadStream(files[i].path);
+        let os = fs.createWriteStream(floder + files[i].name);
+        is.pipe(os);
+        is.on('end', function () {
+            fs.unlinkSync(files[i].path);
+        });
+    }
+    ctx.render('upload');
+}
+
 module.exports = {
     getHome: getHome,
-    getUser: getUser
+    getUser: getUser,
+    postUpload: postUpload
 }

@@ -5,44 +5,12 @@ require('./event');
 const Koa = require('koa');
 const app = new Koa();
 
-// app.use(require('koa-bodyparser')());
+
+app.use(require('koa-better-body')({
+    multipart: true
+}));
+
 // app.use(require('./middleware/logs')); 
-
-var os = require('os');
-var path = require('path');
-var fs = require('co-fs');
-var parse = require('co-busboy');
-var saveTo = require('save-to');
-
-app.use(function* (next) {
-    if (this.method != 'POST') {
-        return yield next
-    }
-    var parts = parse(this, {
-        autoFields: true // saves the fields to parts.field(s)
-    });
-    var tmpdir = path.join(os.tmpdir(), uid());
-    yield fs.mkdir(tmpdir);
-    var files = [];
-    var part;
-    while (part = yield parts) {
-        let file = {}
-        file.fliename = part.filename
-        file.mimeType = part.mimeType
-        file.size = part._readableState.length
-        file.filepath = path.join(tmpdir, part.filename)
-        files.push(file);
-        yield saveTo(part, file.filepath);
-    }
-    this.request.files = files;
-    this.request.body = parts.field;
-    yield next
-})
-
-function uid() {
-    return Math.random().toString(36).slice(2);
-}
-
 
 const serve = require("koa-static2")
 app.use(serve("static", __dirname + "/public"));

@@ -1,10 +1,13 @@
 'use strict'
 
+const moment = require('moment')
 const User = require('../model/user')
 const dbmd = require('../model/dbmd')
 const Db = require('./Db')
 const bcrypt = require('bcrypt-nodejs')
 const md5 = require('crypto').createHash('md5');
+const fs = require('fs');
+const mime = require('mime');
 
 // bcrypt
 async function home(ctx, next) {
@@ -22,20 +25,50 @@ async function getUpload(ctx, next) {
     ctx.render('upload');
 }
 
-
-const multer = require('koa-multer');
-const upload = multer({ dest: 'uploads/' });
-
 async function postUpload(ctx, next) {
-    // upload.single('avatar')
-    console.log(111);
-
-   
     // var files = ctx.request.body
-    console.log(ctx.request.files);
-    console.log(ctx.request.body);
-    // console.log(files);
-    ctx.render('upload');
+    // console.log(ctx.request.files);
+    // console.log(ctx.request.body);
+    // console.log(ctx.request.fields);
+    // let floder = './uploads/'
+    let floder = './uploads/'
+    if (!fs.existsSync(floder)) {
+        await fs.mkdir(floder);
+    }
+    let files = ctx.request.fields.upfile
+    let res = []
+    for (let i in files) {
+        if (files[i].size == 0) {
+            return
+        }
+        let r = {}
+            // fs.renameSync(files[i].path, floder + files[i].name);
+        let ext = mime.extension(files[i].type);
+        let path = floder + ext
+        if (!fs.existsSync(path)) {
+            await fs.mkdir(path);
+        }
+        path += moment().format("/YYYYMMDD/")
+        if (!fs.existsSync(path)) {
+            await fs.mkdir(path);
+        }
+        let is = fs.createReadStream(files[i].path);
+        let os = fs.createWriteStream(path + files[i].name);
+        is.pipe(os);
+        is.on('end', function () {
+            fs.unlinkSync(files[i].path);
+        });
+        r.name = files[i].name
+        r.size = files[i].size
+        r.type = files[i].type
+        r.ext = ext
+        r.lastModifiedDate = files[i].lastModifiedDate
+        r.path = path + files[i].name
+
+        res.push(r)
+    }
+    ctx.type = 'json';
+    ctx.body = JSON.stringify(res)
 }
 
 module.exports = {
@@ -43,4 +76,3 @@ module.exports = {
     getUpload: getUpload,
     postUpload: postUpload
 }
-
