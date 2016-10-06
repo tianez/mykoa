@@ -5,7 +5,7 @@ require('./event');
 const Koa = require('koa');
 const app = new Koa();
 
-app.use(require('koa-bodyparser')());
+// app.use(require('koa-bodyparser')());
 // app.use(require('./middleware/logs')); 
 
 const serve = require("koa-static2")
@@ -24,6 +24,55 @@ app.use(render('view', {
     extname: 'html'
 }));
 
+
+var os = require('os');
+var path = require('path');
+var fs = require('co-fs');
+var parse = require('co-busboy');
+var saveTo = require('save-to');
+
+app.use(function* (next) {
+    if (this.method != 'POST') {
+        return yield next
+    }
+    // parse the multipart body
+    var parts = parse(this, {
+        autoFields: true // saves the fields to parts.field(s)
+    });
+    // create a temporary folder to store files
+    var tmpdir = path.join(os.tmpdir(), uid());
+    console.log(tmpdir);
+    var tmpdir2 = path.join(__dirname+'uploads/', uid());
+    console.log(tmpdir2);
+    // make the temporary directory
+    yield fs.mkdir(tmpdir);
+    yield fs.mkdir(tmpdir2);
+
+    // list of all the files
+    var files = [];
+    var file;
+
+    // yield each part as a stream
+    var part;
+    console.log(parts);
+
+    while (part = yield parts) {
+        // filename for this part
+        files.push(file = path.join(tmpdir, part.filename));
+        // save the file
+        yield saveTo(part, file);
+    }
+
+    // return all the filenames as an array
+    // after all the files have finished downloading
+    this.body = files;
+})
+
+function uid() {
+    return Math.random().toString(36).slice(2);
+}
+
+
 app.use(async(ctx, next) => {
     try {
         await next();
@@ -39,7 +88,6 @@ app.use(async(ctx, next) => {
 //     console.log('err:' + err.status + err.message);
 //     console.log(err);
 // });
-
 
 
 const router = require('./router');
