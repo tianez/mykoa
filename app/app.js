@@ -13,9 +13,8 @@ app.use(require('koa-better-body')({
 // app.use(require('./middleware/logs')); 
 
 const serve = require("koa-static2")
-app.use(serve("static", __dirname + "/public"));
-app.use(serve("css", __dirname + "/public/css"));
-app.use(serve("js", __dirname + "/public/js"));
+app.use(serve("public", __dirname + "/../public"));
+app.use(serve("uploads", __dirname + "/../uploads"));
 
 const session = require('koa-session');
 app.keys = ['some secret hurr'];

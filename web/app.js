@@ -12,7 +12,7 @@ socket.on('connect', function () { // TIP: you can avoid listening on `connect` 
         userid: localStorage.userid,
         username: localStorage.username
     });
-});
+}); 
 socket.on('login', function (data) {
     console.log(data);
     localStorage.userid = data.userid
@@ -74,7 +74,6 @@ window.store = createStoreWithLog(reducer)
 store.subscribe(() => {
     let state = store.getState()
     console.log(state);
-
     window.document.title = state.config.title
 })
 
@@ -97,16 +96,18 @@ function render() {
         document.getElementById('app')
     )
 }
-render()
 
 function Init() {
-    getfetch("admin/user")
-        .then(function (response) {
-            Rd.user(response)
+    getfetch("api/user")
+        .then(function (res) {
+            console.log(res);
+            if (res) {
+                Rd.user(res[0])
+            }
             render()
         }).catch(function (err) {
             console.log("Fetch错误:" + err);
         });
 }
 
-// Init()
+Init()

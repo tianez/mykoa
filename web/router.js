@@ -23,6 +23,7 @@ function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
     let state = store.getState()
     let user = state.user.user_name
+    console.log(user);
     if (!user && pathname !== 'login' && pathname !== '/login') {
         Rd.message('你还没有登录，请先登录！')
         replace({
@@ -41,11 +42,13 @@ const routers = (
         },
         React.createElement(Route, {
             path: "/",
-            component: Home
+            component: Home,
+            onEnter: onEnter
         }),
         React.createElement(Route, {
             path: "login",
-            component: Login
+            component: Login,
+            onEnter: onEnter
         })
     )
 )

@@ -133,7 +133,6 @@
 	store.subscribe(function () {
 	    var state = store.getState();
 	    console.log(state);
-
 	    window.document.title = state.config.title;
 	});
 
@@ -147,18 +146,20 @@
 	        store: store
 	    }, routers), document.getElementById('app'));
 	}
-	render();
 
 	function Init() {
-	    getfetch("admin/user").then(function (response) {
-	        Rd.user(response);
+	    getfetch("api/user").then(function (res) {
+	        console.log(res);
+	        if (res) {
+	            Rd.user(res[0]);
+	        }
 	        render();
 	    }).catch(function (err) {
 	        console.log("Fetch错误:" + err);
 	    });
 	}
 
-	// Init()
+	Init();
 
 /***/ },
 /* 1 */
@@ -6752,7 +6753,9 @@
 	    var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
 	    return new Promise(function (resolve, reject) {
-	        request.get(url).query(query).set('token', localStorage.token).end(function (err, res) {
+	        request.get(url).query(query)
+	        // .set('Content-Type', 'application/json; charset=utf-8')
+	        .set('token', localStorage.token).end(function (err, res) {
 	            if (res.ok) {
 	                if (res.headers.token) {
 	                    localStorage.token = res.headers.token;
@@ -6770,7 +6773,9 @@
 	    var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	    return new Promise(function (resolve, reject) {
-	        request.post(url).query(query).send(data).set('token', localStorage.token).end(function (err, res) {
+	        request.post(url).query(query)
+	        // .set('Content-Type', 'application/json; charset=utf-8')
+	        .set('token', localStorage.token).send(data).end(function (err, res) {
 	            if (res.ok) {
 	                if (res.headers.token) {
 	                    localStorage.token = res.headers.token;
@@ -6934,6 +6939,7 @@
 	    var pathname = nextState.location.pathname;
 	    var state = store.getState();
 	    var user = state.user.user_name;
+	    console.log(user);
 	    if (!user && pathname !== 'login' && pathname !== '/login') {
 	        Rd.message('你还没有登录，请先登录！');
 	        replace({
@@ -6950,10 +6956,12 @@
 	    history: history
 	}, React.createElement(Route, {
 	    path: "/",
-	    component: Home
+	    component: Home,
+	    onEnter: onEnter
 	}), React.createElement(Route, {
 	    path: "login",
-	    component: Login
+	    component: Login,
+	    onEnter: onEnter
 	}));
 
 	module.exports = routers;
@@ -7016,13 +7024,13 @@
 	    _createClass(Home, [{
 	        key: 'componentWillMount',
 	        value: function componentWillMount() {}
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            getfetch('http://' + document.domain + ':3000/api/user?dd=ssssssssss').then(function (res) {
-	                console.log(res);
-	            });
-	        }
+
+	        // componentDidMount() {
+	        //    getfetch('http://' + document.domain + ':3000/api/user?dd=ssssssssss').then(function(res){
+	        //        console.log(res);
+	        //    })
+	        // }
+
 	    }, {
 	        key: '_onChange',
 	        value: function _onChange(name, value) {
@@ -7434,6 +7442,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var _ReactRouter = ReactRouter;
+	var browserHistory = _ReactRouter.browserHistory;
+
 	var Login = function (_React$Component) {
 	    _inherits(Login, _React$Component);
 
@@ -7453,16 +7464,38 @@
 	            state[name] = value;
 	            this.setState(state);
 	        }
+
+	        // _onSubmit(e) {
+	        //     e.preventDefault()
+	        //     console.log(this.state);
+
+	        //     postfetch('http://' + document.domain + ':3000/api', this.state)
+	        //         .then(function (res) {
+	        //             Rd.config('token', res.token)
+	        //             localStorage.token = res.token
+	        //             console.log('111111111111');
+	        //             // this.context.router.pushState(null, '/')
+	        //             // this.props.history.pushState(null, '/')
+	        //             // this.context.router.push('/')
+	        //             browserHistory.push('#/')
+
+	        //         }.bind(this))
+	        // }
+
 	    }, {
 	        key: '_onSubmit',
 	        value: function _onSubmit(e) {
 	            e.preventDefault();
-	            console.log(this.state);
-
-	            postfetch('http://' + document.domain + ':3000/api', this.state).then(function (res) {
-	                Rd.config('token', res.token);
-	                localStorage.token = res.token;
-	            });
+	            request.post('http://' + document.domain + ':3000/api').send(this.state).set('Accept', 'application/json').end(function (err, res) {
+	                if (err) throw err;
+	                var data = JSON.parse(res.text);
+	                console.log(data);
+	                Rd.config('token', data.token);
+	                localStorage.token = data.token;
+	                this.props.history.pushState(null, '/');
+	                // this.context.router.push('/')
+	                // this.context.history.push('/')
+	            }.bind(this));
 	        }
 	    }, {
 	        key: 'render',

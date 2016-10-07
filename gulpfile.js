@@ -11,7 +11,7 @@ var webpack = require("gulp-webpack")
 
 
 var dir = 'front'
-var dirin = './react/'
+var dirin = './web/'
 var out = './public/' + dir + '/'
 
 var webpackConfig = require(dirin + 'webpack.config.js')

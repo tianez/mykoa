@@ -15,11 +15,11 @@ class Home extends React.Component {
 
     }
 
-    componentDidMount() {
-       getfetch('http://' + document.domain + ':3000/api/user?dd=ssssssssss').then(function(res){
-           console.log(res);
-       })
-    }
+    // componentDidMount() {
+    //    getfetch('http://' + document.domain + ':3000/api/user?dd=ssssssssss').then(function(res){
+    //        console.log(res);
+    //    })
+    // }
 
     _onChange(name, value) {
         let state = this.state

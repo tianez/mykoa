@@ -31,7 +31,8 @@ async function postUpload(ctx, next) {
     // console.log(ctx.request.body);
     // console.log(ctx.request.fields);
     // let floder = './uploads/'
-    let floder = './uploads/'
+    let floder = './../uploads/'
+    let path = './uploads/'
     if (!fs.existsSync(floder)) {
         await fs.mkdir(floder);
     }
@@ -44,13 +45,16 @@ async function postUpload(ctx, next) {
         let r = {}
             // fs.renameSync(files[i].path, floder + files[i].name);
         let ext = mime.extension(files[i].type);
-        let path = floder + ext
-        if (!fs.existsSync(path)) {
-            await fs.mkdir(path);
+        floder += ext
+        path += ext
+        if (!fs.existsSync(floder)) {
+            await fs.mkdir(floder);
         }
-        path += moment().format("/YYYYMMDD/")
-        if (!fs.existsSync(path)) {
-            await fs.mkdir(path);
+        let day = moment().format("/YYYYMMDD/")
+        floder += day
+        path += day
+        if (!fs.existsSync(floder)) {
+            await fs.mkdir(floder);
         }
         let is = fs.createReadStream(files[i].path);
         let os = fs.createWriteStream(path + files[i].name);
@@ -60,11 +64,9 @@ async function postUpload(ctx, next) {
         });
         r.name = files[i].name
         r.size = files[i].size
-        r.type = files[i].type
         r.ext = ext
         r.lastModifiedDate = files[i].lastModifiedDate
         r.path = path + files[i].name
-
         res.push(r)
     }
     ctx.type = 'json';

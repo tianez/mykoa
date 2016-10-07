@@ -80,6 +80,7 @@ export function getfetch2(url, query = {}) {
         request
             .get(url)
             .query(query)
+            // .set('Content-Type', 'application/json; charset=utf-8')
             .set('token', localStorage.token)
             .end(function (err, res) {
                 if (res.ok) {
@@ -90,7 +91,7 @@ export function getfetch2(url, query = {}) {
                 } else {
                     reject(err.response);
                 }
-            })
+            }) 
     }).catch(catchs2);
 }
 
@@ -99,8 +100,9 @@ export function postfetch2(url, data = {}, query = {}, ) {
         request
             .post(url)
             .query(query)
-            .send(data)
+            // .set('Content-Type', 'application/json; charset=utf-8')
             .set('token', localStorage.token)
+            .send(data)
             .end(function (err, res) {
                 if (res.ok) {
                     if (res.headers.token) {
