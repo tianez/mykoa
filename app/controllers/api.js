@@ -8,10 +8,10 @@ const User = require('../model/user')
 const dbmd = require('../model/dbmd')
 
 async function getHome(ctx, next) {
-    ctx.cookies.set('uuid', uuid.v1());
-    let token = ctx.cookies.get('token')
+    // ctx.cookies.set('uuid', uuid.v1());
+    // let token = ctx.cookies.get('token')
     ctx.body = JSON.stringify({
-        token: token
+        token: ctx.headers.token
     })
 }
 

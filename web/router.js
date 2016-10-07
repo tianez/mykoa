@@ -22,14 +22,14 @@ const {
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
     let state = store.getState()
-    let user = state.user.user_name
-    console.log(user);
-    if (!user && pathname !== 'login' && pathname !== '/login') {
+    let token = state.config.token
+    console.log(token);
+    if (!token && pathname !== 'login' && pathname !== '/login') {
         Rd.message('你还没有登录，请先登录！')
         replace({
             pathname: '/login'
         })
-    } else if (user && (pathname == 'login' || pathname == '/login')) {
+    } else if (token && (pathname == 'login' || pathname == '/login')) {
         replace({
             pathname: '/'
         })

@@ -12,7 +12,7 @@ socket.on('connect', function () { // TIP: you can avoid listening on `connect` 
         userid: localStorage.userid,
         username: localStorage.username
     });
-}); 
+});
 socket.on('login', function (data) {
     console.log(data);
     localStorage.userid = data.userid
@@ -98,11 +98,12 @@ function render() {
 }
 
 function Init() {
-    getfetch("api/user")
+    getfetch("api")
         .then(function (res) {
-            console.log(res);
             if (res) {
-                Rd.user(res[0])
+                Rd.config('token', res.token)
+            } else {
+                Rd.config('token', null) 
             }
             render()
         }).catch(function (err) {

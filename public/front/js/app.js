@@ -148,10 +148,11 @@
 	}
 
 	function Init() {
-	    getfetch("api/user").then(function (res) {
-	        console.log(res);
+	    getfetch("api").then(function (res) {
 	        if (res) {
-	            Rd.user(res[0]);
+	            Rd.config('token', res.token);
+	        } else {
+	            Rd.config('token', null);
 	        }
 	        render();
 	    }).catch(function (err) {
@@ -6945,14 +6946,14 @@
 	function onEnter(nextState, replace) {
 	    var pathname = nextState.location.pathname;
 	    var state = store.getState();
-	    var user = state.user.user_name;
-	    console.log(user);
-	    if (!user && pathname !== 'login' && pathname !== '/login') {
+	    var token = state.config.token;
+	    console.log(token);
+	    if (!token && pathname !== 'login' && pathname !== '/login') {
 	        Rd.message('你还没有登录，请先登录！');
 	        replace({
 	            pathname: '/login'
 	        });
-	    } else if (user && (pathname == 'login' || pathname == '/login')) {
+	    } else if (token && (pathname == 'login' || pathname == '/login')) {
 	        replace({
 	            pathname: '/'
 	        });
@@ -7471,39 +7472,36 @@
 	            state[name] = value;
 	            this.setState(state);
 	        }
-
-	        // _onSubmit(e) {
-	        //     e.preventDefault()
-	        //     console.log(this.state);
-
-	        //     postfetch('http://' + document.domain + ':3000/api', this.state)
-	        //         .then(function (res) {
-	        //             Rd.config('token', res.token)
-	        //             localStorage.token = res.token
-	        //             console.log('111111111111');
-	        //             // this.context.router.pushState(null, '/')
-	        //             // this.props.history.pushState(null, '/')
-	        //             // this.context.router.push('/')
-	        //             browserHistory.push('#/')
-
-	        //         }.bind(this))
-	        // }
-
 	    }, {
 	        key: '_onSubmit',
 	        value: function _onSubmit(e) {
 	            e.preventDefault();
-	            request.post('http://' + document.domain + ':3000/api').send(this.state).set('Accept', 'application/json').end(function (err, res) {
-	                if (err) throw err;
-	                var data = JSON.parse(res.text);
-	                console.log(data);
-	                Rd.config('token', data.token);
-	                localStorage.token = data.token;
-	                this.props.history.pushState(null, '/');
-	                // this.context.router.push('/')
-	                // this.context.history.push('/')
+	            postfetch('http://' + document.domain + ':3000/api', this.state).then(function (res) {
+	                if (res) {
+	                    Rd.config('token', res.token);
+	                    localStorage.token = res.token;
+	                    this.props.history.pushState(null, '/');
+	                }
 	            }.bind(this));
 	        }
+	        // _onSubmit(e) {
+	        //     e.preventDefault();
+	        //     request
+	        //         .post('http://' + document.domain + ':3000/api')
+	        //         .send(this.state)
+	        //         .set('Accept', 'application/json')
+	        //         .end(function (err, res) {
+	        //             if (err) throw err
+	        //             let data = JSON.parse(res.text)
+	        //             console.log(data);
+	        //             Rd.config('token', data.token)
+	        //             localStorage.token = data.token
+	        //             this.props.history.pushState(null, '/')
+	        //                 // this.context.router.push('/')
+	        //                 // this.context.history.push('/')
+	        //         }.bind(this))
+	        // }
+
 	    }, {
 	        key: 'render',
 	        value: function render() {
