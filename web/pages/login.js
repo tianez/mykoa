@@ -21,33 +21,33 @@ class Login extends React.Component {
     }
 
     _onSubmit(e) {
-        e.preventDefault()
-        postfetch('http://' + document.domain + ':3000/api', this.state)
-            .then(function (res) {
-                if (res) {
-                    Rd.config('token', res.token)
-                    localStorage.token = res.token
-                    this.props.history.pushState(null, '/')
-                }
-            }.bind(this))
-    }
-    // _onSubmit(e) {
-    //     e.preventDefault();
-    //     request
-    //         .post('http://' + document.domain + ':3000/api')
-    //         .send(this.state)
-    //         .set('Accept', 'application/json')
-    //         .end(function (err, res) {
-    //             if (err) throw err
-    //             let data = JSON.parse(res.text)
-    //             console.log(data);
-    //             Rd.config('token', data.token)
-    //             localStorage.token = data.token
-    //             this.props.history.pushState(null, '/')
-    //                 // this.context.router.push('/')
-    //                 // this.context.history.push('/')
-    //         }.bind(this))
-    // }
+            e.preventDefault()
+            postfetch(curl + 'api', this.state)
+                .then(function (res) {
+                    if (res) {
+                        Rd.config('token', res.token)
+                        localStorage.token = res.token
+                        this.props.history.pushState(null, '/')
+                    }
+                }.bind(this))
+        }
+        // _onSubmit(e) {
+        //     e.preventDefault();
+        //     request
+        //         .post('http://' + document.domain + ':3000/api')
+        //         .send(this.state)
+        //         .set('Accept', 'application/json')
+        //         .end(function (err, res) {
+        //             if (err) throw err
+        //             let data = JSON.parse(res.text)
+        //             console.log(data);
+        //             Rd.config('token', data.token)
+        //             localStorage.token = data.token
+        //             this.props.history.pushState(null, '/')
+        //                 // this.context.router.push('/')
+        //                 // this.context.history.push('/')
+        //         }.bind(this))
+        // }
     render() {
         return (
             React.createElement('form', {

@@ -3,6 +3,8 @@
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
 
+var cache = require('memory-cache');
+
 module.exports = async function auth(ctx, next) {
     // global.event.emit('chat','haodeasd');
     let token
@@ -14,24 +16,35 @@ module.exports = async function auth(ctx, next) {
         token = ctx.cookies.get('token')
     }
     console.log('当前token：' + token);
-    try {
-        let decoded = jwt.verify(token, 'shhhhh');
-        if (decoded.expre < parseInt(moment() / 1000)) {
-            delete decoded.iat
-            decoded.exp = parseInt(moment() / 1000) + 3600
-            decoded.expre = parseInt(moment() / 1000) + 1800
-            let newtoken = jwt.sign(decoded, 'shhhhh');
-            ctx.set({
-                token: newtoken
+    if (cache.get(token)) {
+        try {
+            let decoded = jwt.verify(token, 'shhhhh');
+            let curtime = parseInt(moment() / 1000)
+            if (decoded.expre < curtime) {
+                cache.del(token)
+                delete decoded.iat
+                decoded.exp = curtime + 3600
+                decoded.expre = curtime + 1800
+                let newtoken = jwt.sign(decoded, 'shhhhh');
+                cache.put(token, true, curtime + 3600);
+                ctx.set({
+                    token: newtoken
+                })
+            }
+            ctx.type = 'json';
+            await next();
+        } catch (err) {
+            ctx.status = err.status || 401;
+            ctx.type = 'json';
+            ctx.body = JSON.stringify({
+                error: err.message
             })
         }
-        ctx.type = 'json';
-        await next();
-    } catch (err) {
-        ctx.status = err.status || 401;
+    } else {
+        ctx.status = 401;
         ctx.type = 'json';
         ctx.body = JSON.stringify({
-            error: err.message
+            error: '你没有权限访问该页面'
         })
     }
 }

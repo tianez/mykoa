@@ -98,12 +98,12 @@ function render() {
 }
 
 function Init() {
-    getfetch("api")
+    getfetch(curl + "api")
         .then(function (res) {
             if (res) {
                 Rd.config('token', res.token)
             } else {
-                Rd.config('token', null) 
+                Rd.config('token', null)
             }
             render()
         }).catch(function (err) {

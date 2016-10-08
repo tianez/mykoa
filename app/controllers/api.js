@@ -10,6 +10,9 @@ const dbmd = require('../model/dbmd')
 async function getHome(ctx, next) {
     // ctx.cookies.set('uuid', uuid.v1());
     // let token = ctx.cookies.get('token')
+    ctx.set({
+        token: ctx.headers.token
+    })
     ctx.body = JSON.stringify({
         token: ctx.headers.token
     })
@@ -31,5 +34,5 @@ module.exports = {
     postUpload: require('./api/Upload'),
     auth: require('./api/Auth'),
     getToken: require('./api/getToken'),
-    
+
 }

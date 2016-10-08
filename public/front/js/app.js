@@ -148,7 +148,7 @@
 	}
 
 	function Init() {
-	    getfetch("api").then(function (res) {
+	    getfetch(curl + "api").then(function (res) {
 	        if (res) {
 	            Rd.config('token', res.token);
 	        } else {
@@ -6616,7 +6616,7 @@
 /* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var _getfetch = __webpack_require__(71);
 
@@ -6625,6 +6625,8 @@
 	 */
 	// window.request = require('superagent')
 	window.request = superagent;
+
+	window.curl = 'http://' + document.domain + ':3000/';
 
 	//获取url参数数组
 	window.get = function (url) {
@@ -7476,7 +7478,7 @@
 	        key: '_onSubmit',
 	        value: function _onSubmit(e) {
 	            e.preventDefault();
-	            postfetch('http://' + document.domain + ':3000/api', this.state).then(function (res) {
+	            postfetch(curl + 'api', this.state).then(function (res) {
 	                if (res) {
 	                    Rd.config('token', res.token);
 	                    localStorage.token = res.token;
