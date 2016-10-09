@@ -3,10 +3,10 @@
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
 
-var cache = require('memory-cache');
+const cache = require('memory-cache');
 
 module.exports = async function auth(ctx, next) {
-    // global.event.emit('chat','haodeasd');
+    global.event.emit('chat','haodeasd');
     let token
     if (ctx.query.token) {
         token = ctx.query.token

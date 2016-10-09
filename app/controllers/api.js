@@ -34,5 +34,4 @@ module.exports = {
     postUpload: require('./api/Upload'),
     auth: require('./api/Auth'),
     getToken: require('./api/getToken'),
-
 }

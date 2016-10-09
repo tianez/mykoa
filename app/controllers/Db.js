@@ -120,20 +120,6 @@ Db.prototype.query = function (data) {
         .catch(function (err) {
             throw new Error(err);
         });
-    // return async function () {
-    //     await pool.getConnection(function (err, connection) {
-    //         connection.query(query, function (err, res) {
-    //             if (err) {
-    //                 done(err, res);
-    //                 console.log(err);
-    //                 return;
-    //                 //	throw err;
-    //             }
-    //             connection.release();
-    //             console.log("查询到" + res.length + "条结果");
-    //         });
-    //     });
-    // }
 }
 
 module.exports = Db;
