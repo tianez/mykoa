@@ -5,7 +5,6 @@ require('./event');
 const Koa = require('koa');
 const app = new Koa();
 
-
 app.use(require('koa-better-body')({
     multipart: true
 }));
@@ -18,7 +17,7 @@ app.use(serve("uploads", __dirname + "/../uploads"));
 
 const session = require('koa-session');
 app.keys = ['some secret hurr'];
-app.use(session(app));
+app.use(session(app)); 
 
 const render = require('./middleware/render');
 app.use(render('view', {

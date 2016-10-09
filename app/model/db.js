@@ -75,4 +75,5 @@ function defineModel(name, attributes) {
     });
 }
 Sequelize.defineModel = defineModel
+
 module.exports = Sequelize

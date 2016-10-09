@@ -9,8 +9,13 @@ const md5 = require('crypto').createHash('md5');
 const fs = require('fs');
 const mime = require('mime');
 
+
 // bcrypt
 async function home(ctx, next) {
+    dbmd.user2.sync({force: true})
+    User.sync({
+        force: true
+    });
     var n = ctx.session.views || 0;
     var hash = bcrypt.hashSync('gebilaowang');
     var yz = bcrypt.compareSync("gebilaowang", hash);
