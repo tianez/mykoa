@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const cache = require('memory-cache');
 const Db = require('../Db')
 
-async function getToken(ctx, next) {
+async function CreateToken(ctx, next) {
     // console.log(moment().format("YYYY-MM-DD H:mm:ss"));
     let users = await new Db('users').where({
         id: 1
@@ -27,4 +27,4 @@ async function getToken(ctx, next) {
     })
 }
 
-module.exports = getToken;
+module.exports = CreateToken;

@@ -28,10 +28,12 @@ async function getUser(ctx, next) {
     console.log('<-- ' + ctx.request.method + ' ' + ctx.request.url + '  ' + ms + 'ms');
 }
 
+
+const auth = require('./api/Auth')
 module.exports = {
     getHome: getHome,
     getUser: getUser,
     postUpload: require('./api/Upload'),
-    auth: require('./api/Auth'),
-    getToken: require('./api/getToken'),
+    auth: auth.AuthToken,
+    getToken: auth.CreateToken,
 }

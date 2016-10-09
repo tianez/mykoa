@@ -2,11 +2,48 @@
 
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
-
 const cache = require('memory-cache');
 
-module.exports = async function auth(ctx, next) {
-    global.event.emit('chat','haodeasd');
+const Db = require('../Db')
+
+const TokenConfig = {
+    exp: 3600, //过期时间
+    expre: 3600 //刷新时间
+}
+
+/**
+ * 创建token
+ */
+async function CreateToken(ctx, next) {
+    // console.log(moment().format("YYYY-MM-DD H:mm:ss"));
+    let users = await new Db('users').where({
+        id: 1
+    }).get();
+    let data = {
+        id: users[0].id,
+        user_name: users[0].userr_name
+    }
+    let curtime = parseInt(moment() / 1000)
+    data.exp = curtime + TokenConfig.exp
+    data.expre = curtime + TokenConfig.expre
+    let token = jwt.sign(data, 'shhhhh');
+    cache.put(token, true, curtime + 3600);
+    ctx.type = 'json';
+    ctx.set({
+        token: token
+    })
+    ctx.body = JSON.stringify({
+        token: token
+    })
+}
+
+/**
+ * 验证token
+ * 过期销毁旧的token，创建新的token
+ * 新token在headers中返回
+ */
+async function AuthToken(ctx, next) {
+    global.event.emit('chat', 'haodeasd');
     let token
     if (ctx.query.token) {
         token = ctx.query.token
@@ -23,10 +60,10 @@ module.exports = async function auth(ctx, next) {
             if (decoded.expre < curtime) {
                 cache.del(token)
                 delete decoded.iat
-                decoded.exp = curtime + 3600
-                decoded.expre = curtime + 1800
+                decoded.exp = curtime + TokenConfig.exp
+                decoded.expre = curtime + TokenConfig.expre
                 let newtoken = jwt.sign(decoded, 'shhhhh');
-                cache.put(token, true, curtime + 3600);
+                cache.put(token, true, curtime + TokenConfig.exp);
                 ctx.set({
                     token: newtoken
                 })
@@ -47,4 +84,9 @@ module.exports = async function auth(ctx, next) {
             error: '你没有权限访问该页面'
         })
     }
+}
+
+module.exports = {
+    CreateToken: CreateToken,
+    AuthToken: AuthToken
 }
