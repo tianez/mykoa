@@ -2,10 +2,8 @@
 
 const uuid = require('node-uuid');
 
-
 const Db = require('./Db')
 const User = require('../model/user')
-const dbmd = require('../model/dbmd')
 
 async function getHome(ctx, next) {
     // ctx.cookies.set('uuid', uuid.v1());

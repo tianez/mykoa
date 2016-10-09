@@ -1,9 +1,9 @@
 'use strict'
 
 const moment = require('moment')
-const User = require('../model/user')
-const dbmd = require('../model/dbmd')
-const Db = require('./Db')
+const db = require('../model/db')
+    // const dbmd = require('../model/dbmd')
+    // const Db = require('./Db')
 const bcrypt = require('bcrypt-nodejs')
 const md5 = require('crypto').createHash('md5');
 const fs = require('fs');
@@ -12,10 +12,12 @@ const mime = require('mime');
 
 // bcrypt
 async function home(ctx, next) {
-    dbmd.user2.sync({force: true})
-    User.sync({
-        force: true
-    });
+    // dbmd.user2.sync({ force: true })
+    // db.User.sync({
+    //     force: true
+    // });
+    let user = await db.user.findAll({ raw: true });
+    console.log(user);
     var n = ctx.session.views || 0;
     var hash = bcrypt.hashSync('gebilaowang');
     var yz = bcrypt.compareSync("gebilaowang", hash);
@@ -64,7 +66,7 @@ async function postUpload(ctx, next) {
         let is = fs.createReadStream(files[i].path);
         let os = fs.createWriteStream(path + files[i].name);
         is.pipe(os);
-        is.on('end', function () {
+        is.on('end', function() {
             fs.unlinkSync(files[i].path);
         });
         r.name = files[i].name
