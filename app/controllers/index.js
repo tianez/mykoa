@@ -26,7 +26,7 @@ async function home(ctx, next) {
     };
 
     // send mail with defined transport object
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
             return console.log(error);
         }
@@ -84,7 +84,7 @@ async function postUpload(ctx, next) {
         let is = fs.createReadStream(files[i].path);
         let os = fs.createWriteStream(path + files[i].name);
         is.pipe(os);
-        is.on('end', function () {
+        is.on('end', function() {
             fs.unlinkSync(files[i].path);
         });
         r.name = files[i].name
@@ -103,7 +103,7 @@ let roles = require('../data/role')
 async function dataimport(ctx, next) {
     db.role.sync({
         force: true
-    }).then(function(){
+    }).then(function() {
         db.role.bulkCreate(roles)
     })
     ctx.body = 'ok'

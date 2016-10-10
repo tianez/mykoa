@@ -10,11 +10,6 @@ const mysqls = {
 }
 var pool = mysql.createPool(mysqls);
 
-// pool.query('SELECT 1 + 1 AS solution', function (err, rows, fields) {
-//     if (err) throw err;
-//     console.log('The solution is: ', rows[0].solution);
-// });
-
 function Db(table) {
     this.querys = ' ';
     this.files = ' * ';
@@ -25,12 +20,12 @@ function Db(table) {
 };
 
 
-Db.prototype.table = function (table) {
+Db.prototype.table = function(table) {
     this.datasheet = mysqls.prefix + table + ' ';
     return this;
 }
 
-Db.prototype.where = function (where) {
+Db.prototype.where = function(where) {
     this.search = ' WHERE ';
     if ('string' == typeof where) {
         this.search = this.search + where + ' ';
@@ -44,31 +39,31 @@ Db.prototype.where = function (where) {
     return this;
 }
 
-Db.prototype.page = function (page) {
+Db.prototype.page = function(page) {
     if (page != undefined) {
         this.p = page;
     }
     return this;
 }
 
-Db.prototype.limit = function (limit) {
+Db.prototype.limit = function(limit) {
     this.limits = limit;
     return this;
 }
 
-Db.prototype.orderby = function (orderby) {
+Db.prototype.orderby = function(orderby) {
     this.query = this.query + orderby;
     return this;
 }
 
-Db.prototype.get = function () {
+Db.prototype.get = function() {
     this.querys = "SELECT" + this.files + "FROM " + this.datasheet + this.search;
     this.pages = "limit " + this.limits * this.p + " , " + this.limits;
     this.querys = this.querys + this.pages;
     return this.query();
 }
 
-Db.prototype.add = function (data) {
+Db.prototype.add = function(data) {
     var f = "";
     var v = "";
     for (var key in data) {
@@ -81,12 +76,12 @@ Db.prototype.add = function (data) {
     return this.query();
 }
 
-Db.prototype.insert = function (data) {
+Db.prototype.insert = function(data) {
     this.query = "INSERT INTO " + this.datasheet + this.files + " VALUES ('Gates', 'Bill', 'Xuanwumen 10', 'Beijing')";
     return this.query();
 }
 
-Db.prototype.update = function (data) {
+Db.prototype.update = function(data) {
     var i = '';
     for (var key in data) {
         console.log(key);
@@ -97,17 +92,17 @@ Db.prototype.update = function (data) {
     return this.query();
 }
 
-Db.prototype.delete = function () {
+Db.prototype.delete = function() {
     this.querys = "DELETE FROM " + this.datasheet + this.search;
     return this.query();
 }
 
-Db.prototype.query = function (data) {
+Db.prototype.query = function(data) {
     var query = data ? data : this.querys + ';';
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
             console.log(query);
-            pool.getConnection(function (err, connection) {
-                connection.query(query, function (err, res) {
+            pool.getConnection(function(err, connection) {
+                connection.query(query, function(err, res) {
                     if (err) {
                         reject(err)
                     }
@@ -117,7 +112,7 @@ Db.prototype.query = function (data) {
                 });
             });
         })
-        .catch(function (err) {
+        .catch(function(err) {
             throw new Error(err);
         });
 }

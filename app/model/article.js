@@ -14,7 +14,8 @@ module.exports = function(sequelize, DataTypes) {
             version: DataTypes.BIGINT
         },
         Object.assign(Configuration, {
-            comment: '文章表'
+            comment: '文章表',
+            tableName: 'koa_articles'
         })
     )
 }

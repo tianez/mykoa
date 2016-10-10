@@ -29,11 +29,15 @@ async function getUser(ctx, next) {
 
 const auth = require('./api/Auth')
 const field = require('./api/Field')
-module.exports = {
+
+let controller = {
     getHome: getHome,
     getUser: getUser,
     postUpload: require('./api/Upload'),
     auth: auth.AuthToken,
     getToken: auth.CreateToken,
-    getField: field.getField,
 }
+
+Object.assign(controller, field)
+
+module.exports = controller
