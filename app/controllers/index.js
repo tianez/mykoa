@@ -2,8 +2,6 @@
 
 const moment = require('moment')
 const db = require('../model/db')
-    // const dbmd = require('../model/dbmd')
-    // const Db = require('./Db')
 const bcrypt = require('bcrypt-nodejs')
 const md5 = require('crypto').createHash('md5');
 const fs = require('fs');
@@ -100,8 +98,20 @@ async function postUpload(ctx, next) {
     ctx.body = JSON.stringify(res)
 }
 
+let roles = require('../data/role')
+
+async function dataimport(ctx, next) {
+    db.role.sync({
+        force: true
+    }).then(function(){
+        db.role.bulkCreate(roles)
+    })
+    ctx.body = 'ok'
+}
+
 module.exports = {
     home: home,
     getUpload: getUpload,
-    postUpload: postUpload
+    postUpload: postUpload,
+    dataimport: dataimport
 }

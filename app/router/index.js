@@ -8,6 +8,7 @@ const uuid = require('node-uuid');
 const jwt = require('jsonwebtoken');
 
 router.get('/', controller.home);
+router.get('/dataimport', controller.dataimport);
 router.get('/upload', controller.getUpload);
 router.post('/upload', controller.postUpload);
 

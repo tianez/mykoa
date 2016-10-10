@@ -32,12 +32,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         Object.assign(Configuration, {
             comment: '用户表',
-            tableName: 'koa_users',
-            getterMethods: {
-                fullName: function () {
-                    return this.username + ' ' + this.password
-                }
-            }
+            tableName: 'koa_users'
         })
     )
 }
