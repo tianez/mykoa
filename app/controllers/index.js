@@ -8,7 +8,10 @@ const bcrypt = require('bcrypt-nodejs')
 const md5 = require('crypto').createHash('md5');
 const fs = require('fs');
 const mime = require('mime');
+const nodemailer = require('nodemailer');
 
+// create reusable transporter object using the default SMTP transport
+const transporter = nodemailer.createTransport('smtps://saber_tz%40163.com:tian19870219@smtp.163.com');
 
 // bcrypt
 async function home(ctx, next) {
@@ -16,7 +19,24 @@ async function home(ctx, next) {
     // db.User.sync({
     //     force: true
     // });
-    let user = await db.user.findAll({ raw: true });
+    var mailOptions = {
+        from: '"Fred Foo 👥" <saber_tz@163.com>', // sender address
+        to: 'tianjuezhiyi@qq.com', // list of receivers
+        subject: 'Hello ✔', // Subject line
+        text: 'Hello world 🐴', // plaintext body
+        html: '<b>Hello world 🐴</b>' // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: ' + info.response);
+    });
+    let user = await db.user.findAll({
+        raw: true
+    });
     console.log(user);
     var n = ctx.session.views || 0;
     var hash = bcrypt.hashSync('gebilaowang');
@@ -66,7 +86,7 @@ async function postUpload(ctx, next) {
         let is = fs.createReadStream(files[i].path);
         let os = fs.createWriteStream(path + files[i].name);
         is.pipe(os);
-        is.on('end', function() {
+        is.on('end', function () {
             fs.unlinkSync(files[i].path);
         });
         r.name = files[i].name

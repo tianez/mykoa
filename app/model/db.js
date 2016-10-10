@@ -43,52 +43,32 @@ module.exports = db = {
     permission: sequelize.import("./permission"),
     user_role: sequelize.import("./user_role"),
     role_permission: sequelize.import("./role_permission"),
-    field: sequelize.import("./field"),    
+    field: sequelize.import("./field"),
     article: sequelize.import("./article"),
     meun: sequelize.import("./meun"),
 }
 
 
-db.user.sync({
-    force: true
-}).then(create);
+// db.user.sync({
+//     force: true
+// }).then(create);
 
-db.role.sync()
-db.permission.sync()
-db.user_role.sync()
-db.role_permission.sync()
-db.field.sync({
-    force: true
-});
-
-db.article.sync({
-    force: true
-});
-db.meun.sync()
-
-function create() {
-    db.user.create({
-        username: 'John Do2e',
-        password: 'senior engine12121er2222'
-    })
-}
-
-// db.meun.findAll().then(function (users) {
-//     // console.log(users.toJSON());
-//     // console.log(users.method1());
-//     users.forEach(function (user) {
-//         // console.log(user.dataValues)
-//             // console.log(user.getDataValue('username'))
-//             // console.log(user.get('username'))
-//             // console.log(user.get({
-//             //     plain: true
-//             // }).username)
-//             // console.log(user.dataValues)
-//             // console.log(user.get(username))
-//     }, this);
-// })
-
-// db.user.findOne().then(function (user) {
-//     // console.log(user.get('username'));
-//     console.log(user.toJSON())
+// db.role.sync()
+// db.permission.sync()
+// db.user_role.sync()
+// db.role_permission.sync()
+// db.field.sync({
+//     force: true
 // });
+
+// db.article.sync({
+//     force: true
+// });
+// db.meun.sync()
+
+// function create() {
+//     db.user.create({
+//         username: 'John Do2e',
+//         password: 'senior engine12121er2222'
+//     })
+// }

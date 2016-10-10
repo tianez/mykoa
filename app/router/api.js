@@ -20,10 +20,11 @@ router.options('*', async(ctx, next) => {
 
 router.post('/', apicontroller.getToken);
 
-router.all('*', apicontroller.auth)
+// router.all('*', apicontroller.auth)
 
 router.get('/', apicontroller.getHome);
 router.get('/user', apicontroller.getUser);
+router.get('/field', apicontroller.getField);
 
 router.post('/upload', apicontroller.postUpload);
 
