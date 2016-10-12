@@ -1,9 +1,9 @@
 'use strict'
 
-const Db = require('../../model/db')
+const db = require('../../model/db')
 
 async function getFields(ctx, next) {
-    let fields = await Db.field.findAll({
+    let fields = await db.field.findAll({
         attributes: ['module'],
         group: ['module']
     })
@@ -15,7 +15,7 @@ async function getFields(ctx, next) {
 
 async function getField(ctx, next) {
     console.log(ctx.params.name);
-     let fields = await Db.field.findAll({
+     let fields = await db.field.findAll({
          where:{
              module:ctx.params.name
          },
@@ -29,9 +29,8 @@ async function getField(ctx, next) {
 
 async function getFieldid(ctx, next) {
     console.log(ctx.params.name);
-     let field = await Db.field.findAll({
+     let field = await db.field.findAll({
          where:{
-             module:ctx.params.name,
              id:ctx.params.id
          },
         attributes: { exclude: ['module'] }

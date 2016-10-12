@@ -4,8 +4,6 @@ const moment = require('moment')
 const jwt = require('jsonwebtoken')
 const cache = require('memory-cache');
 
-const Db = require('../Db')
-
 const TokenConfig = {
     exp: 3600, //过期时间
     expre: 3600 //刷新时间

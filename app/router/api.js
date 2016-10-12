@@ -24,9 +24,9 @@ router.post('/', apicontroller.getToken);
 
 router.get('/', apicontroller.getHome);
 router.get('/user', apicontroller.getUser);
-router.get('/field', apicontroller.getFields);
-router.get('/field/:name', apicontroller.getField);
-router.get('/field/:name/:id', apicontroller.getFieldid);
+router.get('/fields', apicontroller.getFields);
+router.get('/fields/:name', apicontroller.getField);
+router.get('/field/:id', apicontroller.getFieldid);
 
 router.post('/upload', apicontroller.postUpload);
 

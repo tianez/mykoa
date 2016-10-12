@@ -46,6 +46,10 @@ async function home(ctx, next) {
     });
 }
 
+async function getAdmin(ctx, next) {
+    ctx.render('admin');
+}
+
 async function getUpload(ctx, next) {
     ctx.render('upload');
 }
@@ -113,5 +117,6 @@ module.exports = {
     home: home,
     getUpload: getUpload,
     postUpload: postUpload,
-    dataimport: dataimport
+    dataimport: dataimport,
+    getAdmin:getAdmin
 }

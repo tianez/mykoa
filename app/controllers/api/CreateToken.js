@@ -3,7 +3,6 @@
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
 const cache = require('memory-cache');
-const Db = require('../Db')
 
 async function CreateToken(ctx, next) {
     // console.log(moment().format("YYYY-MM-DD H:mm:ss"));

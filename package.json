@@ -50,7 +50,8 @@
     "socket.io": "^1.4.8",
     "socket.io-emitter": "^1.0.0",
     "socket.io-redis": "^1.1.1",
-    "superagent": "^2.0.0"
+    "superagent": "^2.0.0",
+    "wechat": "^2.0.3"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",

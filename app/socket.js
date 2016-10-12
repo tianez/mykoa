@@ -21,9 +21,9 @@ const io = require('socket.io-emitter')({
     host: '127.0.0.1',
     port: 6379
 });
-setInterval(function() {
-    io.emit('chat', new Date);
-}, 30000);
+// setInterval(function() {
+//     io.emit('chat', new Date);
+// }, 30000);
 
 //在线用户
 var onlineUsers = {};
@@ -43,7 +43,7 @@ sockets.on('connection', function(socket) {
     });
     setInterval(function() {
         socket.volatile.emit('ping', 'ping ' + new Date(), function(data) {
-            console.log(data); // data will be 'woot'
+            // console.log(data); // data will be 'woot'
         });
     }, 30000)
 

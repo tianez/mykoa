@@ -53,7 +53,7 @@ module.exports = db = {
 //     force: true
 // }).then(create);
 
-// db.role.sync()
+// db.user.sync()
 // db.permission.sync()
 // db.user_role.sync()
 // db.role_permission.sync()

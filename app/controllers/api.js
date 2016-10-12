@@ -2,7 +2,6 @@
 
 const uuid = require('node-uuid');
 
-const Db = require('./Db')
 const User = require('../model/user')
 
 async function getHome(ctx, next) {
@@ -14,16 +13,10 @@ async function getHome(ctx, next) {
     ctx.body = JSON.stringify({
         token: ctx.headers.token
     })
-}
+} 
 
 async function getUser(ctx, next) {
-    const start = new Date().getTime(); // 当前时间
-    let users = await new Db('users').where({
-        id: 1
-    }).get();
-    ctx.body = JSON.stringify(users)
-    const ms = new Date().getTime() - start; // 耗费时间
-    console.log('<-- ' + ctx.request.method + ' ' + ctx.request.url + '  ' + ms + 'ms');
+    ctx.body = JSON.stringify({users:1111})
 }
 
 

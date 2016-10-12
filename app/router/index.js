@@ -1,16 +1,22 @@
 'use strict'
 
 const router = require('koa-router')();
-
-const controller = require('../controllers');
-
 const uuid = require('node-uuid');
 const jwt = require('jsonwebtoken');
 
+const controller = require('../controllers');
+const wechat = require('../controllers/wechat');
+
 router.get('/', controller.home);
 router.get('/dataimport', controller.dataimport);
+
+router.get('/admin', controller.getAdmin);
+
 router.get('/upload', controller.getUpload);
 router.post('/upload', controller.postUpload);
+
+router.get('/wechat', wechat.weixin);
+router.post('/wechat', wechat.postweixin);
 
 async function chat() {
     return new Promise(function (resolve, reject) {

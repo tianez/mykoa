@@ -10,8 +10,8 @@ var rename = require('gulp-rename') //文件更名
 var webpack = require("gulp-webpack")
 
 
-var dir = 'front'
-var dirin = './web/'
+var dir = 'admin'
+var dirin = './admin/'
 var out = './public/' + dir + '/'
 
 var webpackConfig = require(dirin + 'webpack.config.js')
