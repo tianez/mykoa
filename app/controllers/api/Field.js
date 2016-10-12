@@ -30,7 +30,7 @@ async function getField(ctx, next) {
 async function getFieldid(ctx, next) {
     console.log(ctx.params.name);
      let field = await db.field.findAll({
-         where:{
+         where:{ 
              id:ctx.params.id
          },
         attributes: { exclude: ['module'] }

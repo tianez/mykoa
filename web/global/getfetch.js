@@ -22,8 +22,6 @@ var urlEncode = function (param, key, encode) {
     return paramStr;
 };
 
-
-
 function status(response) {
     if (response.ok) {
         if (response.headers.get('token')) {
@@ -72,8 +70,6 @@ export function postfetch(url, datas, param) {
         .then(json)
         .catch(catchs)
 }
-
-
 
 export function getfetch2(url, query = {}) {
     return new Promise(function (resolve, reject) {

@@ -2,8 +2,6 @@
 
 const uuid = require('node-uuid');
 
-const User = require('../model/user')
-
 async function getHome(ctx, next) {
     // ctx.cookies.set('uuid', uuid.v1());
     // let token = ctx.cookies.get('token')
