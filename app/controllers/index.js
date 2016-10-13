@@ -64,7 +64,7 @@ async function postUpload(ctx, next) {
     let floder =  __dirname +'./../../uploads/'
     let path = './uploads/'
     if (!fs.existsSync(floder)) {
-        await fs.mkdir(floder);
+        await fs.mkdir(floder); 
     }
     let files = ctx.request.fields.file
     let res = []
