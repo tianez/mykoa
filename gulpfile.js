@@ -10,8 +10,8 @@ var rename = require('gulp-rename') //文件更名
 var webpack = require("gulp-webpack")
 
 
-var dir = 'admin'
-var dirin = './admin/'
+var dir = 'chat'
+var dirin = './chat/'
 var out = './public/' + dir + '/'
 
 var webpackConfig = require(dirin + 'webpack.config.js')
@@ -59,7 +59,7 @@ gulp.task('connect', function() {
         port: 3001,
         livereload: true
     })
-})
+}) 
 
 gulp.task('watch', function() {
     gulp.watch([dirin + 'less/*.less', dirin + 'components/forms/*.less'], ['less'])

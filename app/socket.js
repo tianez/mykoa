@@ -8,11 +8,13 @@ const moment = require('moment')
 const db = require('./model/db')
 
 const sockets = require('socket.io').listen(server, {
+    origins: '*:*',
     'timeout': 300000,
     'reconnection': true,
     'reconnectionDelayMax': 30000,
     'reconnectionDelay': 1000
 })
+// sockets.set("origins","*");
 
 const redis = require('socket.io-redis');
 sockets.adapter(redis({

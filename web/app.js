@@ -1,6 +1,6 @@
 'use strict'
 
-window.socket = io('http://' + document.domain + ':3000', {
+window.socket = io('http://' + document.domain + ':4000', {
     reconnect: true
 });
 socket.on('connect', function () { // TIP: you can avoid listening on `connect` and listen on events directly too!

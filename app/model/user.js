@@ -1,6 +1,8 @@
 'use strict'
 let Configuration = require('./Configuration')
 
+const cryptopassword = require('../middleware/password');
+
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('user', {
             uuid: {
@@ -19,7 +21,13 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 unique: true
             },
-            password: DataTypes.STRING,
+            password: {
+                type: DataTypes.STRING,
+                unique: true,
+                set: function (val) {
+                    this.setDataValue('username', cryptopassword(val));
+                }
+            },
             status: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0,

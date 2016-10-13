@@ -2,7 +2,7 @@
 
 const moment = require('moment')
 const db = require('../model/db')
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcrypt-nodejs') 
 const md5 = require('crypto').createHash('md5');
 const fs = require('fs');
 const mime = require('mime');
@@ -17,31 +17,31 @@ async function home(ctx, next) {
     // db.User.sync({
     //     force: true
     // });
-    var mailOptions = {
-        from: '"Fred Foo 👥" <saber_tz@163.com>', // sender address
-        to: 'tianjuezhiyi@qq.com', // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world 🐴', // plaintext body
-        html: '<b>Hello world 🐴</b>' // html body
-    };
+    // var mailOptions = {
+    //     from: '"Fred Foo 👥" <saber_tz@163.com>', // sender address
+    //     to: 'tianjuezhiyi@qq.com', // list of receivers
+    //     subject: 'Hello ✔', // Subject line
+    //     text: 'Hello world 🐴', // plaintext body
+    //     html: '<b>Hello world 🐴</b>' // html body
+    // };
 
     // send mail with defined transport object
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-    });
-    let user = await db.user.findAll({
-        raw: true
-    });
-    console.log(user);
+    // transporter.sendMail(mailOptions, function(error, info) {
+    //     if (error) {
+    //         return console.log(error);
+    //     }
+    //     console.log('Message sent: ' + info.response);
+    // });
+    // let user = await db.user.findAll({
+    //     raw: true
+    // });
+    // console.log(user);
     var n = ctx.session.views || 0;
     var hash = bcrypt.hashSync('gebilaowang');
     var yz = bcrypt.compareSync("gebilaowang", hash);
     console.log(yz);
     console.log(bcrypt.hashSync('gebilaowang'));
-    ctx.render('home', {
+    ctx.render('chat', {
         user_name: 'tianez'
     });
 }
@@ -60,12 +60,13 @@ async function postUpload(ctx, next) {
     // console.log(ctx.request.body);
     // console.log(ctx.request.fields);
     // let floder = './uploads/'
-    let floder = './../uploads/'
+    // let floder = './../uploads/'
+    let floder =  __dirname +'./../../uploads/'
     let path = './uploads/'
     if (!fs.existsSync(floder)) {
         await fs.mkdir(floder);
     }
-    let files = ctx.request.fields.upfile
+    let files = ctx.request.fields.file
     let res = []
     for (let i in files) {
         if (files[i].size == 0) {
@@ -83,21 +84,23 @@ async function postUpload(ctx, next) {
         floder += day
         path += day
         if (!fs.existsSync(floder)) {
-            await fs.mkdir(floder);
+            await fs.mkdir(floder); 
         }
         let is = fs.createReadStream(files[i].path);
         let os = fs.createWriteStream(path + files[i].name);
         is.pipe(os);
         is.on('end', function() {
-            fs.unlinkSync(files[i].path);
+            fs.unlinkSync(files[i].path); 
         });
-        r.name = files[i].name
+        r.name = files[i].name 
         r.size = files[i].size
         r.ext = ext
         r.lastModifiedDate = files[i].lastModifiedDate
         r.path = path + files[i].name
         res.push(r)
     }
+    console.log('3');
+    
     ctx.type = 'json';
     ctx.body = JSON.stringify(res)
 }

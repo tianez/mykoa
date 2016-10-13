@@ -47,6 +47,7 @@ module.exports = db = {
     article: sequelize.import("./article"),
     meun: sequelize.import("./meun"),
     chat: sequelize.import("./chat"),
+    chat_win: sequelize.import("./chat_win"),
 }
 
 

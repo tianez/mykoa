@@ -4,7 +4,7 @@
 // window.request = require('superagent')
 window.request = superagent
 
-window.curl = 'http://' + document.domain + ':3000/'
+window.curl = 'http://' + document.domain + ':4000/'
 
 //获取url参数数组
 window.get = function (url) {

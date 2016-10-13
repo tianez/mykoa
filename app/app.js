@@ -8,7 +8,6 @@ const app = new Koa();
 const xml2js = require('xml2js');
 
 app.use(async(ctx, next) => {
-    console.log('111');
     var buffers = [];
     ctx.req.on('data', function (trunk) {
         buffers.push(trunk);
@@ -61,12 +60,14 @@ app.use(async(ctx, next) => {
 
 const router = require('./router');
 const api = require('./router/api');
+const chat = require('./router/chat');
 app.use(router.routes());
 app.use(api.routes());
+app.use(chat.routes());
 
 app.use(require('./middleware/page404'))
-
-const server = app.listen(3000, function () {
+ 
+const server = app.listen(4000, function () {
     console.log('Koa is listening to http://localhost:3000');
 });
 app.listen(4040, function () {
