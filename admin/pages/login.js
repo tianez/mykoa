@@ -27,24 +27,12 @@ class Login extends React.Component {
     }
     _onSubmit(e) {
         e.preventDefault();
-        request
-            .post('admin/login')
-            .send(this.state.info)
-            .set('Accept', 'application/json')
-            .end(function(err, res) {
-                if (err) throw err
-                let data = JSON.parse(res.text)
-                console.log(data);
-                
-                if (data.state == 'ok') {
-                    Rd.user(data.data);
+        postfetch('api', this.state)
+            .then(function (res) {
+                if (res) {
+                    Rd.config('token', res.token)
+                    localStorage.token = res.token
                     this.props.history.pushState(null, '/')
-                        // this.context.router.push('/')
-                    // this.context.history.replace('/')
-
-                } else {
-                    this.setState({ 'msg': data.msg })
-                    console.log(data)
                 }
             }.bind(this))
     }

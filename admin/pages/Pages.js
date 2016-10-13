@@ -32,13 +32,14 @@ const Pages = React.createClass({
     },
     _reQuest: function (props) {
         console.log(props.location);
-        getfetch(props.params.pages, props.location.query)
+        getfetch('api/' + props.params.pages, props.location.query)
             .then(function (res) {
+                console.log(res);
                 Rd.config('title', res.title)
-                Rd.pagedata(res)
+                Rd.pagedata(res) 
                 let items = []
                 this.setState({
-                    items: items.concat(res.pages.data),
+                    items: items.concat(res.data),
                     del_all: this._set_del_all(res.info),
                     thead: res.thead,
                     title: res.title,
@@ -275,7 +276,7 @@ const Pages = React.createClass({
                         list
                     )
                 ),
-                React.createElement(Pagination)
+                // React.createElement(Pagination)
             )
         )
     }

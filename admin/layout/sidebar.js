@@ -39,7 +39,7 @@ class Sidebar extends React.Component {
             order: ['order DESC', 'createdAt DESC'],
             limit: 20
         }
-        getfetch('admin/meun')
+        getfetch('api/meun')
             .then(function (res) {
                 this.setState({
                     menu: res

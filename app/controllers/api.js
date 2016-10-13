@@ -11,15 +11,18 @@ async function getHome(ctx, next) {
     ctx.body = JSON.stringify({
         token: ctx.headers.token
     })
-} 
+}
 
 async function getUser(ctx, next) {
-    ctx.body = JSON.stringify({users:1111})
+    ctx.body = JSON.stringify({
+        users: 1111
+    })
 }
 
 
 const auth = require('./api/Auth')
 const field = require('./api/Field')
+const meun = require('./api/Meun')
 
 let controller = {
     getHome: getHome,
@@ -30,5 +33,10 @@ let controller = {
 }
 
 Object.assign(controller, field)
+Object.assign(controller, meun)
+Object.assign(
+    controller,
+    require('./api/Chat')
+)
 
 module.exports = controller

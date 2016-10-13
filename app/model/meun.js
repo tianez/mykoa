@@ -25,7 +25,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         Object.assign(Configuration, {
             comment: '菜单表',
-            tableName: 'koa_meuns',
+            tableName: 'db_meun',
             paranoid: false,
             scopes: {
                 id: {

@@ -22,49 +22,14 @@ var urlEncode = function (param, key, encode) {
     return paramStr;
 };
 
-function catchs(err) {
-    console.log(err);
-    // window.history.back()
-    Rd.message(err.status + '错误！' + err.text)
-}
-
-export function getfetch2(url, query = {}) {
-    return new Promise(function (resolve, reject) {
-        request
-            .get(url)
-            .query(query)
-            .end(function (err, res) {
-                if (res.status == 200) {
-                    resolve(JSON.parse(res.text))
-                } else {
-                    reject(err.response);
-                }
-            })
-    }).catch(catchs);
-}
-
-export function postfetch(url, query = {}, data = {}) {
-    return new Promise(function (resolve, reject) {
-        request
-            .post(url)
-            .query(query)
-            .send(data)
-            .end(function (err, res) {
-                if (res.status == 200) {
-                    resolve(JSON.parse(res.text))
-                } else {
-                    reject(err.response);
-                }
-            })
-    }).catch(catchs);
-}
-
-
 function status(response) {
-    if (response.status == 200) {
+    if (response.ok) {
+        if (response.headers.get('token')) {
+            localStorage.token = response.headers.get('token')
+        }
         return Promise.resolve(response);
     } else {
-        return Promise.reject(new Error(response));
+        return Promise.reject(response);
     }
 }
 
@@ -72,27 +37,89 @@ function json(response) {
     return response.json();
 }
 
+function catchs(err) {
+    Rd.message(err.status + '错误！' + err.statusText)
+}
 export function getfetch(url, param) {
     let params = urlEncode(param)
-    return fetch(url + '?' + params, {
-            credentials: "include"
-        })
+    let Request = {}
+    Request.credentials = 'include'
+    Request.headers = {
+        'token': localStorage.token
+    }
+    return fetch(url + '?' + params, Request)
         .then(status)
         .then(json)
         .catch(catchs)
 }
 
-export function postfetch2(url, datas, param) {
+export function postfetch(url, datas, param) {
     var data = new FormData();
     for (var i in datas) {
         data.append(i, datas[i])
     }
     let params = urlEncode(param)
-    return fetch(url + '?' + params, {
-            credentials: "include",
-            body: data
-        })
+    let Request = {}
+    Request.method = 'POST'
+    Request.body = data
+    Request.headers = {
+        'token': localStorage.token
+    }
+    return fetch(url + '?' + params, Request)
         .then(status)
         .then(json)
         .catch(catchs)
+}
+
+export function getfetch2(url, query = {}) {
+    return new Promise(function (resolve, reject) {
+        request
+            .get(url)
+            .query(query)
+            // .set('Content-Type', 'application/json; charset=utf-8')
+            .set('token', localStorage.token)
+            .end(function (err, res) {
+                if (res.ok) {
+                    if (res.headers.token) {
+                        localStorage.token = res.headers.token
+                    }
+                    resolve(JSON.parse(res.text))
+                } else {
+                    reject(err.response);
+                }
+            })
+    }).catch(catchs2);
+}
+
+export function postfetch2(url, data = {}, query = {}, ) {
+    return new Promise(function (resolve, reject) {
+        request
+            .post(url)
+            .query(query)
+            // .set('Content-Type', 'application/json; charset=utf-8')
+            .set('token', localStorage.token)
+            .send(data)
+            .end(function (err, res) {
+                if (res.ok) {
+                    if (res.headers.token) {
+                        localStorage.token = res.headers.token
+                    }
+                    resolve(JSON.parse(res.text))
+                } else {
+                    reject(err.response);
+                }
+            })
+    }).catch(catchs2);
+}
+
+function catchs2(err) {
+    try {
+        let req = JSON.parse(err.text)
+        Rd.message(err.status + '错误！' + req.error)
+    } catch (err) {
+        Rd.message(err.status + '错误！' + err.text)
+    }
+    // let req = JSON.parse(err.text)
+    // Rd.message(err.status + '错误！' + req.error)
+    // Rd.message(err.status + '错误！' + err.text)
 }

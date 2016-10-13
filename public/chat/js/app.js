@@ -6413,7 +6413,7 @@
 	                    var user = JSON.parse(res.text);
 	                    localStorage.username = user.username;
 	                    localStorage.userid = user.id;
-	                    localStorage.head_img = user.head_img ? user.head_img : './images/avatar/' + Math.floor(Math.random() * 6) + '.jpg';
+	                    localStorage.head_img = user.head_img ? user.head_img : './public/images/avatar/' + Math.floor(Math.random() * 6) + '.jpg';
 	                    Rd.config('login', false);
 	                    Rd.config('islogin', true);
 	                } else {

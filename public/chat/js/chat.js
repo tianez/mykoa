@@ -1,4 +1,4 @@
-window.socket = io('http://' + document.domain, {
+window.socket = io('http://' + document.domain + ':4000', {
     reconnect: true
 });
 socket.on('connect', function () {
@@ -32,7 +32,6 @@ socket.on('userdisconnect', function (data) {
     // });
 });
 socket.on('disconnect', function () {
-    alert('连接已断开');
     console.log('连接已断开...');
 });
 socket.on('reconnecting', function () {

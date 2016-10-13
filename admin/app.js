@@ -17,6 +17,8 @@ let createStoreWithLog = applyMiddleware(thunk)(createStore);
 window.store = createStoreWithLog(reducer)
 store.subscribe(() => {
     let state = store.getState()
+    console.log(state);
+    
     window.document.title = state.config.title
 })
 
@@ -41,9 +43,13 @@ function render() {
 }
 
 function Init() {
-    getfetch("admin/user")
-        .then(function (response) {
-            Rd.user(response)
+    getfetch("api")
+        .then(function (res) {
+            if (res) {
+                Rd.config('token', res.token)
+            } else {
+                Rd.config('token', null)
+            }
             render()
         }).catch(function (err) {
             console.log("Fetch错误:" + err);

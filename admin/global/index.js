@@ -40,6 +40,6 @@ window.GetRequest = function GetRequest() {
     }
     return theRequest;
 }
-import { getfetch2, postfetch } from './getfetch'
+import { getfetch2, postfetch2 } from './getfetch'
 window.getfetch = getfetch2
-window.postfetch = postfetch
+window.postfetch = postfetch2

@@ -76,6 +76,8 @@
 	window.store = createStoreWithLog(_reducer2.default);
 	store.subscribe(function () {
 	    var state = store.getState();
+	    console.log(state);
+
 	    window.document.title = state.config.title;
 	});
 
@@ -91,8 +93,12 @@
 	}
 
 	function Init() {
-	    getfetch("admin/user").then(function (response) {
-	        Rd.user(response);
+	    getfetch("api").then(function (res) {
+	        if (res) {
+	            Rd.config('token', res.token);
+	        } else {
+	            Rd.config('token', null);
+	        }
 	        render();
 	    }).catch(function (err) {
 	        console.log("Fetch错误:" + err);
@@ -6604,7 +6610,7 @@
 	};
 
 	window.getfetch = _getfetch.getfetch2;
-	window.postfetch = _getfetch.postfetch;
+	window.postfetch = _getfetch.postfetch2;
 
 /***/ },
 /* 71 */
@@ -6626,9 +6632,9 @@
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	exports.getfetch2 = getfetch2;
-	exports.postfetch = postfetch;
 	exports.getfetch = getfetch;
+	exports.postfetch = postfetch;
+	exports.getfetch2 = getfetch2;
 	exports.postfetch2 = postfetch2;
 	var urlEncode = function urlEncode(param, key, encode) {
 	    if (param == null) return '';
@@ -6645,46 +6651,14 @@
 	    return paramStr;
 	};
 
-	function catchs(err) {
-	    console.log(err);
-	    // window.history.back()
-	    Rd.message(err.status + '错误！' + err.text);
-	}
-
-	function getfetch2(url) {
-	    var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-
-	    return new Promise(function (resolve, reject) {
-	        request.get(url).query(query).end(function (err, res) {
-	            if (res.status == 200) {
-	                resolve(JSON.parse(res.text));
-	            } else {
-	                reject(err.response);
-	            }
-	        });
-	    }).catch(catchs);
-	}
-
-	function postfetch(url) {
-	    var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-	    var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-	    return new Promise(function (resolve, reject) {
-	        request.post(url).query(query).send(data).end(function (err, res) {
-	            if (res.status == 200) {
-	                resolve(JSON.parse(res.text));
-	            } else {
-	                reject(err.response);
-	            }
-	        });
-	    }).catch(catchs);
-	}
-
 	function status(response) {
-	    if (response.status == 200) {
+	    if (response.ok) {
+	        if (response.headers.get('token')) {
+	            localStorage.token = response.headers.get('token');
+	        }
 	        return Promise.resolve(response);
 	    } else {
-	        return Promise.reject(new Error(response));
+	        return Promise.reject(response);
 	    }
 	}
 
@@ -6692,23 +6666,83 @@
 	    return response.json();
 	}
 
+	function catchs(err) {
+	    Rd.message(err.status + '错误！' + err.statusText);
+	}
 	function getfetch(url, param) {
 	    var params = urlEncode(param);
-	    return fetch(url + '?' + params, {
-	        credentials: "include"
-	    }).then(status).then(json).catch(catchs);
+	    var Request = {};
+	    Request.credentials = 'include';
+	    Request.headers = {
+	        'token': localStorage.token
+	    };
+	    return fetch(url + '?' + params, Request).then(status).then(json).catch(catchs);
 	}
 
-	function postfetch2(url, datas, param) {
+	function postfetch(url, datas, param) {
 	    var data = new FormData();
 	    for (var i in datas) {
 	        data.append(i, datas[i]);
 	    }
 	    var params = urlEncode(param);
-	    return fetch(url + '?' + params, {
-	        credentials: "include",
-	        body: data
-	    }).then(status).then(json).catch(catchs);
+	    var Request = {};
+	    Request.method = 'POST';
+	    Request.body = data;
+	    Request.headers = {
+	        'token': localStorage.token
+	    };
+	    return fetch(url + '?' + params, Request).then(status).then(json).catch(catchs);
+	}
+
+	function getfetch2(url) {
+	    var query = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+	    return new Promise(function (resolve, reject) {
+	        request.get(url).query(query)
+	        // .set('Content-Type', 'application/json; charset=utf-8')
+	        .set('token', localStorage.token).end(function (err, res) {
+	            if (res.ok) {
+	                if (res.headers.token) {
+	                    localStorage.token = res.headers.token;
+	                }
+	                resolve(JSON.parse(res.text));
+	            } else {
+	                reject(err.response);
+	            }
+	        });
+	    }).catch(catchs2);
+	}
+
+	function postfetch2(url) {
+	    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	    var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+	    return new Promise(function (resolve, reject) {
+	        request.post(url).query(query)
+	        // .set('Content-Type', 'application/json; charset=utf-8')
+	        .set('token', localStorage.token).send(data).end(function (err, res) {
+	            if (res.ok) {
+	                if (res.headers.token) {
+	                    localStorage.token = res.headers.token;
+	                }
+	                resolve(JSON.parse(res.text));
+	            } else {
+	                reject(err.response);
+	            }
+	        });
+	    }).catch(catchs2);
+	}
+
+	function catchs2(err) {
+	    try {
+	        var req = JSON.parse(err.text);
+	        Rd.message(err.status + '错误！' + req.error);
+	    } catch (err) {
+	        Rd.message(err.status + '错误！' + err.text);
+	    }
+	    // let req = JSON.parse(err.text)
+	    // Rd.message(err.status + '错误！' + req.error)
+	    // Rd.message(err.status + '错误！' + err.text)
 	}
 
 /***/ },
@@ -8456,13 +8490,14 @@
 	function onEnter(nextState, replace) {
 	    var pathname = nextState.location.pathname;
 	    var state = store.getState();
-	    var user = state.user.user_name;
-	    if (!user && pathname !== 'login' && pathname !== '/login') {
+	    var token = state.config.token;
+	    console.log(token);
+	    if (!token && pathname !== 'login' && pathname !== '/login') {
 	        Rd.message('你还没有登录，请先登录！');
 	        replace({
 	            pathname: '/login'
 	        });
-	    } else if (user && (pathname == 'login' || pathname == '/login')) {
+	    } else if (token && (pathname == 'login' || pathname == '/login')) {
 	        replace({
 	            pathname: '/'
 	        });
@@ -8824,7 +8859,7 @@
 	                order: ['order DESC', 'createdAt DESC'],
 	                limit: 20
 	            };
-	            getfetch('admin/meun').then(function (res) {
+	            getfetch('api/meun').then(function (res) {
 	                this.setState({
 	                    menu: res
 	                });
@@ -11733,12 +11768,13 @@
 	    },
 	    _reQuest: function _reQuest(props) {
 	        console.log(props.location);
-	        getfetch(props.params.pages, props.location.query).then(function (res) {
+	        getfetch('api/' + props.params.pages, props.location.query).then(function (res) {
+	            console.log(res);
 	            Rd.config('title', res.title);
 	            Rd.pagedata(res);
 	            var items = [];
 	            this.setState({
-	                items: items.concat(res.pages.data),
+	                items: items.concat(res.data),
 	                del_all: this._set_del_all(res.info),
 	                thead: res.thead,
 	                title: res.title
@@ -11918,7 +11954,7 @@
 	            style: {
 	                width: '100%'
 	            }
-	        }, this._thead(), React.createElement("tbody", null, list)), React.createElement(Pagination));
+	        }, this._thead(), React.createElement("tbody", null, list)));
 	    }
 	});
 
@@ -11993,7 +12029,7 @@
 	            var page = _props$params.page;
 
 	            var requrl = page == 'add' ? pages + '/add' : pages + '/detail/' + page;
-	            request.get(requrl).end(function (err, res) {
+	            request.get("api/" + requrl).end(function (err, res) {
 	                var msg = void 0;
 	                if (err) {
 	                    this.props.history.pushState(null, '/');
@@ -12059,7 +12095,7 @@
 	                        d.key = ds.key;
 	                        d.name = ds.key;
 	                        d.type = ds.type;
-	                        d.title = ds.title;
+	                        d.title = ds.name;
 	                        d.onChange = onChange;
 	                        switch (d.type) {
 	                            case "text":
@@ -12184,19 +12220,11 @@
 	        key: '_onSubmit',
 	        value: function _onSubmit(e) {
 	            e.preventDefault();
-	            request.post('admin/login').send(this.state.info).set('Accept', 'application/json').end(function (err, res) {
-	                if (err) throw err;
-	                var data = JSON.parse(res.text);
-	                console.log(data);
-
-	                if (data.state == 'ok') {
-	                    Rd.user(data.data);
+	            postfetch('api', this.state).then(function (res) {
+	                if (res) {
+	                    Rd.config('token', res.token);
+	                    localStorage.token = res.token;
 	                    this.props.history.pushState(null, '/');
-	                    // this.context.router.push('/')
-	                    // this.context.history.replace('/')
-	                } else {
-	                    this.setState({ 'msg': data.msg });
-	                    console.log(data);
 	                }
 	            }.bind(this));
 	        }

@@ -39,7 +39,7 @@ class Page extends React.Component {
             page
         } = props.params
         let requrl = page == 'add' ? pages + '/add' : pages + '/detail/' + page
-        request.get(requrl)
+        request.get("api/" + requrl)
             .end(function (err, res) {
                 let msg
                 if (err) {
@@ -98,7 +98,7 @@ class Page extends React.Component {
                 d.key = ds.key
                 d.name = ds.key
                 d.type = ds.type
-                d.title = ds.title
+                d.title = ds.name
                 d.onChange = onChange
                 switch (d.type) {
                     case "text":

@@ -7,6 +7,12 @@ const app = new Koa();
 
 const xml2js = require('xml2js');
 
+const g = {
+    db : require('./model/db')
+}
+
+Object.assign(global, g)
+
 app.use(async(ctx, next) => {
     var buffers = [];
     ctx.req.on('data', function (trunk) {

@@ -9,14 +9,15 @@ const { Nomatch, Home, Drag, ApiCloudsIndex, ApiClouds, ApiCloud, Pages, Page, L
 
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
-    let state = store.getState()    
-    let user = state.user.user_name
-    if (!user && pathname !== 'login' && pathname !== '/login') {
+    let state = store.getState()
+    let token = state.config.token
+    console.log(token);
+    if (!token && pathname !== 'login' && pathname !== '/login') {
         Rd.message('你还没有登录，请先登录！')
         replace({
-            pathname: '/login' 
+            pathname: '/login'
         })
-    } else if (user && (pathname == 'login' || pathname == '/login')) {
+    } else if (token && (pathname == 'login' || pathname == '/login')) {
         replace({
             pathname: '/'
         })

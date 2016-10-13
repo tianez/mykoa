@@ -3,7 +3,8 @@
 const moment = require('moment')
 const jwt = require('jsonwebtoken')
 const cache = require('memory-cache');
-
+const db = require('../../model/db')
+const cryptopassword = require('../../middleware/password');
 const TokenConfig = {
     exp: 3600, //过期时间
     expre: 3600 //刷新时间
@@ -14,12 +15,25 @@ const TokenConfig = {
  */
 async function CreateToken(ctx, next) {
     // console.log(moment().format("YYYY-MM-DD H:mm:ss"));
-    let users = await new Db('users').where({
-        id: 1
-    }).get();
+    // let users = await new Db('users').where({
+    //     id: 1
+    // }).get();
+    let user = await db.user.findOne({
+        where: {
+            username: ctx.request.fields.username
+        }
+    })
+    if (!user) {
+        ctx.status = 404
+        ctx.body = '该用户不存在'
+    } else if (user.password != cryptopassword(ctx.request.fields.password)) {
+        ctx.body = '用户名或密码错误！'
+    } else {
+        ctx.body = JSON.stringify(user)
+    }
     let data = {
-        id: users[0].id,
-        user_name: users[0].userr_name
+        id: user.id,
+        username: user.username
     }
     let curtime = parseInt(moment() / 1000)
     data.exp = curtime + TokenConfig.exp
