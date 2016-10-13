@@ -13,7 +13,10 @@ async function getList(ctx, next) {
     // });
     let chats = await db.chat.findAll({
         raw: true,
-        limit: 20
+        limit: 20,
+        order: [
+            ['id', 'DESC']
+        ]
     });
     let today = await db.chat_win.findAll({
         raw: true,

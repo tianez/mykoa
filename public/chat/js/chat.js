@@ -1,4 +1,4 @@
-window.socket = io('http://' + document.domain + ':4000', {
+window.socket = io('http://' + document.domain, {
     reconnect: true
 });
 socket.on('connect', function () {
