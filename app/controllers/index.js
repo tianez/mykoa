@@ -7,6 +7,7 @@ const md5 = require('crypto').createHash('md5');
 const fs = require('fs');
 const mime = require('mime');
 const nodemailer = require('nodemailer');
+const path = require('path');
 
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport('smtps://saber_tz%40163.com:tian19870219@smtp.163.com');
@@ -61,7 +62,8 @@ async function postUpload(ctx, next) {
     // console.log(ctx.request.fields);
     // let floder = './uploads/'
     // let floder = './../uploads/'
-    let floder =  __dirname +'./../../uploads/'
+    let floder =  __dirname +'./../uploads/'
+    console.log(floder);
     let path = './uploads/'
     if (!fs.existsSync(floder)) {
         await fs.mkdir(floder); 
@@ -86,6 +88,8 @@ async function postUpload(ctx, next) {
         if (!fs.existsSync(floder)) {
             await fs.mkdir(floder); 
         }
+        console.log(path + files[i].name);
+        
         let is = fs.createReadStream(files[i].path);
         let os = fs.createWriteStream(path + files[i].name);
         is.pipe(os);

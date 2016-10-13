@@ -27,8 +27,8 @@ class Login extends React.Component {
         console.log(e);
         e.preventDefault()
         let files = e.target.files
-        // 文件过滤
-        // 只允许上传图片
+            // 文件过滤
+            // 只允许上传图片
         files = Array.prototype.slice.call(files, 0)
         files = files.filter(function (file) {
             return /image/i.test(file.type)
@@ -48,12 +48,10 @@ class Login extends React.Component {
                 console.log((e.loaded / e.total) * 100 + '%')
             },
             onLoad: (e) => {
-                let res = JSON.parse(e.currentTarget.responseText)
-                console.log(res);
-
+                let res = JSON.parse(e.currentTarget.responseText) 
                 file.state = 1
                 this.setState({
-                    file: 'upload/avatar/' + res.name
+                    file: res[0].path
                 })
             },
             onError: () => {
@@ -67,6 +65,10 @@ class Login extends React.Component {
             alert('请输入正确的手机号码！')
             return
         }
+        if (!this.state.password.trim()) {
+            alert('密码不能为空！')
+            return
+        }
         request
             .post(url)
             .send(this.state)
@@ -74,11 +76,11 @@ class Login extends React.Component {
             .end(function (err, res) {
                 if (res.ok) {
                     let user = JSON.parse(res.text)
-                    localStorage.username = user.user_name
+                    localStorage.username = user.username
                     localStorage.userid = user.id
                     localStorage.head_img = user.head_img ? user.head_img : './images/avatar/' + Math.floor(Math.random() * 6) + '.jpg'
-                    config('login', false)
-                    config('islogin', true)
+                    Rd.config('login', false)
+                    Rd.config('islogin', true)
                 } else {
                     alert(res.text)
                 }
@@ -99,11 +101,11 @@ class Login extends React.Component {
         let title = this.props.title
         return (
             React.createElement('div', {
-                id: 'login'
-            },
-                React.createElement('div', {
-                    className: 'header'
+                    id: 'login'
                 },
+                React.createElement('div', {
+                        className: 'header'
+                    },
                     React.createElement('a', {
                         className: 'icon icon-left',
                         onClick: this._onBack.bind(this)
@@ -111,11 +113,11 @@ class Login extends React.Component {
                     React.createElement('h1', {}, title)
                 ),
                 React.createElement('div', {
-                    className: 'content'
-                },
-                    React.createElement('div', {
-                        className: 'form'
+                        className: 'content'
                     },
+                    React.createElement('div', {
+                            className: 'form'
+                        },
                         React.createElement('input', {
                             type: 'tel',
                             className: 'input',
@@ -130,11 +132,11 @@ class Login extends React.Component {
                             onChange: this._onChangePassword.bind(this)
                         }),
                         title == '注册' ? React.createElement('div', {
-                            className: 'uploader_div',
-                            style: {
-                                backgroundImage: 'url(' + this.state.file + ')',
-                            }
-                        },
+                                className: 'uploader_div',
+                                style: {
+                                    backgroundImage: 'url(' + this.state.file + ')',
+                                }
+                            },
                             React.createElement('input', {
                                 className: 'uploader_input',
                                 type: 'file',

@@ -12,7 +12,7 @@ async function getList(ctx, next) {
     //     force: true
     // });
     let chats = await db.chat.findAll({
-        raw: true,  
+        raw: true,
         limit: 20
     });
     let today = await db.chat_win.findAll({
@@ -54,9 +54,34 @@ async function postLogin(ctx, next) {
     }
 }
 
+async function postRegister(ctx, next) {
+    let user = await db.user.findOne({
+        where: {
+            username: ctx.request.fields.username
+        }
+    })
+    if (user) {
+        ctx.status = 404
+        ctx.body = '用户名已存在'
+    } else if (!ctx.request.fields.password.trim()) {
+        ctx.status = 404
+        ctx.body = '密码不能为空'
+    } else {
+        let data = {
+            username: ctx.request.fields.username,
+            password: ctx.request.fields.password,
+            head_img: ctx.request.fields.file
+        }
+        let user = await db.user.create(data)
+        ctx.body = JSON.stringify(user)
+    }
+}
+
+
 let controller = {
     getList: getList,
-    postLogin: postLogin
+    postLogin: postLogin,
+    postRegister: postRegister
 }
 
 module.exports = controller

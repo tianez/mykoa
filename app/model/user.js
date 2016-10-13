@@ -5,28 +5,30 @@ const cryptopassword = require('../middleware/password');
 
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('user', {
-            uuid: {
-                type: DataTypes.UUID,
-                unique: true,
-                defaultValue: DataTypes.UUIDV1
-            },
+            // uuid: {
+            //     type: DataTypes.UUID,
+            //     unique: true,
+            //     defaultValue: DataTypes.UUIDV1
+            // },
             username: {
                 type: DataTypes.STRING,
-                unique: true,
+                unique: true
+            },
+            head_img: {
+                type: DataTypes.STRING
+            },
+            real_name: {
+                type: DataTypes.STRING
+            },
+            password: {
+                type: DataTypes.STRING,
                 set: function (val) {
-                    this.setDataValue('username', val.toUpperCase());
+                    this.setDataValue('password', cryptopassword(val));
                 }
             },
             email: {
                 type: DataTypes.STRING,
                 unique: true
-            },
-            password: {
-                type: DataTypes.STRING,
-                unique: true,
-                set: function (val) {
-                    this.setDataValue('username', cryptopassword(val));
-                }
             },
             status: {
                 type: DataTypes.INTEGER,
@@ -36,11 +38,12 @@ module.exports = function (sequelize, DataTypes) {
                     max: 10
                 }
             },
-            version: DataTypes.BIGINT
+            // version: DataTypes.BIGINT
         },
         Object.assign(Configuration, {
             comment: '用户表',
-            tableName: 'koa_users'
+            tableName: 'db_users',
+            paranoid: false
         })
     )
 }

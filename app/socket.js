@@ -8,13 +8,11 @@ const moment = require('moment')
 const db = require('./model/db')
 
 const sockets = require('socket.io').listen(server, {
-    origins: '*:*',
     'timeout': 300000,
     'reconnection': true,
     'reconnectionDelayMax': 30000,
     'reconnectionDelay': 1000
 })
-// sockets.set("origins","*");
 
 const redis = require('socket.io-redis');
 sockets.adapter(redis({
@@ -39,7 +37,6 @@ sockets.on('connection', function (socket) {
     console.log('当前在线人数：' + onlineCount);
     socket.emit('login', onlineCount);
     socket.broadcast.emit('login', onlineCount);
-
     // 获得客户端的Cookie
     let cookie = socket.handshake.headers.cookie
     let cookies = {};

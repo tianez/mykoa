@@ -6386,11 +6386,9 @@
 	                },
 	                onLoad: function onLoad(e) {
 	                    var res = JSON.parse(e.currentTarget.responseText);
-	                    console.log(res);
-
 	                    file.state = 1;
 	                    _this2.setState({
-	                        file: 'upload/avatar/' + res.name
+	                        file: res[0].path
 	                    });
 	                },
 	                onError: function onError() {
@@ -6406,14 +6404,18 @@
 	                alert('请输入正确的手机号码！');
 	                return;
 	            }
+	            if (!this.state.password.trim()) {
+	                alert('密码不能为空！');
+	                return;
+	            }
 	            request.post(url).send(this.state).set('Accept', 'application/json').end(function (err, res) {
 	                if (res.ok) {
 	                    var user = JSON.parse(res.text);
-	                    localStorage.username = user.user_name;
+	                    localStorage.username = user.username;
 	                    localStorage.userid = user.id;
 	                    localStorage.head_img = user.head_img ? user.head_img : './images/avatar/' + Math.floor(Math.random() * 6) + '.jpg';
-	                    config('login', false);
-	                    config('islogin', true);
+	                    Rd.config('login', false);
+	                    Rd.config('islogin', true);
 	                } else {
 	                    alert(res.text);
 	                }
