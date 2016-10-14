@@ -4,6 +4,7 @@ let Configuration = require('./Configuration')
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('chat', {
             username: DataTypes.STRING,
+            realname: DataTypes.STRING,
             user_id: DataTypes.STRING,
             head_img: DataTypes.STRING,
             time: DataTypes.STRING,

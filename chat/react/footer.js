@@ -17,6 +17,7 @@ class Footer extends React.Component {
         socket.emit('chat', {
             content: this.refs.input.value,
             username: localStorage.username,
+            realname: localStorage.realname,
             user_id: localStorage.userid,
             head_img: localStorage.head_img
         });

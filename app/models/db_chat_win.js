@@ -12,12 +12,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
-    upuid: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true
-    },
     status: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.BOOLEAN,
       allowNull: true,
       defaultValue: '0'
     },
@@ -25,9 +21,17 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false
     },
-    updated_at: {
+    operuser: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    bz: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    djsj: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: true
     }
   }, {
     tableName: 'db_chat_win'

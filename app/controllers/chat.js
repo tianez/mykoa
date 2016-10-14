@@ -53,13 +53,11 @@ async function postLogin(ctx, next) {
     } else if (user.password != cryptopassword(ctx.request.fields.password)) {
         ctx.body = '用户名或密码错误！'
     } else {
-        if (user.realname) {
-            user.username = user.realname
-        } else {
+        if (!user.realname) {
             let username = user.username
             let pre = username.slice(0, 3)
             let aft = username.slice(7)
-            user.username = pre + '****' + aft
+            user.realname = pre + '****' + aft
         }
         ctx.body = JSON.stringify(user)
     }
@@ -85,15 +83,13 @@ async function postRegister(ctx, next) {
         //     head_img: ctx.request.fields.file
         // }
         let data = ctx.request.fields
-        data.head_img= ctx.request.fields.file
+        data.head_img = ctx.request.fields.file
         let user = await db.user.create(ctx.request.fields)
-        if (user.realname) {
-            user.username = user.realname
-        } else {
+        if (!user.realname) {
             let username = user.username
             let pre = username.slice(0, 3)
             let aft = username.slice(7)
-            user.username = pre + '****' + aft
+            user.realname = pre + '****' + aft
         }
         ctx.body = JSON.stringify(user)
     }

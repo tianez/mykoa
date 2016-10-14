@@ -79,7 +79,7 @@ class List extends React.Component {
                 },
                     React.createElement('div', {
                         className: 'c1'
-                    }, d.username),
+                    }, d.realname),
                     React.createElement(Time, {
                         time: d.time
                     }),

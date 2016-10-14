@@ -6261,6 +6261,7 @@
 	            socket.emit('chat', {
 	                content: this.refs.input.value,
 	                username: localStorage.username,
+	                realname: localStorage.realname,
 	                user_id: localStorage.userid,
 	                head_img: localStorage.head_img
 	            });
@@ -6407,7 +6408,8 @@
 	        key: '_login',
 	        value: function _login(e) {
 	            var url = this.props.title == '登陆' ? 'chat/login' : 'chat/register';
-	            if (this.state.username.length != 11) {
+	            var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+	            if (this.state.username.length != 11 || !reg.test(this.state.username)) {
 	                alert('请输入正确的手机号码！');
 	                return;
 	            }
@@ -6419,6 +6421,7 @@
 	                if (res.ok) {
 	                    var user = JSON.parse(res.text);
 	                    localStorage.username = user.username;
+	                    localStorage.realname = user.realname;
 	                    localStorage.userid = user.id;
 	                    localStorage.head_img = user.head_img ? user.head_img : './public/images/avatar/' + Math.floor(Math.random() * 6) + '.jpg';
 	                    Rd.config('login', false);
@@ -6662,7 +6665,7 @@
 	                    className: 'c'
 	                }, React.createElement('div', {
 	                    className: 'c1'
-	                }, d.username), React.createElement(Time, {
+	                }, d.realname), React.createElement(Time, {
 	                    time: d.time
 	                }), React.createElement('div', {
 	                    className: 'c3'

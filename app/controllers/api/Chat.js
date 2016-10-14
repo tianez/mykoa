@@ -13,7 +13,7 @@ async function getChats(ctx, next) {
         limit: limit,
         order: [
             ['id', 'DESC']
-        ]
+        ] 
     })
     let total = await db.chat.count()
     let last_page = parseInt(total / limit)
