@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    title: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -20,41 +20,41 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    f_module: {
+    module: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    f_groups: {
+    group: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    f_description: {
+    description: {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    f_options: {
+    options: {
       type: DataTypes.TEXT,
       allowNull: true
     },
-    f_ext: {
+    ext: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    f_default: {
+    default: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    f_add: {
+    add: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: '[1]'
     },
-    f_edit: {
+    edit: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: '[1]'
     },
-    f_visible: {
+    visible: {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: '[1]'

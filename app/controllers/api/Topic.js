@@ -67,7 +67,7 @@ async function getTopic(ctx, next) {
     })
 }
 
-async function postDetail(ctx, next) {
+async function updateTopic(ctx, next) {
     console.log(ctx.request.fields);
 
     let data = await db.topic.update(ctx.request.fields, {
@@ -97,5 +97,5 @@ module.exports = {
     addTopic: addTopic,
     postTopic: postTopic,
     deleteTopic: deleteTopic,
-    postDetail: postDetail
+    updateTopic: updateTopic
 }

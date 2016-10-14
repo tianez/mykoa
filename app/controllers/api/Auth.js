@@ -13,14 +13,12 @@ const TokenConfig = {
 /**
  * 创建token
  */
-async function CreateToken(ctx, next) {
+async function createToken(ctx, next) {
     let user = await db.user.findOne({
         where: {
             username: ctx.request.fields.username
         }
     })
-    console.log(user);
-    
     if (!user) {
         ctx.status = 404
         ctx.body = '该用户不存在'
@@ -47,13 +45,16 @@ async function CreateToken(ctx, next) {
     })
 }
 
-/**
- * 验证token
- * 过期销毁旧的token，创建新的token
- * 新token在headers中返回
- */
-async function AuthToken(ctx, next) {
-    global.event.emit('chat', 'haodeasd');
+async function getToken(ctx, next) {
+    ctx.set({
+        token: ctx.headers.token
+    })
+    ctx.body = JSON.stringify({
+        token: ctx.headers.token
+    })
+}
+
+async function removeToken(ctx, next) {
     let token
     if (ctx.query.token) {
         token = ctx.query.token
@@ -63,6 +64,28 @@ async function AuthToken(ctx, next) {
         token = ctx.cookies.get('token')
     }
     console.log('当前token：' + token);
+    if (cache.get(token)) {
+        cache.del(token)
+    }
+    ctx.body = JSON.stringify({
+        msg: '登出成功！'
+    })
+}
+
+/**
+ * 验证token
+ * 过期销毁旧的token，创建新的token
+ * 新token在headers中返回
+ */
+async function authToken(ctx, next) {
+    let token
+    if (ctx.query.token) {
+        token = ctx.query.token
+    } else if (ctx.headers.token) {
+        token = ctx.headers.token
+    } else if (ctx.cookies.get('token')) {
+        token = ctx.cookies.get('token')
+    }
     if (cache.get(token)) {
         try {
             let decoded = jwt.verify(token, 'shhhhh');
@@ -97,6 +120,8 @@ async function AuthToken(ctx, next) {
 }
 
 module.exports = {
-    CreateToken: CreateToken,
-    AuthToken: AuthToken
+    createToken: createToken,
+    getToken: getToken,
+    removeToken: removeToken,
+    authToken: authToken
 }

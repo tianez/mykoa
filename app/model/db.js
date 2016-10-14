@@ -4,7 +4,7 @@ const Sequelize = require('sequelize');
 const dbconfig = {
     host: 'localhost', // 主机名
     port: 3306, // 端口号，MySQL默认3306
-    database: 'laravel2', // 使用哪个数据库
+    database: 'koa', // 使用哪个数据库
     username: 'root', // 用户名
     password: '123456', // 口令
 }
@@ -38,17 +38,18 @@ sequelize.authenticate()
 
 let db
 module.exports = db = {
-    user: sequelize.import("./user"),
+    users: sequelize.import("./db_users"),
     role: sequelize.import("./role"),
     permission: sequelize.import("./permission"),
     user_role: sequelize.import("./user_role"),
     role_permission: sequelize.import("./role_permission"),
-    field: sequelize.import("./field"),
+    field: sequelize.import("./db_fields"),
     article: sequelize.import("./article"),
     meun: sequelize.import("./meun"),
     chat: sequelize.import("./chat"),
     chat_win: sequelize.import("./chat_win"),
-    topic: sequelize.import("../models/db_topic"),
+    topic: sequelize.import("./db_topic"),
+    config: sequelize.import("./db_config"),
 }
 
 

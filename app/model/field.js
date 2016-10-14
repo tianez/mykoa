@@ -39,7 +39,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         Object.assign(Configuration, {
             comment: '字段表',
-            tableName: 'koa_fields'
+            tableName: 'db_fields'
         })
     )
 }

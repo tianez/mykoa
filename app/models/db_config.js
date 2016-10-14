@@ -27,6 +27,10 @@ module.exports = function(sequelize, DataTypes) {
     updated_at: {
       type: DataTypes.TIME,
       allowNull: true
+    },
+    status: {
+      type: DataTypes.INTEGER(11),
+      allowNull: true
     }
   }, {
     tableName: 'db_config'

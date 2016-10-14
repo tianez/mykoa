@@ -37,6 +37,7 @@ async function home(ctx, next) {
     //     raw: true
     // });
     // console.log(user);
+    // db.field.sync({ force: true })
     var n = ctx.session.views || 0;
     var hash = bcrypt.hashSync('gebilaowang');
     var yz = bcrypt.compareSync("gebilaowang", hash);

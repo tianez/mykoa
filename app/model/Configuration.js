@@ -11,7 +11,10 @@ let Configuration = {
     defaultScope: {
         where: {
             status: 0
-        }
+        },
+        order: [
+            ['id', 'ASC']
+        ]
     }
 }
 

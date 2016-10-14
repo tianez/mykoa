@@ -18,11 +18,15 @@ router.options('*', async(ctx, next) => {
     ctx.status = 204
 })
 
-router.post('/', apicontroller.getToken);
+router.post('/', apicontroller.createToken);
+router.post('/createtoken', apicontroller.createToken);
+router.get('/removetoken', apicontroller.removeToken);
 
-router.all('*', apicontroller.auth)
+// router.all('*', apicontroller.authToken)
 
-router.get('/', apicontroller.getHome);
+router.get('/', apicontroller.getToken);
+router.get('/getToken', apicontroller.getToken);
+
 router.get('/user', apicontroller.getUser);
 router.get('/fields', apicontroller.getFields);
 router.get('/fields/:name', apicontroller.getField);
@@ -39,14 +43,18 @@ router.get('/topic', apicontroller.getTopics);
 router.get('/topic/add', apicontroller.addTopic);
 router.post('/topic/add', apicontroller.postTopic);
 router.get('/topic/detail/:id', apicontroller.getTopic);
-router.post('/topic/detail', apicontroller.postDetail);
+router.post('/topic/detail', apicontroller.updateTopic);
 router.get('/topic/delete/:id', apicontroller.deleteTopic);
 
 
-
-
-
 router.post('/upload', apicontroller.postUpload);
+
+router.get('/:module', apicontroller.getList);
+router.get('/:module/add', apicontroller.getAdd);
+router.post('/:module/add', apicontroller.postAdd);
+router.get('/:module/detail/:id', apicontroller.getDetail);
+router.post('/:module/detail', apicontroller.updateDetail);
+router.get('/:module/delete/:id', apicontroller.getDelete);
 
 router.get('/dd', async(ctx, next) => {
     ctx.throw(400, 'name required')
