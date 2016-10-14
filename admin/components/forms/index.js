@@ -16,10 +16,8 @@ const Hidden = require('./Hidden')
 const Select = require('./Select')
 const Tab = require('./Tab')
 const Audio = require('./Audio')
-// const {
-//     Calendar,
-//     DateRange
-// } = require('react-date-range')
+const Time = require('./Time')
+
 
 var Forms = {
     Form: Form,
@@ -34,10 +32,9 @@ var Forms = {
     Checkbox: Checkbox,
     Range: Range,
     Button: Button,
-    Hidden: Hidden,
+    Hidden: Hidden, 
     Category: require('./Category'),
-    // Calendar: Calendar,
-    // DateRange: DateRange,
+    Time: Time,
     // ColorPicker: ColorPicker,
     Select: Select,
     Tab: Tab,

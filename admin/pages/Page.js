@@ -9,11 +9,12 @@ const {
     Radio,
     Checkbox,
     Upload,
-    Range,
+    Range, 
     Button,
     Select,
     Hidden,
-    Category
+    Category,
+    Time
 } = require('../components/forms')
 const {
     Link
@@ -78,7 +79,8 @@ class Page extends React.Component {
                 Rd.message(res.msg)
             }.bind(this))
     }
-    _onChange(name, value) {
+    _onChange(name, value) { 
+        console.log(value);
         let info = this.state.info
         info[name] = value
         this.setState({
@@ -133,7 +135,7 @@ class Page extends React.Component {
                     case "radio":
                         return (React.createElement(Radio, d))
                         break;
-                    case "checkbox":
+                    case "checkbox": 
                         return (React.createElement(Checkbox, d))
                         break;
                     case "select":
@@ -141,10 +143,13 @@ class Page extends React.Component {
                         break;
                     case "category":
                         return (React.createElement(Category, d))
+                        break; 
+                    case "date":
+                        return (React.createElement(Time, d))
                         break;
                     case "hidden":
                         return (React.createElement(Hidden, d))
-                        break;
+                        break; 
                     default:
                         break;
                 }

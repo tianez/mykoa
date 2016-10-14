@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "react-date-range": "^0.2.4"
+  }
+}
