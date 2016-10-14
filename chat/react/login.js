@@ -10,7 +10,7 @@ class Login extends React.Component {
         this.state = {
             username: '',
             password: '',
-            file: 'images/avatar/00.jpg'
+            file: './public/images/avatar/00.jpg'
         }
     }
     _onChangeUsername(e) {
@@ -18,6 +18,11 @@ class Login extends React.Component {
             'username': e.target.value
         })
     }
+    _onChangeRealname(e) {
+        this.setState({
+            'realname': e.target.value
+        })
+    } 
     _onChangePassword(e) {
         this.setState({
             'password': e.target.value
@@ -131,6 +136,13 @@ class Login extends React.Component {
                             placeholder: '请输入密码',
                             onChange: this._onChangePassword.bind(this)
                         }),
+                        title == '注册' ? React.createElement('input', {
+                            type: 'text',
+                            className: 'input',
+                            placeholder: '请为您自己取个昵称',
+                            maxLength: 20,
+                            onChange: this._onChangeRealname.bind(this)
+                        }) : null,
                         title == '注册' ? React.createElement('div', {
                                 className: 'uploader_div',
                                 style: {

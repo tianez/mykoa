@@ -39,22 +39,30 @@ class Page extends React.Component {
             page
         } = props.params
         let requrl = page == 'add' ? pages + '/add' : pages + '/detail/' + page
-        request.get("api/" + requrl)
-            .end(function (err, res) {
-                let msg
-                if (err) {
-                    this.props.history.pushState(null, '/')
-                    msg = err.response.text
-                } else {
-                    let data = JSON.parse(res.text);
-                    msg = data.msg
-                    this.setState({
-                        title: data.title,
-                        fields: data.fields,
-                        info: data.info || {}
-                    })
-                }
+        getfetch("api/" + requrl)
+            .then(function (res) { 
+                this.setState({
+                    title: res.title,
+                    fields: res.fields,
+                    info: res.info || {}
+                })
             }.bind(this))
+            // request.get("api/" + requrl)
+            //     .end(function (err, res) {
+            //         let msg
+            //         if (err) {
+            //             this.props.history.pushState(null, '/')
+            //             msg = err.response.text
+            //         } else {
+            //             let data = JSON.parse(res.text);
+            //             msg = data.msg
+            //             this.setState({
+            //                 title: data.title,
+            //                 fields: data.fields,
+            //                 info: data.info || {}
+            //             })
+            //         }
+            //     }.bind(this))
     }
     _onSubmit(e) {
         let {

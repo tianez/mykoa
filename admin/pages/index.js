@@ -10,7 +10,6 @@ const Pages = require('./Pages')
 const Page = require('./Page')
 const Login = require('./login')
 const Logout = require('./logout')
-const Import = require('./Import')
 
 var Temp = {
     Nomatch: Nomatch,
@@ -23,6 +22,5 @@ var Temp = {
     Page: Page,
     Login: Login,
     Logout: Logout,
-    Import:Import
 }
 module.exports = Temp

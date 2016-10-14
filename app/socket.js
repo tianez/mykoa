@@ -4,8 +4,12 @@ const server = require('./app');
 const jwt = require('jsonwebtoken');
 const uuid = require('node-uuid');
 const moment = require('moment')
+const fs = require('fs')
 
 const db = require('./model/db')
+
+const word = fs.readFileSync('./word/word.txt', 'utf-8');
+const words = word.split("\r\n"); //字符分割 
 
 const sockets = require('socket.io').listen(server, {
     'timeout': 300000,
@@ -24,14 +28,14 @@ const io = require('socket.io-emitter')({
     port: 6379
 });
 
-setInterval(function() {
-    io.emit('chat', new Date);
-}, 1000);
+// setInterval(function() {
+//     io.emit('chat', new Date);
+// }, 1000);
 
 //在线用户
 var onlineUsers = {};
 //当前在线人数
-var onlineCount = 0;
+var onlineCount = 100;
 sockets.on('connection', function (socket) {
     onlineCount++
     console.log('当前在线人数：' + onlineCount);
@@ -52,6 +56,17 @@ sockets.on('connection', function (socket) {
 
     socket.on('chat', function (data) {
         console.log(data);
+        data.content = data.content.replace(/\s+/g, "");
+        let pass = words.every(function (w) {
+            if (data.content.indexOf(w) > -1) {
+                return false
+            }
+            return true
+        })
+        if (!pass) {
+            socket.emit('nopass', true);
+            return
+        }
         data.time = parseInt(moment() / 1000)
         db.chat.create(data)
         socket.emit('chat', data);

@@ -6202,7 +6202,7 @@
 	                controls: 'controls',
 	                preload: 'none',
 	                src: vurl,
-	                poster: 'images/1.jpg',
+	                poster: poster,
 	                frameBorder: 0,
 	                style: {
 	                    width: '100%',
@@ -6336,7 +6336,7 @@
 	        _this.state = {
 	            username: '',
 	            password: '',
-	            file: 'images/avatar/00.jpg'
+	            file: './public/images/avatar/00.jpg'
 	        };
 	        return _this;
 	    }
@@ -6346,6 +6346,13 @@
 	        value: function _onChangeUsername(e) {
 	            this.setState({
 	                'username': e.target.value
+	            });
+	        }
+	    }, {
+	        key: '_onChangeRealname',
+	        value: function _onChangeRealname(e) {
+	            this.setState({
+	                'realname': e.target.value
 	            });
 	        }
 	    }, {
@@ -6462,7 +6469,13 @@
 	                className: 'input',
 	                placeholder: '请输入密码',
 	                onChange: this._onChangePassword.bind(this)
-	            }), title == '注册' ? React.createElement('div', {
+	            }), title == '注册' ? React.createElement('input', {
+	                type: 'text',
+	                className: 'input',
+	                placeholder: '请为您自己取个昵称',
+	                maxLength: 20,
+	                onChange: this._onChangeRealname.bind(this)
+	            }) : null, title == '注册' ? React.createElement('div', {
 	                className: 'uploader_div',
 	                style: {
 	                    backgroundImage: 'url(' + this.state.file + ')'
@@ -6625,7 +6638,6 @@
 	                if (res.ok) {
 	                    var d = JSON.parse(res.text);
 	                    console.log(d);
-
 	                    Rd.comments(d.chat);
 	                    Rd.todays(d.today);
 	                    Rd.yesterday(d.yesterday);

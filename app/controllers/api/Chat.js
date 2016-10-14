@@ -3,7 +3,7 @@
 const db = require('../../model/db')
 
 async function getChats(ctx, next) {
-    let limit = ctx.query.limit || 2
+    let limit = ctx.query.limit || 20
     let page = ctx.query.page || 1
     let offset = limit * (page - 1)
     let data = await db.chat.findAll({
@@ -11,6 +11,9 @@ async function getChats(ctx, next) {
         // group: ['module']
         offset: offset,
         limit: limit,
+        order: [
+            ['id', 'DESC']
+        ]
     })
     let total = await db.chat.count()
     let last_page = parseInt(total / limit)
@@ -44,10 +47,10 @@ async function addChat(ctx, next) {
 
 async function postChat(ctx, next) {
     let data = ctx.request.fields
-    let user = await db.chat.create(data)
+    let info = await db.chat.create(data)
     ctx.body = JSON.stringify({
         title: '新增评论',
-        user: user
+        info: info
     })
 }
 

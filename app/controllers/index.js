@@ -2,12 +2,20 @@
 
 const moment = require('moment')
 const db = require('../model/db')
-const bcrypt = require('bcrypt-nodejs') 
+const bcrypt = require('bcrypt-nodejs')
 const md5 = require('crypto').createHash('md5');
 const fs = require('fs');
 const mime = require('mime');
 const nodemailer = require('nodemailer');
-const path = require('path');
+const paths = require('path');
+const uuid = require('node-uuid');
+
+const gm = require('gm')
+const imageMagick = gm.subClass({
+    imageMagick: true
+});
+
+const images = require("images");
 
 // create reusable transporter object using the default SMTP transport
 const transporter = nodemailer.createTransport('smtps://saber_tz%40163.com:tian19870219@smtp.163.com');
@@ -38,13 +46,41 @@ async function home(ctx, next) {
     // });
     // console.log(user);
     // db.field.sync({ force: true })
-    var n = ctx.session.views || 0;
-    var hash = bcrypt.hashSync('gebilaowang');
-    var yz = bcrypt.compareSync("gebilaowang", hash);
-    console.log(yz);
-    console.log(bcrypt.hashSync('gebilaowang'));
+    // var n = ctx.session.views || 0;
+    // var hash = bcrypt.hashSync('gebilaowang');
+    // var yz = bcrypt.compareSync("gebilaowang", hash);
+    // console.log(yz);
+    // console.log(bcrypt.hashSync('gebilaowang'));
+    let topic = await db.topic.findOne({
+        order: [
+            ['id', 'DESC']
+        ],
+        raw: true
+    })
+    let title = await db.config.findOne({
+        where: {
+            name: 'title'
+        },
+        raw: true
+    })
+    let poster = await db.config.findOne({
+        where: {
+            name: 'poster'
+        },
+        raw: true
+    })
+    let vurl = await db.config.findOne({
+        where: {
+            name: 'vurl'
+        },
+        raw: true
+    })
+
     ctx.render('chat', {
-        user_name: 'tianez'
+        ht: topic.content,
+        title: title.value,
+        poster: poster.value,
+        vurl: vurl.value,
     });
 }
 
@@ -57,17 +93,14 @@ async function getUpload(ctx, next) {
 }
 
 async function postUpload(ctx, next) {
-    // var files = ctx.request.body
     // console.log(ctx.request.files);
     // console.log(ctx.request.body);
     // console.log(ctx.request.fields);
-    // let floder = './uploads/'
-    // let floder = './../uploads/'
-    let floder =  __dirname +'./../uploads/'
+    let floder = __dirname + './../uploads/'
     console.log(floder);
     let path = './uploads/'
     if (!fs.existsSync(floder)) {
-        await fs.mkdir(floder); 
+        await fs.mkdir(floder);
     }
     let files = ctx.request.fields.file
     let res = []
@@ -76,7 +109,6 @@ async function postUpload(ctx, next) {
             return
         }
         let r = {}
-            // fs.renameSync(files[i].path, floder + files[i].name);
         let ext = mime.extension(files[i].type);
         floder += ext
         path += ext
@@ -87,25 +119,27 @@ async function postUpload(ctx, next) {
         floder += day
         path += day
         if (!fs.existsSync(floder)) {
-            await fs.mkdir(floder); 
+            await fs.mkdir(floder);
         }
-        console.log(path + files[i].name);
-        
+        let name = uuid.v1() + '-' + files[i].name
         let is = fs.createReadStream(files[i].path);
-        let os = fs.createWriteStream(path + files[i].name);
+        let os = fs.createWriteStream(path + name);
         is.pipe(os);
-        is.on('end', function() {
-            fs.unlinkSync(files[i].path); 
+        is.on('end', function () {
+            images(path + name)
+                .size(400)
+                .save(path + 'copy' + name, {
+                    quality: 80
+                });
+            fs.unlinkSync(files[i].path);
         });
-        r.name = files[i].name 
+        r.name = files[i].name
         r.size = files[i].size
         r.ext = ext
         r.lastModifiedDate = files[i].lastModifiedDate
-        r.path = path + files[i].name
+        r.path = path + 'copy' + name
         res.push(r)
     }
-    console.log('3');
-    
     ctx.type = 'json';
     ctx.body = JSON.stringify(res)
 }
@@ -115,7 +149,7 @@ let roles = require('../data/role')
 async function dataimport(ctx, next) {
     db.role.sync({
         force: true
-    }).then(function() {
+    }).then(function () {
         db.role.bulkCreate(roles)
     })
     ctx.body = 'ok'
@@ -126,5 +160,5 @@ module.exports = {
     getUpload: getUpload,
     postUpload: postUpload,
     dataimport: dataimport,
-    getAdmin:getAdmin
+    getAdmin: getAdmin
 }

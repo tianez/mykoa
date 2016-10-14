@@ -31,7 +31,7 @@ module.exports = function (sequelize, DataTypes) {
                     this.setDataValue('password', cryptopassword(val));
                 }
             },
-            real_name: {
+            realname: {
                 type: DataTypes.STRING,
                 allowNull: true
             },

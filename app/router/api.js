@@ -22,29 +22,29 @@ router.post('/', apicontroller.createToken);
 router.post('/createtoken', apicontroller.createToken);
 router.get('/removetoken', apicontroller.removeToken);
 
-// router.all('*', apicontroller.authToken)
+router.all('*', apicontroller.authToken)
 
 router.get('/', apicontroller.getToken);
 router.get('/getToken', apicontroller.getToken);
 
-router.get('/user', apicontroller.getUser);
-router.get('/fields', apicontroller.getFields);
-router.get('/fields/:name', apicontroller.getField);
-router.get('/field/:id', apicontroller.getFieldid);
+// router.get('/user', apicontroller.getUser);
+// router.get('/fields', apicontroller.getFields);
+// router.get('/fields/:name', apicontroller.getField);
+// router.get('/field/:id', apicontroller.getFieldid);
 
 router.get('/meun', apicontroller.getMeun);
-router.get('/chats', apicontroller.getChats);
-router.get('/chats/add', apicontroller.addChat);
-router.post('/chats/add', apicontroller.postChat);
-router.get('/chats/detail/:id', apicontroller.getChat);
-router.get('/chats/delete/:id', apicontroller.deleteChat);
+// router.get('/chats', apicontroller.getChats);
+// router.get('/chats/add', apicontroller.addChat);
+// router.post('/chats/add', apicontroller.postChat);
+// router.get('/chats/detail/:id', apicontroller.getChat);
+// router.get('/chats/delete/:id', apicontroller.deleteChat);
 
-router.get('/topic', apicontroller.getTopics);
-router.get('/topic/add', apicontroller.addTopic);
-router.post('/topic/add', apicontroller.postTopic);
-router.get('/topic/detail/:id', apicontroller.getTopic);
-router.post('/topic/detail', apicontroller.updateTopic);
-router.get('/topic/delete/:id', apicontroller.deleteTopic);
+// router.get('/topic', apicontroller.getTopics);
+// router.get('/topic/add', apicontroller.addTopic);
+// router.post('/topic/add', apicontroller.postTopic);
+// router.get('/topic/detail/:id', apicontroller.getTopic);
+// router.post('/topic/detail', apicontroller.updateTopic);
+// router.get('/topic/delete/:id', apicontroller.deleteTopic);
 
 
 router.post('/upload', apicontroller.postUpload);

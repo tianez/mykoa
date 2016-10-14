@@ -1,5 +1,6 @@
 'use strict'
 let Configuration = require('./Configuration')
+
 module.exports = function (sequelize, DataTypes) {
     return sequelize.define('db_config', {
             id: {

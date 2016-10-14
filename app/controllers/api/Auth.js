@@ -6,14 +6,19 @@ const cache = require('memory-cache');
 const db = require('../../model/db')
 const cryptopassword = require('../../middleware/password');
 const TokenConfig = {
-    exp: 3600, //过期时间
-    expre: 3600 //刷新时间
+    exp: 3600 * 3, //过期时间
+    expre: 3600 * 2 //刷新时间
 }
 
 /**
  * 创建token
  */
 async function createToken(ctx, next) {
+    if (ctx.request.fields.username != 'admin') {
+        ctx.status = 401
+        ctx.body = '你无权访问该页面'
+        return
+    }
     let user = await db.user.findOne({
         where: {
             username: ctx.request.fields.username
@@ -23,26 +28,28 @@ async function createToken(ctx, next) {
         ctx.status = 404
         ctx.body = '该用户不存在'
     } else if (user.password != cryptopassword(ctx.request.fields.password)) {
+        ctx.status = 403
         ctx.body = '用户名或密码错误！'
     } else {
         ctx.body = JSON.stringify(user)
+        let data = {
+            id: user.id,
+            username: user.username
+        }
+        let curtime = parseInt(moment() / 1000)
+        data.exp = curtime + TokenConfig.exp
+        data.expre = curtime + TokenConfig.expre
+        let token = jwt.sign(data, 'shhhhh');
+        cache.put(token, true, curtime + 3600);
+        ctx.type = 'json';
+        ctx.set({
+            token: token
+        })
+        ctx.body = JSON.stringify({
+            token: token
+        })
     }
-    let data = {
-        id: user.id,
-        username: user.username
-    }
-    let curtime = parseInt(moment() / 1000)
-    data.exp = curtime + TokenConfig.exp
-    data.expre = curtime + TokenConfig.expre
-    let token = jwt.sign(data, 'shhhhh');
-    cache.put(token, true, curtime + 3600);
-    ctx.type = 'json';
-    ctx.set({
-        token: token
-    })
-    ctx.body = JSON.stringify({
-        token: token
-    })
+
 }
 
 async function getToken(ctx, next) {

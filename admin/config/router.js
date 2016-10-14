@@ -5,7 +5,7 @@ const { Router, Route, IndexRoute, IndexRedirect, Redirect, hashHistory, browser
 const history = syncHistoryWithStore(hashHistory, store)
 
 const Layout = require('../layout/layout')
-const { Nomatch, Home, Drag, ApiCloudsIndex, ApiClouds, ApiCloud, Pages, Page, Login, Logout, Import } = require('../pages')
+const { Nomatch, Home, Drag, ApiCloudsIndex, ApiClouds, ApiCloud, Pages, Page, Login, Logout } = require('../pages')
 
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
@@ -29,7 +29,6 @@ const routers = (
         React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter},
             React.createElement(IndexRedirect, { to: 'index' }),
             React.createElement(Route, { path: "index", component: Home }),
-            React.createElement(Route, { path: "import", component: Import}),
             React.createElement(Route, { path: "drag", component: Drag }),
             React.createElement(Route, { path: "apicloud" },
                 React.createElement(IndexRoute, { component: ApiCloudsIndex }),

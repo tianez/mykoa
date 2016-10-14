@@ -20,7 +20,7 @@ class Iframe extends React.Component {
                 controls: 'controls',
                 preload: 'none',
                 src: vurl,
-                poster: 'images/1.jpg',
+                poster: poster,
                 frameBorder: 0,
                 style: {
                     width: '100%',

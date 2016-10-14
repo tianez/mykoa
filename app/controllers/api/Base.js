@@ -8,26 +8,47 @@ const theads = {
         name: '设置名',
         value: '设置值'
     },
-    users: {
+    user: {
         id: 'ID',
         username: '用户名'
+    },
+    topic: {
+        id: 'ID',
+        title: '标题',
+        content: '内容'
+    },
+    chat: {
+        id: 'ID',
+        content: '评论内容',
+        username: '用户名'
+    },
+    chat_win: {
+        id: 'ID',
+        phone: '获奖电话',
+        created_at: '获奖时间'
     }
 }
 
 const titles = {
     config: '系统设置',
-    users: '用户',
+    user: '用户',
+    topic: '直播话题',
+    chat: '评论',
+    chat_win: '获奖名单'
 }
 
 async function getList(ctx, next) {
     let module = ctx.params.module
     let cdb = db[module]
-    let limit = ctx.query.limit || 2
+    let limit = ctx.query.limit || 20
     let page = ctx.query.page || 1
     let offset = limit * (page - 1)
     let data = await cdb.findAll({
         offset: offset,
         limit: limit,
+        order: [
+            ['id', 'DESC']
+        ]
     })
     let total = await cdb.count()
     let last_page = Math.ceil(total / limit)

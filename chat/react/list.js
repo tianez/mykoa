@@ -52,7 +52,6 @@ class List extends React.Component {
                 if (res.ok) {
                     let d = JSON.parse(res.text)
                     console.log(d);
-                    
                     Rd.comments(d.chat)
                     Rd.todays(d.today)
                     Rd.yesterday(d.yesterday)

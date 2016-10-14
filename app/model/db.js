@@ -38,7 +38,7 @@ sequelize.authenticate()
 
 let db
 module.exports = db = {
-    users: sequelize.import("./db_users"),
+    user: sequelize.import("./db_users"),
     role: sequelize.import("./role"),
     permission: sequelize.import("./permission"),
     user_role: sequelize.import("./user_role"),
@@ -50,6 +50,7 @@ module.exports = db = {
     chat_win: sequelize.import("./chat_win"),
     topic: sequelize.import("./db_topic"),
     config: sequelize.import("./db_config"),
+    chat_win: sequelize.import("./db_chat_win"),
 }
 
 

@@ -8484,7 +8484,6 @@
 	var Page = _require.Page;
 	var Login = _require.Login;
 	var Logout = _require.Logout;
-	var Import = _require.Import;
 
 
 	function onEnter(nextState, replace) {
@@ -8504,7 +8503,7 @@
 	    }
 	}
 
-	var routers = React.createElement(Router, { history: history }, React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter }, React.createElement(IndexRedirect, { to: 'index' }), React.createElement(Route, { path: "index", component: Home }), React.createElement(Route, { path: "import", component: Import }), React.createElement(Route, { path: "drag", component: Drag }), React.createElement(Route, { path: "apicloud" }, React.createElement(IndexRoute, { component: ApiCloudsIndex }), React.createElement(Route, { path: ":clouds" }, React.createElement(IndexRoute, { component: ApiClouds }), React.createElement(Route, { path: ":articleId", component: ApiCloud }))), React.createElement(Route, { path: "api" }, React.createElement(IndexRoute, { component: ApiCloudsIndex }), React.createElement(Redirect, { from: ':pages', to: ':pages/index' }), React.createElement(Route, { path: ":pages" }, React.createElement(Route, { path: "index", component: Pages }), React.createElement(Route, { path: ":page", component: Page })))), React.createElement(Route, { path: "login", component: Login, onEnter: onEnter }), React.createElement(Route, { path: "logout", component: Logout }), React.createElement(Route, { path: "*", component: Nomatch }));
+	var routers = React.createElement(Router, { history: history }, React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter }, React.createElement(IndexRedirect, { to: 'index' }), React.createElement(Route, { path: "index", component: Home }), React.createElement(Route, { path: "drag", component: Drag }), React.createElement(Route, { path: "apicloud" }, React.createElement(IndexRoute, { component: ApiCloudsIndex }), React.createElement(Route, { path: ":clouds" }, React.createElement(IndexRoute, { component: ApiClouds }), React.createElement(Route, { path: ":articleId", component: ApiCloud }))), React.createElement(Route, { path: "api" }, React.createElement(IndexRoute, { component: ApiCloudsIndex }), React.createElement(Redirect, { from: ':pages', to: ':pages/index' }), React.createElement(Route, { path: ":pages" }, React.createElement(Route, { path: "index", component: Pages }), React.createElement(Route, { path: ":page", component: Page })))), React.createElement(Route, { path: "login", component: Login, onEnter: onEnter }), React.createElement(Route, { path: "logout", component: Logout }), React.createElement(Route, { path: "*", component: Nomatch }));
 
 	module.exports = routers;
 
@@ -8749,9 +8748,13 @@
 	            className: 'footer pure-u-1'
 	        }, React.createElement('div', {
 	            className: 'left'
-	        }, this.state.info.taici, '—— ', this.state.info.source), React.createElement('div', {
-	            className: 'right'
-	        }, '技术开发—by田恩仲（284059577）'));
+	        }, this.state.info.taici, '—— ', this.state.info.source)
+	        // React.createElement('div', {
+	        //     className: 'right'
+	        // },
+	        //     '技术开发—by田恩仲（284059577）'
+	        // )
+	        );
 	    }
 	});
 
@@ -9163,7 +9166,6 @@
 	var Page = __webpack_require__(122);
 	var Login = __webpack_require__(123);
 	var Logout = __webpack_require__(124);
-	var Import = __webpack_require__(125);
 
 	var Temp = {
 	    Nomatch: Nomatch,
@@ -9175,8 +9177,7 @@
 	    Pages: Pages,
 	    Page: Page,
 	    Login: Login,
-	    Logout: Logout,
-	    Import: Import
+	    Logout: Logout
 	};
 	module.exports = Temp;
 
@@ -12031,21 +12032,29 @@
 	            var page = _props$params.page;
 
 	            var requrl = page == 'add' ? pages + '/add' : pages + '/detail/' + page;
-	            request.get("api/" + requrl).end(function (err, res) {
-	                var msg = void 0;
-	                if (err) {
-	                    this.props.history.pushState(null, '/');
-	                    msg = err.response.text;
-	                } else {
-	                    var data = JSON.parse(res.text);
-	                    msg = data.msg;
-	                    this.setState({
-	                        title: data.title,
-	                        fields: data.fields,
-	                        info: data.info || {}
-	                    });
-	                }
+	            getfetch("api/" + requrl).then(function (res) {
+	                this.setState({
+	                    title: res.title,
+	                    fields: res.fields,
+	                    info: res.info || {}
+	                });
 	            }.bind(this));
+	            // request.get("api/" + requrl)
+	            //     .end(function (err, res) {
+	            //         let msg
+	            //         if (err) {
+	            //             this.props.history.pushState(null, '/')
+	            //             msg = err.response.text
+	            //         } else {
+	            //             let data = JSON.parse(res.text);
+	            //             msg = data.msg
+	            //             this.setState({
+	            //                 title: data.title,
+	            //                 fields: data.fields,
+	            //                 info: data.info || {}
+	            //             })
+	            //         }
+	            //     }.bind(this))
 	        }
 	    }, {
 	        key: '_onSubmit',
@@ -12320,121 +12329,6 @@
 	}(React.Component);
 
 	module.exports = Logout;
-
-/***/ },
-/* 125 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _require = __webpack_require__(100);
-
-	var Form = _require.Form;
-	var FormGroup = _require.FormGroup;
-	var Input = _require.Input;
-	var Button = _require.Button;
-	var Hidden = _require.Hidden;
-
-
-	var ajaxUpload = __webpack_require__(110);
-
-	var Import = React.createClass({
-	    displayName: 'Import',
-
-	    componentDidMount: function componentDidMount() {
-	        Rd.config('title', '数据导入');
-	    },
-	    _onSubmit: function _onSubmit() {
-	        var files = this.refs.file2.files;
-	        console.log(files);
-	        var file = files[0];
-	        return ajaxUpload({
-	            url: 'admin/import',
-	            name: 'file',
-	            key: file.name,
-	            file: file,
-	            data: {
-	                table: 'member'
-	            },
-	            onProgress: function onProgress(e) {
-	                console.log(e.loaded / e.total * 100 + '%');
-	            },
-	            onLoad: function onLoad(e) {
-	                var res = JSON.parse(e.currentTarget.responseText);
-	                console.log(res);
-	                Rd.message(res.msg);
-	            },
-	            onError: function onError() {}
-	        });
-	    },
-	    _onSubmit2: function _onSubmit2() {
-	        var files = this.refs.result.files;
-	        var file = files[0];
-	        return ajaxUpload({
-	            url: 'admin/import',
-	            name: 'file',
-	            key: file.name,
-	            file: file,
-	            data: {
-	                table: 'result'
-	            },
-	            onProgress: function onProgress(e) {
-	                console.log(e.loaded / e.total * 100 + '%');
-	            },
-	            onLoad: function onLoad(e) {
-	                var res = JSON.parse(e.currentTarget.responseText);
-	                console.log(res);
-	                Rd.message(res.msg);
-	            },
-	            onError: function onError() {}
-	        });
-	    },
-	    render: function render() {
-	        return React.createElement('div', {
-	            className: 'container pure-g'
-	        }, React.createElement('div', {
-	            className: 'pure-u-1'
-	        }, React.createElement(Form, {
-	            action: 'user/login',
-	            apiSubmit: false,
-	            legend: '人员数据上传',
-	            onSubmit: this._onSubmit
-	        }, React.createElement(FormGroup, {
-	            title: '文件上传'
-	        }, React.createElement('input', {
-	            id: 'file',
-	            name: 'file',
-	            ref: 'file2',
-	            className: 'ipt',
-	            type: 'file',
-	            multiple: false
-	        })), React.createElement(Button, {
-	            value: '文件上传'
-	        })), React.createElement(Form, {
-	            action: 'user/login',
-	            apiSubmit: false,
-	            legend: '人员数据上传',
-	            onSubmit: this._onSubmit2
-	        }, React.createElement(FormGroup, {
-	            title: '文件上传'
-	        }, React.createElement('input', {
-	            id: 'file',
-	            name: 'file',
-	            ref: 'result',
-	            className: 'ipt',
-	            type: 'file',
-	            multiple: false
-	        })), React.createElement(Button, {
-	            value: '文件上传'
-	        }))));
-	    }
-	});
-
-	Import.defaultProps = {
-	    value: '保存'
-	};
-
-	module.exports = Import;
 
 /***/ }
 /******/ ]);

@@ -34,12 +34,12 @@ const Footer = React.createClass({
                     this.state.info.taici,
                     '—— ',
                     this.state.info.source
-                ),
-                React.createElement('div', {
-                    className: 'right'
-                },
-                    '技术开发—by田恩仲（284059577）'
-                )
+                ) 
+                // React.createElement('div', {
+                //     className: 'right'
+                // },
+                //     '技术开发—by田恩仲（284059577）'
+                // )
             )
         )
     }

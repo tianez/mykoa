@@ -27,7 +27,6 @@ Object.assign(
     require('./api/Field'),
     require('./api/Meun'),
     require('./api/Chat'),
-    require('./api/Topic'),
     require('./api/Base')
 )
 
