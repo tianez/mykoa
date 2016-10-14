@@ -19,14 +19,14 @@ sockets.adapter(redis({
     host: '127.0.0.1',
     port: 6379
 }));
-
 const io = require('socket.io-emitter')({
     host: '127.0.0.1',
     port: 6379
 });
-// setInterval(function() {
-//     io.emit('chat', new Date);
-// }, 30000);
+
+setInterval(function() {
+    io.emit('chat', new Date);
+}, 1000);
 
 //在线用户
 var onlineUsers = {};
@@ -54,6 +54,12 @@ sockets.on('connection', function (socket) {
         console.log(data);
         data.time = parseInt(moment() / 1000)
         db.chat.create(data)
+        socket.emit('chat', data);
+        socket.broadcast.emit('chat', data);
+    });
+    socket.on('system', function (data) {
+        console.log(data);
+        data.time = parseInt(moment() / 1000)
         socket.emit('chat', data);
         socket.broadcast.emit('chat', data);
     });

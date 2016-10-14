@@ -36,7 +36,8 @@ Object.assign(controller, field)
 Object.assign(controller, meun)
 Object.assign(
     controller,
-    require('./api/Chat')
+    require('./api/Chat'),
+    require('./api/Topic'),
 )
 
 module.exports = controller

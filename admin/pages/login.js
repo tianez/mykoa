@@ -27,7 +27,7 @@ class Login extends React.Component {
     }
     _onSubmit(e) {
         e.preventDefault();
-        postfetch('api', this.state)
+        postfetch('api', this.state.info)
             .then(function (res) {
                 if (res) {
                     Rd.config('token', res.token)

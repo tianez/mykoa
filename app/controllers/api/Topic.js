@@ -2,25 +2,23 @@
 
 const db = require('../../model/db')
 
-async function getChats(ctx, next) {
+async function getTopics(ctx, next) {
     let limit = ctx.query.limit || 2
     let page = ctx.query.page || 1
     let offset = limit * (page - 1)
-    let data = await db.chat.findAll({
-        // attributes: ['module'],
-        // group: ['module']
+    let data = await db.topic.findAll({
         offset: offset,
         limit: limit,
     })
-    let total = await db.chat.count()
+    let total = await db.topic.count()
     let last_page = parseInt(total / limit)
     let thead = {
         id: 'ID',
-        content: '评论内容',
-        username: '用户名'
+        title: '标题',
+        content: '内容'
     }
     ctx.body = JSON.stringify({
-        title: '评论管理',
+        title: '直播管理',
         data: data,
         thead: thead,
         total: total,
@@ -29,35 +27,35 @@ async function getChats(ctx, next) {
     })
 }
 
-async function addChat(ctx, next) {
+async function addTopic(ctx, next) {
     let fields = await db.field.findAll({
         where: {
-            module: 'chat'
+            module: 'topic'
         }
     })
     ctx.body = JSON.stringify({
-        title: '新增评论',
+        title: '新增话题',
         fields: fields,
         info: {}
     })
 }
 
-async function postChat(ctx, next) {
+async function postTopic(ctx, next) {
     let data = ctx.request.fields
-    let user = await db.chat.create(data)
+    let user = await db.topic.create(data)
     ctx.body = JSON.stringify({
-        title: '新增评论',
+        msg: '新增成功！',
         user: user
     })
 }
 
-async function getChat(ctx, next) {
+async function getTopic(ctx, next) {
     let fields = await db.field.findAll({
         where: {
-            module: 'chat'
+            module: 'topic'
         }
     })
-    let data = await db.chat.findOne({
+    let data = await db.topic.findOne({
         where: {
             id: ctx.params.id
         }
@@ -69,21 +67,35 @@ async function getChat(ctx, next) {
     })
 }
 
-async function deleteChat(ctx, next) {
-    let data = await db.chat.destroy({
+async function postDetail(ctx, next) {
+    console.log(ctx.request.fields);
+
+    let data = await db.topic.update(ctx.request.fields, {
+        where: {
+            id: ctx.request.fields.id
+        }
+    })
+    ctx.body = JSON.stringify({
+        msg: '保存成功！'
+    })
+}
+
+async function deleteTopic(ctx, next) {
+    let data = await db.topic.destroy({
         where: {
             id: ctx.params.id
         }
     })
     ctx.body = JSON.stringify({
-        title: '删除评论'
+        msg: '删除成功！'
     })
 }
 
 module.exports = {
-    getChats: getChats,
-    getChat: getChat,
-    addChat: addChat,
-    postChat: postChat,
-    deleteChat: deleteChat
+    getTopics: getTopics,
+    getTopic: getTopic,
+    addTopic: addTopic,
+    postTopic: postTopic,
+    deleteTopic: deleteTopic,
+    postDetail: postDetail
 }

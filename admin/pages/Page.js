@@ -62,7 +62,7 @@ class Page extends React.Component {
             page
         } = this.props.params
         let requrl = page == 'add' ? pages + '/add' : pages + '/detail'
-        postfetch(requrl, this.state.info)
+        postfetch('api/' + requrl, this.state.info)
             .then(function (res) {
                 if (page == 'add') {
                     this.props.history.pushState(null, 'api/' + pages + '/' + res.info.id)

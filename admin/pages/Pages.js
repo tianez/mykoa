@@ -36,7 +36,7 @@ const Pages = React.createClass({
             .then(function (res) {
                 console.log(res);
                 Rd.config('title', res.title)
-                Rd.pagedata(res) 
+                Rd.pagedata(res)
                 let items = []
                 this.setState({
                     items: items.concat(res.data),
@@ -146,7 +146,7 @@ const Pages = React.createClass({
         let id = e.target.id
         id = id.split("_")
         id = id[1]
-        let url = this.props.params.pages + '/delete/' + id
+        let url = 'api/' + this.props.params.pages + '/delete/' + id
         getfetch(url).then(function (res) {
             this.componentDidMount()
             Rd.message(res.msg)
@@ -276,7 +276,7 @@ const Pages = React.createClass({
                         list
                     )
                 ),
-                // React.createElement(Pagination)
+                React.createElement(Pagination)
             )
         )
     }

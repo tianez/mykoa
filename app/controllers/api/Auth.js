@@ -14,15 +14,13 @@ const TokenConfig = {
  * 创建token
  */
 async function CreateToken(ctx, next) {
-    // console.log(moment().format("YYYY-MM-DD H:mm:ss"));
-    // let users = await new Db('users').where({
-    //     id: 1
-    // }).get();
     let user = await db.user.findOne({
         where: {
             username: ctx.request.fields.username
         }
     })
+    console.log(user);
+    
     if (!user) {
         ctx.status = 404
         ctx.body = '该用户不存在'

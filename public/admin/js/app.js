@@ -9052,9 +9052,9 @@
 	        value: function render() {
 	            var i = 1;
 	            var prev = 4;
-	            var total = this.props.page.total || 0;
-	            var last_page = this.props.page.last_page || 0;
-	            var current_page = this.props.page.current_page || '';
+	            var total = this.props.total || 0;
+	            var last_page = this.props.last_page || 0;
+	            var current_page = this.props.current_page || '';
 	            var items = [];
 	            if (prev > last_page + 1) {
 	                prev = last_page + 1;
@@ -9139,7 +9139,9 @@
 
 	module.exports = connect(function (state) {
 	    return {
-	        page: state.pagedata.pages,
+	        total: state.pagedata.total,
+	        last_page: state.pagedata.last_page,
+	        current_page: state.pagedata.current_page,
 	        query: state.routing.locationBeforeTransitions.query,
 	        url: state.routing.locationBeforeTransitions.pathname
 	    };
@@ -11867,7 +11869,7 @@
 	        var id = e.target.id;
 	        id = id.split("_");
 	        id = id[1];
-	        var url = this.props.params.pages + '/delete/' + id;
+	        var url = 'api/' + this.props.params.pages + '/delete/' + id;
 	        getfetch(url).then(function (res) {
 	            this.componentDidMount();
 	            Rd.message(res.msg);
@@ -11954,7 +11956,7 @@
 	            style: {
 	                width: '100%'
 	            }
-	        }, this._thead(), React.createElement("tbody", null, list)));
+	        }, this._thead(), React.createElement("tbody", null, list)), React.createElement(Pagination));
 	    }
 	});
 
@@ -12053,7 +12055,7 @@
 	            var page = _props$params2.page;
 
 	            var requrl = page == 'add' ? pages + '/add' : pages + '/detail';
-	            postfetch(requrl, this.state.info).then(function (res) {
+	            postfetch('api/' + requrl, this.state.info).then(function (res) {
 	                if (page == 'add') {
 	                    this.props.history.pushState(null, 'api/' + pages + '/' + res.info.id);
 	                }
@@ -12220,7 +12222,7 @@
 	        key: '_onSubmit',
 	        value: function _onSubmit(e) {
 	            e.preventDefault();
-	            postfetch('api', this.state).then(function (res) {
+	            postfetch('api', this.state.info).then(function (res) {
 	                if (res) {
 	                    Rd.config('token', res.token);
 	                    localStorage.token = res.token;

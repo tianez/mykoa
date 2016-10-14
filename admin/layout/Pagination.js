@@ -40,9 +40,9 @@ class Pagination extends React.Component {
     render() {
         let i = 1
         let prev = 4
-        let total = this.props.page.total || 0
-        let last_page = this.props.page.last_page || 0
-        let current_page = this.props.page.current_page || ''
+        let total = this.props.total || 0
+        let last_page = this.props.last_page || 0
+        let current_page = this.props.current_page || ''
         let items = []
         if (prev > last_page + 1) {
             prev = last_page + 1
@@ -116,11 +116,11 @@ class Pagination extends React.Component {
         }
         return (
             React.createElement("nav", {
-                className: 'pure-menu pure-menu-open pure-menu-horizontal'
-            },
-                React.createElement("ul", {
-                    className: "pure-paginator"
+                    className: 'pure-menu pure-menu-open pure-menu-horizontal'
                 },
+                React.createElement("ul", {
+                        className: "pure-paginator"
+                    },
                     React.createElement("li", {},
                         React.createElement("span", {
                             className: 'pure-button',
@@ -141,7 +141,9 @@ class Pagination extends React.Component {
 
 module.exports = connect(
     state => ({
-        page: state.pagedata.pages,
+        total: state.pagedata.total,
+        last_page: state.pagedata.last_page,
+        current_page: state.pagedata.current_page,
         query: state.routing.locationBeforeTransitions.query,
         url: state.routing.locationBeforeTransitions.pathname,
     })
