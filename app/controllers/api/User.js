@@ -3,7 +3,7 @@
 const db = require('../../model/db')
 
 async function getDetail(ctx, next) {
-    let fields = await db.field.findAll({
+    let fields = await db.fields.findAll({
         where: {
             module: 'user'
         }

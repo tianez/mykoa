@@ -55,7 +55,6 @@ module.exports = db = {
 
 }
 
-
 // db.user.sync({
 //     force: true
 // }).then(create);

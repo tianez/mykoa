@@ -51,6 +51,10 @@ const theads = {
         display_name: '用户组名称',
         status: '状态'
     },
+    article: {
+        id: 'ID',
+        title: '文章标题'
+    },
     category: {
         id: 'ID',
         name: '分类名称',
@@ -68,6 +72,7 @@ const titles = {
     meuns: '菜单',
     permissions: '权限',
     roles: '用户组',
+    article: '文章',
     category: '分类'
 }
 
@@ -149,7 +154,7 @@ async function getDetail(ctx, next) {
         }
     })
     ctx.body = JSON.stringify({
-        title: '评论管理',
+        title: titles[module] + '编辑',
         fields: fields,
         info: data
     })
