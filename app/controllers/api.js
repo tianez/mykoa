@@ -27,7 +27,8 @@ Object.assign(
     require('./api/Field'),
     require('./api/Meun'),
     require('./api/Chat'),
-    require('./api/Base')
+    require('./api/Base'),
+    require('./api/User'),
 )
 
 module.exports = controller

@@ -132,6 +132,13 @@ class Login extends React.Component {
                             maxLength: 11,
                             onChange: this._onChangeUsername.bind(this)
                         }),
+                        title == '注册' ? React.createElement('div', {
+                            style:{
+                                color:'#666',
+                                fontSize:'1.2rem',
+                                padding: '.5rem'
+                            }
+                        },'请填写真实手机号码，该号码将抽奖所用。') : null,
                         React.createElement('input', {
                             type: 'password',
                             className: 'input',

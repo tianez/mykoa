@@ -49,6 +49,10 @@ router.get('/meun', apicontroller.getMeun);
 
 router.post('/upload', apicontroller.postUpload);
 
+router.get('/user/detail/:id', apicontroller.getUser);
+router.post('/user/detail', apicontroller.updateUser);
+
+
 router.get('/:module', apicontroller.getList);
 router.get('/:module/add', apicontroller.getAdd);
 router.post('/:module/add', apicontroller.postAdd);
