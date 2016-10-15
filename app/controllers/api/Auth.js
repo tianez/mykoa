@@ -16,21 +16,21 @@ const jwtConfig = {
  * 创建token
  */
 async function createToken(ctx, next) {
-    if (ctx.request.fields.username != 'admin') {
-        ctx.status = 401
-        ctx.body = '你无权访问该页面'
-        return
-    }
+    // if (ctx.request.fields.username != 'admin') {
+    //     ctx.status = 401
+    //     ctx.body = '你无权访问该页面'
+    //     return
+    // }
     let user = await db.user.findOne({
         where: {
             username: ctx.request.fields.username
         }
     })
     if (!user) {
-        ctx.status = 404
+        ctx.status = 401
         ctx.body = '该用户不存在'
     } else if (user.password != cryptopassword(ctx.request.fields.password)) {
-        ctx.status = 403
+        ctx.status = 401
         ctx.body = '用户名或密码错误！'
     } else {
         ctx.body = JSON.stringify(user)
@@ -51,7 +51,6 @@ async function createToken(ctx, next) {
             token: token
         })
     }
-
 }
 
 async function getToken(ctx, next) {
@@ -72,7 +71,6 @@ async function removeToken(ctx, next) {
     } else if (ctx.cookies.get('token')) {
         token = ctx.cookies.get('token')
     }
-    console.log('当前token：' + token);
     let redistoken = await redis.get(token)
     if (redistoken) {
         await redis.del(token)
@@ -101,11 +99,10 @@ async function authToken(ctx, next) {
         try {
             let decoded = jwt.verify(token, jwtConfig.key);
             let curtime = parseInt(moment() / 1000)
-            if (decoded.expre < curtime) {
+            if ((decoded.exp - curtime) < jwtConfig.expre) {
                 await redis.del(token)
                 delete decoded.iat
                 decoded.exp = curtime + jwtConfig.exp
-                decoded.expre = curtime + jwtnConfig.expre
                 let newtoken = jwt.sign(decoded, jwtConfig.key);
                 await redis.set(newtoken, true, jwtConfig.exp)
                 ctx.set({
@@ -125,7 +122,7 @@ async function authToken(ctx, next) {
         ctx.status = 401;
         ctx.type = 'json';
         ctx.body = JSON.stringify({
-            error: '你没有权限访问该页面'
+            error: '你没没有登陆或登陆超时，请重新登陆！'
         })
     }
 }

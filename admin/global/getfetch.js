@@ -96,7 +96,6 @@ export function postfetch2(url, data = {}, query = {}, ) {
         request
             .post(url)
             .query(query)
-            // .set('Content-Type', 'application/json; charset=utf-8')
             .set('token', localStorage.token)
             .send(data)
             .end(function (err, res) {
@@ -119,7 +118,4 @@ function catchs2(err) {
     } catch (err) {
         Rd.message(err.status + '错误！' + err.text)
     }
-    // let req = JSON.parse(err.text)
-    // Rd.message(err.status + '错误！' + req.error)
-    // Rd.message(err.status + '错误！' + err.text)
 }

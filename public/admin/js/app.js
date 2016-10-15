@@ -6713,9 +6713,7 @@
 	    var query = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
 	    return new Promise(function (resolve, reject) {
-	        request.post(url).query(query)
-	        // .set('Content-Type', 'application/json; charset=utf-8')
-	        .set('token', localStorage.token).send(data).end(function (err, res) {
+	        request.post(url).query(query).set('token', localStorage.token).send(data).end(function (err, res) {
 	            if (res.ok) {
 	                if (res.headers.token) {
 	                    localStorage.token = res.headers.token;
@@ -6735,9 +6733,6 @@
 	    } catch (err) {
 	        Rd.message(err.status + '错误！' + err.text);
 	    }
-	    // let req = JSON.parse(err.text)
-	    // Rd.message(err.status + '错误！' + req.error)
-	    // Rd.message(err.status + '错误！' + err.text)
 	}
 
 /***/ },
