@@ -4,9 +4,9 @@
 // const ReactRouter = require('react-router');
 // import './less/style.less' //webpack编译时导入
 require('./global')
- 
+
 //应用中间件
-import { 
+import {
     createStore,
     applyMiddleware
 } from 'redux'
@@ -18,7 +18,7 @@ window.store = createStoreWithLog(reducer)
 store.subscribe(() => {
     let state = store.getState()
     console.log(state);
-    
+
     window.document.title = state.config.title
 })
 
@@ -41,19 +41,14 @@ function render() {
         document.getElementById('app')
     )
 }
-
+ 
 function Init() {
     getfetch("api")
         .then(function (res) {
-            if (res) {
-                Rd.config('token', res.token)
-            } else {
-                Rd.config('token', null)
-            }
             render()
         }).catch(function (err) {
             console.log("Fetch错误:" + err);
-        });
+        })
 }
 
 Init()

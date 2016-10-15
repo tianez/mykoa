@@ -27,10 +27,9 @@ class Login extends React.Component {
     }
     _onSubmit(e) {
         e.preventDefault();
-        postfetch('api', this.state.info)
+        postfetch('api/createtoken', this.state.info)
             .then(function (res) {
                 if (res) {
-                    Rd.config('token', res.token)
                     localStorage.token = res.token
                     this.props.history.pushState(null, '/')
                 }

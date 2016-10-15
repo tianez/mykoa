@@ -94,11 +94,6 @@
 
 	function Init() {
 	    getfetch("api").then(function (res) {
-	        if (res) {
-	            Rd.config('token', res.token);
-	        } else {
-	            Rd.config('token', null);
-	        }
 	        render();
 	    }).catch(function (err) {
 	        console.log("Fetch错误:" + err);
@@ -8488,8 +8483,7 @@
 
 	function onEnter(nextState, replace) {
 	    var pathname = nextState.location.pathname;
-	    var state = store.getState();
-	    var token = state.config.token;
+	    var token = localStorage.token;
 	    console.log(token);
 	    if (!token && pathname !== 'login' && pathname !== '/login') {
 	        Rd.message('你还没有登录，请先登录！');
@@ -11653,7 +11647,10 @@
 	            title: this.props.title,
 	            help: this.state.help
 	        }, React.createElement(Calendar, {
-	            onChange: this._onChange
+	            onChange: this._onChange,
+	            style: {
+	                width: '281px'
+	            }
 	        }));
 	    }
 	});
@@ -27961,9 +27958,8 @@
 	        key: '_onSubmit',
 	        value: function _onSubmit(e) {
 	            e.preventDefault();
-	            postfetch('api', this.state.info).then(function (res) {
+	            postfetch('api/createtoken', this.state.info).then(function (res) {
 	                if (res) {
-	                    Rd.config('token', res.token);
 	                    localStorage.token = res.token;
 	                    this.props.history.pushState(null, '/');
 	                }
@@ -28043,8 +28039,8 @@
 	    _createClass(Logout, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            getfetch('admin/logout').then(function (res) {
-	                Rd.user('');
+	            getfetch('api/removetoken').then(function (res) {
+	                localStorage.removeItem('token');
 	                this.props.history.pushState(null, 'login');
 	            }.bind(this));
 	        }

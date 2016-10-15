@@ -5,9 +5,9 @@ class Logout extends React.Component {
         super()
     }
     componentDidMount() {
-        getfetch('admin/logout')
+        getfetch('api/removetoken')
             .then(function (res) {
-                Rd.user('')
+                localStorage.removeItem('token')
                 this.props.history.pushState(null, 'login')
             }.bind(this))
     }

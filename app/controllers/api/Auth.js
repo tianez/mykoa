@@ -4,10 +4,12 @@ const moment = require('moment')
 const jwt = require('jsonwebtoken')
 const cache = require('memory-cache');
 const db = require('../../model/db')
+const redis = require('../../lib/redis')
 const cryptopassword = require('../../middleware/password');
-const TokenConfig = {
+const jwtConfig = {
     exp: 3600 * 3, //过期时间
-    expre: 3600 * 2 //刷新时间
+    expre: 3600 * 2, //刷新时间
+    key: 'shhhhh', //加密key
 }
 
 /**
@@ -37,10 +39,10 @@ async function createToken(ctx, next) {
             username: user.username
         }
         let curtime = parseInt(moment() / 1000)
-        data.exp = curtime + TokenConfig.exp
-        data.expre = curtime + TokenConfig.expre
-        let token = jwt.sign(data, 'shhhhh');
-        cache.put(token, true, curtime + 3600);
+        data.exp = curtime + jwtConfig.exp
+        let token = jwt.sign(data, jwtConfig.key);
+        await redis.set(token, true, jwtConfig.exp)
+            // cache.put(token, true, curtime + 3600);
         ctx.type = 'json';
         ctx.set({
             token: token
@@ -71,8 +73,9 @@ async function removeToken(ctx, next) {
         token = ctx.cookies.get('token')
     }
     console.log('当前token：' + token);
-    if (cache.get(token)) {
-        cache.del(token)
+    let redistoken = await redis.get(token)
+    if (redistoken) {
+        await redis.del(token)
     }
     ctx.body = JSON.stringify({
         msg: '登出成功！'
@@ -93,17 +96,18 @@ async function authToken(ctx, next) {
     } else if (ctx.cookies.get('token')) {
         token = ctx.cookies.get('token')
     }
-    if (cache.get(token)) {
+    let redistoken = await redis.get(token)
+    if (redistoken) {
         try {
-            let decoded = jwt.verify(token, 'shhhhh');
+            let decoded = jwt.verify(token, jwtConfig.key);
             let curtime = parseInt(moment() / 1000)
             if (decoded.expre < curtime) {
-                cache.del(token)
+                await redis.del(token)
                 delete decoded.iat
-                decoded.exp = curtime + TokenConfig.exp
-                decoded.expre = curtime + TokenConfig.expre
-                let newtoken = jwt.sign(decoded, 'shhhhh');
-                cache.put(token, true, curtime + TokenConfig.exp);
+                decoded.exp = curtime + jwtConfig.exp
+                decoded.expre = curtime + jwtnConfig.expre
+                let newtoken = jwt.sign(decoded, jwtConfig.key);
+                await redis.set(newtoken, true, jwtConfig.exp)
                 ctx.set({
                     token: newtoken
                 })

@@ -9,8 +9,7 @@ const { Nomatch, Home, Drag, ApiCloudsIndex, ApiClouds, ApiCloud, Pages, Page, L
 
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
-    let state = store.getState()
-    let token = state.config.token
+    let token = localStorage.token
     console.log(token);
     if (!token && pathname !== 'login' && pathname !== '/login') {
         Rd.message('你还没有登录，请先登录！')

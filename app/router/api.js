@@ -15,14 +15,14 @@ router.all('*', async(ctx, next) => {
 })
 
 router.options('*', async(ctx, next) => {
-    ctx.status = 204
+    ctx.status = 204 
 })
 
 router.post('/', apicontroller.createToken);
 router.post('/createtoken', apicontroller.createToken);
 router.get('/removetoken', apicontroller.removeToken);
 
-// router.all('*', apicontroller.authToken)
+router.all('*', apicontroller.authToken)
 
 router.get('/', apicontroller.getToken);
 router.get('/getToken', apicontroller.getToken);
