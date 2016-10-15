@@ -39,17 +39,20 @@ sequelize.authenticate()
 let db
 module.exports = db = {
     user: sequelize.import("./db_users"),
-    role: sequelize.import("./role"),
-    permission: sequelize.import("./permission"),
+    roles: sequelize.import("./db_roles"),
+    permissions: sequelize.import("./db_permissions"),
     user_role: sequelize.import("./user_role"),
     role_permission: sequelize.import("./role_permission"),
-    field: sequelize.import("./db_fields"),
-    article: sequelize.import("./article"),
-    meun: sequelize.import("./meun"),
-    chat: sequelize.import("./chat"),
+    fields: sequelize.import("./db_fields"),
+    meun: sequelize.import("./db_meun"),
+    meuns: sequelize.import("./db_meun"),
+    chat: sequelize.import("./db_chat"),
     topic: sequelize.import("./db_topic"),
     config: sequelize.import("./db_config"),
     chat_win: sequelize.import("./db_chat_win"),
+    article: sequelize.import("./db_article"),
+    category: sequelize.import("./db_category"),
+
 }
 
 

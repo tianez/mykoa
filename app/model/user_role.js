@@ -1,14 +1,18 @@
 'use strict'
-let Configuration = require('./Configuration')
 
 module.exports = function (sequelize, DataTypes) {
-    return sequelize.define('user_role', {
-            user_id: DataTypes.INTEGER,
-            role_id: DataTypes.INTEGER
+    return sequelize.define('db_role_user', {
+        user_id: {
+            type: DataTypes.INTEGER(10),
+            allowNull: false,
+            primaryKey: true
         },
-        Object.assign(Configuration, {
-            comment: '用户与用户组关系表',
-            tableName: 'koa_user_role'
-        })
-    )
+        role_id: {
+            type: DataTypes.INTEGER(10),
+            allowNull: false,
+            primaryKey: true
+        }
+    }, {
+        tableName: 'db_role_user'
+    })
 }

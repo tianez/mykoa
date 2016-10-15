@@ -26,7 +26,36 @@ const theads = {
         id: 'ID',
         phone: '获奖电话',
         created_at: '获奖时间'
-    }
+    },
+    fields: {
+        id: 'ID',
+        key: '字段key',
+        name: '字段名称',
+        type: '字段类型',
+        module: '所属模块'
+    },
+    meuns: {
+        id: 'ID',
+        link: '链接地址',
+        title: '链接标题'
+    },
+    permissions: {
+        id: 'ID',
+        name: '权限key',
+        display_name: '权限名称',
+        group: '权限分组'
+    },
+    roles: {
+        id: 'ID',
+        name: '用户组key',
+        display_name: '用户组名称',
+        status: '状态'
+    },
+    category: {
+        id: 'ID',
+        name: '分类名称',
+        status: '状态'
+    },
 }
 
 const titles = {
@@ -34,23 +63,35 @@ const titles = {
     user: '用户',
     topic: '直播话题',
     chat: '评论',
-    chat_win: '获奖名单'
+    chat_win: '获奖名单',
+    fields: '字段',
+    meuns: '菜单',
+    permissions: '权限',
+    roles: '用户组',
+    category: '分类'
 }
 
 async function getList(ctx, next) {
     let module = ctx.params.module
     let cdb = db[module]
-    let limit = ctx.query.limit || 20
+    let limit = ctx.query.limit || 15
     let page = ctx.query.page || 1
     let offset = limit * (page - 1)
+    let query = Object.assign({}, ctx.query)
+    delete query.limit
+    delete query.page
+    delete query.order
     let data = await cdb.findAll({
+        where: query,
         offset: offset,
         limit: limit,
         order: [
             ['id', 'DESC']
         ]
     })
-    let total = await cdb.count()
+    let total = await cdb.count({
+        where: query
+    })
     let last_page = Math.ceil(total / limit)
     let thead = theads[module]
     let title = titles[module]
@@ -66,7 +107,7 @@ async function getList(ctx, next) {
 
 async function getAdd(ctx, next) {
     let module = ctx.params.module
-    let fields = await db.field.findAll({
+    let fields = await db.fields.findAll({
         where: {
             module: module
         },
@@ -94,7 +135,7 @@ async function postAdd(ctx, next) {
 
 async function getDetail(ctx, next) {
     let module = ctx.params.module
-    let fields = await db.field.findAll({
+    let fields = await db.fields.findAll({
         where: {
             module: module
         },

@@ -24,9 +24,8 @@ let controller = {
 Object.assign(
     controller,
     require('./api/Auth'),
-    require('./api/Field'),
+    // require('./api/Field'),
     require('./api/Meun'),
-    require('./api/Chat'),
     require('./api/Base'),
     require('./api/User'),
 )

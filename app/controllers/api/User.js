@@ -16,7 +16,7 @@ async function getDetail(ctx, next) {
     })
     delete data.password
     ctx.body = JSON.stringify({
-        title: '评论管理',
+        title: '编辑用户',
         fields: fields,
         info: data
     })
