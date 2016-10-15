@@ -30,15 +30,20 @@ async function chat() {
         });
 }
 
+const io = require('socket.io-emitter')({
+    host: '127.0.0.1',
+    port: 6379
+});
 router.get('/dd', async(ctx, next) => {
-
+    io.emit('system', '1111111')
     let chat2 = await chat()
 
-    console.log(chat2);
-    ctx.throw(400, 'name required')
-    ctx.render('home', {
-        username: 'James'
-    });
+    // console.log(chat2);
+    // ctx.throw(400, 'name required')
+    ctx.body = '1111111133331'
+    // ctx.render('home', {
+    //     username: 'James'
+    // });
 });
 
 module.exports = router;

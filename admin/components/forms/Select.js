@@ -60,7 +60,7 @@ class Select extends React.Component {
         super(props)
         let options = []
         if (!this.props.f_ext) {
-            options = this.props.f_options
+            options = this.props.options
             if (typeof options == "string") {
                 options = JSON.parse(options)
             }
@@ -204,11 +204,11 @@ class Select extends React.Component {
         )
     }
 }
-Select.defaultProps = {
+Select.defaultProps = { 
     title: '单选框',
     type: 'radio',
     value: 2,
-    f_options: [{
+    options: [{
         title: '选项1',
         value: 1
     }, {

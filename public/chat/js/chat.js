@@ -25,6 +25,11 @@ socket.on('nopass', function (data) {
     alert('你的发言有敏感词！')
 });
 
+socket.on('system', function (data) {
+    console.log(data);
+    
+});
+
 socket.on('userconnected', function (data) {
     // Rd.comment({
     //     chat: data

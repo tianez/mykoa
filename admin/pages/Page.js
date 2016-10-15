@@ -99,12 +99,12 @@ class Page extends React.Component {
                 if (info[ds.key] || info[ds.key] == 0) {
                     d.value = info[ds.key]
                 } else {
-                    d.value = ds.f_default || ''
+                    d.value = ds.default || ''
                 }
-                if (ds.f_options) {
-                    d.f_options = ds.f_options
+                if (ds.options) {
+                    d.options = ds.options
                 }
-                d.f_ext = ds.f_ext
+                d.ext = ds.ext
                 d.key = ds.key
                 d.name = ds.key
                 d.type = ds.type

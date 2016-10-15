@@ -69,7 +69,10 @@ async function getAdd(ctx, next) {
     let fields = await db.field.findAll({
         where: {
             module: module
-        }
+        },
+        order: [
+            ['order', 'ASC']
+        ]
     })
     ctx.body = JSON.stringify({
         title: '新增' + titles[module],
@@ -94,7 +97,10 @@ async function getDetail(ctx, next) {
     let fields = await db.field.findAll({
         where: {
             module: module
-        }
+        },
+        order: [
+            ['order', 'ASC']
+        ]
     })
     let data = await db[module].findOne({
         where: {

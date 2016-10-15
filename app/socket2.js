@@ -19,7 +19,7 @@ sockets.adapter(redis({
 
 const io = require('socket.io-emitter')({
     host: '127.0.0.1',
-    port: 6379
+    port: 6379 
 });
 // setInterval(function() {
 //     io.emit('chat', new Date);
