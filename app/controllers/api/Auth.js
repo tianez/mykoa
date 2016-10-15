@@ -98,6 +98,7 @@ async function authToken(ctx, next) {
     if (redistoken) {
         try {
             let decoded = jwt.verify(token, jwtConfig.key);
+            ctx.jwtdecoded = decoded
             let curtime = parseInt(moment() / 1000)
             if ((decoded.exp - curtime) < jwtConfig.expre) {
                 await redis.del(token)
@@ -127,9 +128,30 @@ async function authToken(ctx, next) {
     }
 }
 
+async function authModule(ctx, next) {
+    console.log(ctx.jwtdecoded);
+    let roles = await db.user_role.findAll({
+        where: {
+            user_id: ctx.jwtdecoded.id
+        },
+        raw: true
+    })
+    let role = []
+    roles.forEach(function (ele) {
+        role.push(ele.role_id)
+    }, this);
+    console.log(role);
+    if (role.indexOf(1) > -1) {
+        return await next();
+    }
+    console.log(ctx.request.path);
+    await next();
+}
+
 module.exports = {
     createToken: createToken,
     getToken: getToken,
     removeToken: removeToken,
-    authToken: authToken
+    authToken: authToken,
+    authModule: authModule
 }

@@ -23,6 +23,7 @@ router.post('/createtoken', apicontroller.createToken);
 router.get('/removetoken', apicontroller.removeToken);
 
 router.all('*', apicontroller.authToken)
+router.all('*', apicontroller.authModule)
 
 router.get('/', apicontroller.getToken);
 router.get('/getToken', apicontroller.getToken);

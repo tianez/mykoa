@@ -13,6 +13,7 @@ module.exports = function (sequelize, DataTypes) {
             primaryKey: true
         }
     }, {
+        timestamps: false,
         tableName: 'db_role_user'
     })
 }
