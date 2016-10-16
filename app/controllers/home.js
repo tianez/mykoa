@@ -147,11 +147,12 @@ async function postUpload(ctx, next) {
 let roles = require('../data/role')
 
 async function dataimport(ctx, next) {
-    db.role.sync({
-        force: true
-    }).then(function () {
-        db.role.bulkCreate(roles)
-    })
+    // db.role.sync({
+    //     force: true
+    // }).then(function () {
+    //     db.role.bulkCreate(roles)
+    // })
+    db.sync()
     ctx.body = 'ok'
 }
 

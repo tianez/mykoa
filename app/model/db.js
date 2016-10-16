@@ -36,45 +36,42 @@ sequelize.authenticate()
         console.log('Unable to connect to the database:', err);
     });
 
-let db
-module.exports = db = {
+let db = {
+    config: sequelize.import("./db_config"),
     user: sequelize.import("./db_users"),
     roles: sequelize.import("./db_roles"),
-    permissions: sequelize.import("./db_permissions"),
     user_role: sequelize.import("./user_role"),
+    permissions: sequelize.import("./db_permissions"),
     role_permission: sequelize.import("./role_permission"),
     fields: sequelize.import("./db_fields"),
     meun: sequelize.import("./db_meun"),
     meuns: sequelize.import("./db_meun"),
-    chat: sequelize.import("./db_chat"),
     topic: sequelize.import("./db_topic"),
-    config: sequelize.import("./db_config"),
+    chat: sequelize.import("./db_chat"),
     chat_win: sequelize.import("./db_chat_win"),
     article: sequelize.import("./db_article"),
     category: sequelize.import("./db_category"),
-
 }
 
-// db.user.sync({
-//     force: true
-// }).then(create);
+db.sync = function () {
+    let option = {
+        force: true
+    }
+    db.config.sync(option)
+    db.user.sync(option)
+    db.roles.sync(option).then(function () {
+        db.roles.bulkCreate(require('../data/role'))
+    })
+    db.user_role.sync(option)
+    db.permissions.sync(option)
+    db.role_permission.sync(option)
+    db.fields.sync(option)
+    db.meun.sync(option)
+    db.topic.sync(option)
+    db.chat.sync(option)
+    db.chat_win.sync(option)
+    db.article.sync(option)
+    db.category.sync(option)
+}
 
-// db.user.sync()
-// db.permission.sync()
-// db.user_role.sync()
-// db.role_permission.sync()
-// db.field.sync({
-//     force: true
-// });
-
-// db.article.sync({
-//     force: true
-// });
-// db.meun.sync()
-
-// function create() {
-//     db.user.create({
-//         username: 'John Do2e',
-//         password: 'senior engine12121er2222'
-//     })
-// }
+module.exports = db 

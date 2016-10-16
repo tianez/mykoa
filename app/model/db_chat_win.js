@@ -18,10 +18,6 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
             defaultValue: '0'
         },
-        created_at: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
         operuser: {
             type: DataTypes.STRING,
             allowNull: true

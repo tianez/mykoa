@@ -82,14 +82,6 @@ module.exports = function (sequelize, DataTypes) {
                 allowNull: false,
                 defaultValue: '0'
             },
-            created_at: {
-                type: DataTypes.TIME,
-                allowNull: true
-            },
-            updated_at: {
-                type: DataTypes.TIME,
-                allowNull: true
-            },
             deleted_at: {
                 type: DataTypes.TIME,
                 allowNull: true

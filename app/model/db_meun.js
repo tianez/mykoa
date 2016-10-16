@@ -39,14 +39,6 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
                 defaultValue: '0'
-            },
-            created_at: {
-                type: DataTypes.TIME,
-                allowNull: true
-            },
-            updated_at: {
-                type: DataTypes.TIME,
-                allowNull: true
             }
         },
         Object.assign(Configuration, {
