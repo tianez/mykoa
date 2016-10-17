@@ -110,6 +110,9 @@ async function getList(ctx, next) {
     })
 }
 
+/**
+ * 新增页面
+ */
 async function getAdd(ctx, next) {
     let module = ctx.params.module
     let fields = await db.fields.findAll({
@@ -127,6 +130,9 @@ async function getAdd(ctx, next) {
     })
 }
 
+/**
+ * 新增数据
+ */
 async function postAdd(ctx, next) {
     let module = ctx.params.module
     let data = ctx.request.fields
@@ -137,8 +143,13 @@ async function postAdd(ctx, next) {
     })
 }
 
-
+/**
+ * 查询详情
+ */
 async function getDetail(ctx, next) {
+    if (!ctx.params.id) {
+        return ctx.body = JSON.stringify({})
+    }
     let module = ctx.params.module
     let fields = await db.fields.findAll({
         where: {
@@ -160,6 +171,9 @@ async function getDetail(ctx, next) {
     })
 }
 
+/**
+ * 更新数据
+ */
 async function updateDetail(ctx, next) {
     let module = ctx.params.module
     let data = await db[module].update(ctx.request.fields, {
@@ -172,6 +186,9 @@ async function updateDetail(ctx, next) {
     })
 }
 
+/**
+ * 删除数据
+ */
 async function getDelete(ctx, next) {
     let module = ctx.params.module
     let data = await db[module].destroy({

@@ -8,15 +8,15 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
-    category_name: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    category_ico: {
+    ico: {
       type: DataTypes.STRING,
       allowNull: true
     },
-    category_des: {
+    description: {
       type: DataTypes.TEXT,
       allowNull: true
     },

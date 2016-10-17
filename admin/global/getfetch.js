@@ -85,6 +85,9 @@ export function getfetch2(url, query = {}) {
                     }
                     resolve(JSON.parse(res.text))
                 } else {
+                    if (res.headers.token) {
+                        localStorage.token = res.headers.token
+                    } 
                     reject(err.response);
                 }
             })

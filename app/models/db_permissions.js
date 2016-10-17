@@ -20,6 +20,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true
     },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: '0'
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: true

@@ -6,7 +6,6 @@ const router = require('koa-router')({
 
 const apicontroller = require('../controllers/api');
 
-
 router.all('*', async(ctx, next) => {
     ctx.set("Access-Control-Allow-Origin", "*");
     ctx.set("Access-Control-Allow-Headers", "x-requested-with,content-type,token");
@@ -28,15 +27,12 @@ router.all('*', apicontroller.authModule)
 router.get('/', apicontroller.getToken);
 router.get('/getToken', apicontroller.getToken);
 
-
 router.get('/meun', apicontroller.getMeun);
-
 
 router.post('/upload', apicontroller.postUpload);
 
 router.get('/user/detail/:id', apicontroller.getUser);
 router.post('/user/detail', apicontroller.updateUser);
-
 
 router.get('/:module', apicontroller.getList);
 router.get('/:module/add', apicontroller.getAdd);

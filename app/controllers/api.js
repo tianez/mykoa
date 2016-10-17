@@ -23,11 +23,11 @@ let controller = {
 
 Object.assign(
     controller,
-    require('./api/Auth'),
+    require('./api/AuthController'),
     // require('./api/Field'),
     require('./api/Meun'),
-    require('./api/Base'),
-    require('./api/User'),
+    require('./api/BaseController'),
+    require('./api/UserController'),
 )
 
 module.exports = controller

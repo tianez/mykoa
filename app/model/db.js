@@ -43,6 +43,7 @@ let db = {
     user_role: sequelize.import("./user_role"),
     permissions: sequelize.import("./db_permissions"),
     role_permission: sequelize.import("./role_permission"),
+    role_permissions: sequelize.import("./sp_role_permissions"),
     fields: sequelize.import("./db_fields"),
     meun: sequelize.import("./db_meun"),
     meuns: sequelize.import("./db_meun"),
@@ -74,4 +75,4 @@ db.sync = function () {
     db.category.sync(option)
 }
 
-module.exports = db 
+module.exports = db

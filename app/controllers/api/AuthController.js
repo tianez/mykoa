@@ -42,7 +42,6 @@ async function createToken(ctx, next) {
         data.exp = curtime + jwtConfig.exp
         let token = jwt.sign(data, jwtConfig.key);
         await redis.set(token, true, jwtConfig.exp)
-            // cache.put(token, true, curtime + 3600);
         ctx.type = 'json';
         ctx.set({
             token: token
@@ -62,6 +61,9 @@ async function getToken(ctx, next) {
     })
 }
 
+/**
+ * 退出登陆，销毁token
+ */
 async function removeToken(ctx, next) {
     let token
     if (ctx.query.token) {
@@ -122,12 +124,18 @@ async function authToken(ctx, next) {
     } else {
         ctx.status = 401;
         ctx.type = 'json';
+        ctx.set({
+            token: null
+        })
         ctx.body = JSON.stringify({
             error: '你没没有登陆或登陆超时，请重新登陆！'
         })
     }
 }
 
+/**
+ * 验证具体模块权限
+ */
 async function authModule(ctx, next) {
     console.log(ctx.jwtdecoded);
     let roles = await db.user_role.findAll({
@@ -141,10 +149,28 @@ async function authModule(ctx, next) {
         role.push(ele.role_id)
     }, this);
     console.log(role);
-    if (role.indexOf(1) > -1) {
-        return await next();
-    }
+    // if (role.indexOf(1) > -1) { //如果是超级管理员（用户组id=1），则越过后面的权限验证
+    //     return await next();
+    // }
+    let p = await db.role_permissions.findAll({
+        where: {
+            role_id: {
+                $in: role
+            }
+        },
+        raw: true
+    })
+    console.log(p);
     console.log(ctx.request.path);
+    console.log(ctx.method);
+    let method = ctx.method
+    let params = ctx.request.path.split('/')
+    console.log(params);
+    let action = method + params[2]
+    if (params[3]) {
+        action += '/' + params[3]
+    }
+    console.log(action.toLowerCase());
     await next();
 }
 

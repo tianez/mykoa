@@ -6702,6 +6702,9 @@
 	                }
 	                resolve(JSON.parse(res.text));
 	            } else {
+	                if (res.headers.token) {
+	                    localStorage.token = res.headers.token;
+	                }
 	                reject(err.response);
 	            }
 	        });
@@ -8479,13 +8482,22 @@
 	function onEnter(nextState, replace) {
 	    var pathname = nextState.location.pathname;
 	    var token = localStorage.token;
+
+	    console.log(pathname);
+	    if (!token || token == 'null') {
+	        token = false;
+	    } else {
+	        token = true;
+	    }
 	    console.log(token);
 	    if (!token && pathname !== 'login' && pathname !== '/login') {
 	        Rd.message('你还没有登录，请先登录！');
+	        console.log('1');
 	        replace({
 	            pathname: '/login'
 	        });
 	    } else if (token && (pathname == 'login' || pathname == '/login')) {
+	        console.log('2');
 	        replace({
 	            pathname: '/'
 	        });

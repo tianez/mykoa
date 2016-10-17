@@ -32,6 +32,10 @@ module.exports = function(sequelize, DataTypes) {
     djsj: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    updated_at: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     tableName: 'db_chat_win'

@@ -10,13 +10,22 @@ const { Nomatch, Home, Drag, ApiCloudsIndex, ApiClouds, ApiCloud, Pages, Page, L
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
     let token = localStorage.token
+    
+    console.log(pathname);
+    if(!token || token=='null'){
+        token = false
+    }else{
+        token = true
+    }
     console.log(token);
-    if (!token && pathname !== 'login' && pathname !== '/login') {
+    if ( !token && pathname !== 'login' && pathname !== '/login') {
         Rd.message('你还没有登录，请先登录！')
+        console.log('1');
         replace({
             pathname: '/login'
         })
     } else if (token && (pathname == 'login' || pathname == '/login')) {
+        console.log('2');
         replace({
             pathname: '/'
         })
