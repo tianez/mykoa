@@ -41,7 +41,7 @@ function render() {
         document.getElementById('app')
     )
 }
- 
+
 function Init() {
     getfetch("api")
         .then(function (res) {

@@ -75,9 +75,8 @@ async function home(ctx, next) {
         },
         raw: true
     })
-
     ctx.render('chat', {
-        ht: topic.content,
+        ht: topic ? topic.content : '暂无话题！',
         title: title.value,
         poster: poster.value,
         vurl: vurl.value,
