@@ -35,16 +35,7 @@ const routers = (
         React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter},
             React.createElement(IndexRedirect, { to: 'index' }),
             React.createElement(Route, { path: "index", component: Home }),
-            React.createElement(Route, { path: "drag", component: Drag }),
-            React.createElement(Route, { path: "apicloud" },
-                React.createElement(IndexRoute, { component: ApiCloudsIndex }),
-                React.createElement(Route, { path: ":clouds" },
-                    React.createElement(IndexRoute, { component: ApiClouds }),
-                    React.createElement(Route, { path: ":articleId", component: ApiCloud })
-                )
-            ),
             React.createElement(Route, { path: "api", },
-                React.createElement(IndexRoute, { component: ApiCloudsIndex }),
                 React.createElement(Redirect, { from: ':pages', to: ':pages/index' }),
                 React.createElement(Route, { path: ":pages" },
                     React.createElement(Route, { path: "index", component: Pages }),

@@ -5,10 +5,10 @@ const db = require('../../model/db')
 async function getDetail(ctx, next) {
     let fields = await db.fields.findAll({
         where: {
-            module: 'user'
+            module: 'users'
         }
     })
-    let data = await db.user.findOne({
+    let data = await db.users.findOne({
         where: {
             id: ctx.params.id
         },
@@ -27,7 +27,7 @@ async function updateDetail(ctx, next) {
     if (!data.password || !password.trim()) {
         delete data.password
     }
-    let res = await db.user.update(data, {
+    let res = await db.users.update(data, {
         where: {
             id: data.id
         }
@@ -38,6 +38,6 @@ async function updateDetail(ctx, next) {
 }
 
 module.exports = {
-    getUser: getDetail,
-    updateUser: updateDetail,
+    getUsers: getDetail,
+    updateUsers: updateDetail,
 }

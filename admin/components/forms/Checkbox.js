@@ -4,12 +4,12 @@ const classNames = require('classNames')
 const FormGroup = require('./FormGroup')
 
 const Checkbox = React.createClass({
-    getDefaultProps: function() {
+    getDefaultProps: function () {
         return {
             title: '多选框',
             type: 'checkbox',
             value: [2],
-            f_options: [{
+            options: [{
                 title: '选项1',
                 value: 0
             }, {
@@ -26,7 +26,7 @@ const Checkbox = React.createClass({
             required: 'required'
         }
     },
-    getInitialState: function() {
+    getInitialState: function () {
         let options = []
         if (!this.props.ext) {
             options = this.props.options
@@ -35,29 +35,31 @@ const Checkbox = React.createClass({
             }
         }
         let value = this.props.value
-        if (value) {
-            value = JSON.parse(value)
-        } else {
-            value = []
-        }
+        console.log(value);
+        
+        // if (value) {
+        //     value = JSON.parse(value)
+        // } else {
+        //     value = []
+        // }
         return {
             value: value,
             help: this.props.help,
             option: options
         }
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         if (this.props.ext) {
-            request.get('api/'+this.props.ext)
-                .end(function(err, res) {
-                    let data = JSON.parse(res.text)
+            getfetch("api/" + this.props.ext)
+                .then(function (res) {
+                    console.log(res);
                     this.setState({
-                        option: data
+                        option: res
                     })
                 }.bind(this))
         }
     },
-    _onChange: function(e) {
+    _onChange: function (e) {
         let type = this.props.type
         let v = e.target.value
         if (!isNaN(v)) {
@@ -73,15 +75,15 @@ const Checkbox = React.createClass({
         this.setState({
             value: value
         })
-        value = JSON.stringify(value)
+        // value = JSON.stringify(value)
         if (this.props.onChange) {
             this.props.onChange(this.props.name, value)
         }
     },
-    render: function() {
+    render: function () {
         let value = this.state.value
         let name = this.props.name
-        let options = this.state.option.map(function(d, index) {
+        let options = this.state.option.map(function (d, index) {
             let checked = ''
             if (value.indexOf(d.value) > -1) {
                 checked = ' checked'

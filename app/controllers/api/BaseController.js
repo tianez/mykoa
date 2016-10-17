@@ -8,7 +8,7 @@ const theads = {
         name: '设置名',
         value: '设置值'
     },
-    user: {
+    users: {
         id: 'ID',
         username: '用户名'
     },
@@ -64,7 +64,7 @@ const theads = {
 
 const titles = {
     config: '系统设置',
-    user: '用户',
+    users: '用户',
     topic: '直播话题',
     chat: '评论',
     chat_win: '获奖名单',

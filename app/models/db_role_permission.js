@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('db_role_permission', {
-    role_id: {
+    id: {
       type: DataTypes.INTEGER(10),
       allowNull: false,
       primaryKey: true

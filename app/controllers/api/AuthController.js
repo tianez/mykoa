@@ -137,7 +137,7 @@ async function authToken(ctx, next) {
  * 验证具体模块权限
  */
 async function authModule(ctx, next) {
-    let roles = await db.user_role.findAll({
+    let roles = await db.role_user.findAll({
         where: {
             user_id: ctx.jwtdecoded.id
         },
@@ -145,12 +145,11 @@ async function authModule(ctx, next) {
     })
     let role = []
     roles.forEach(function (ele) {
-        role.push(ele.role_id)
+        role.push(ele.id)
     }, this);
-    console.log(role);
-    // if (role.indexOf(1) > -1) { //如果是超级管理员（用户组id=1），则越过后面的权限验证
-    //     return await next();
-    // }
+    if (role.indexOf(1) > -1) { //如果是超级管理员（用户组id=1），则越过后面的权限验证
+        return await next();
+    }
     let p = await db.role_permissions.findAll({
         where: {
             role_id: {

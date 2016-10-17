@@ -9,15 +9,8 @@ async function getHome(ctx, next) {
     })
 }
 
-async function getUser(ctx, next) {
-    ctx.body = JSON.stringify({
-        users: 1111
-    })
-}
-
 let controller = {
     getHome: getHome,
-    getUser: getUser,
     postUpload: require('./api/Upload'),
 }
 
@@ -28,6 +21,7 @@ Object.assign(
     require('./api/Meun'),
     require('./api/BaseController'),
     require('./api/UserController'),
+    require('./api/PermissionsController'),
 )
 
 module.exports = controller

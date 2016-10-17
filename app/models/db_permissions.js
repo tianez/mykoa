@@ -8,9 +8,17 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true
     },
+    module: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    action: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
     display_name: {
       type: DataTypes.STRING,

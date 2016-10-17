@@ -8498,7 +8498,7 @@
 	    }
 	}
 
-	var routers = React.createElement(Router, { history: history }, React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter }, React.createElement(IndexRedirect, { to: 'index' }), React.createElement(Route, { path: "index", component: Home }), React.createElement(Route, { path: "drag", component: Drag }), React.createElement(Route, { path: "apicloud" }, React.createElement(IndexRoute, { component: ApiCloudsIndex }), React.createElement(Route, { path: ":clouds" }, React.createElement(IndexRoute, { component: ApiClouds }), React.createElement(Route, { path: ":articleId", component: ApiCloud }))), React.createElement(Route, { path: "api" }, React.createElement(IndexRoute, { component: ApiCloudsIndex }), React.createElement(Redirect, { from: ':pages', to: ':pages/index' }), React.createElement(Route, { path: ":pages" }, React.createElement(Route, { path: "index", component: Pages }), React.createElement(Route, { path: ":page", component: Page })))), React.createElement(Route, { path: "login", component: Login, onEnter: onEnter }), React.createElement(Route, { path: "logout", component: Logout }), React.createElement(Route, { path: "*", component: Nomatch }));
+	var routers = React.createElement(Router, { history: history }, React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter }, React.createElement(IndexRedirect, { to: 'index' }), React.createElement(Route, { path: "index", component: Home }), React.createElement(Route, { path: "api" }, React.createElement(Redirect, { from: ':pages', to: ':pages/index' }), React.createElement(Route, { path: ":pages" }, React.createElement(Route, { path: "index", component: Pages }), React.createElement(Route, { path: ":page", component: Page })))), React.createElement(Route, { path: "login", component: Login, onEnter: onEnter }), React.createElement(Route, { path: "logout", component: Logout }), React.createElement(Route, { path: "*", component: Nomatch }));
 
 	module.exports = routers;
 
@@ -9567,22 +9567,6 @@
 	                    info: res.info || {}
 	                });
 	            }.bind(this));
-	            // request.get("api/" + requrl)
-	            //     .end(function (err, res) {
-	            //         let msg
-	            //         if (err) {
-	            //             this.props.history.pushState(null, '/')
-	            //             msg = err.response.text
-	            //         } else {
-	            //             let data = JSON.parse(res.text);
-	            //             msg = data.msg
-	            //             this.setState({
-	            //                 title: data.title,
-	            //                 fields: data.fields,
-	            //                 info: data.info || {}
-	            //             })
-	            //         }
-	            //     }.bind(this))
 	        }
 	    }, {
 	        key: '_onSubmit',
@@ -10886,7 +10870,7 @@
 	            title: '多选框',
 	            type: 'checkbox',
 	            value: [2],
-	            f_options: [{
+	            options: [{
 	                title: '选项1',
 	                value: 0
 	            }, {
@@ -10912,11 +10896,13 @@
 	            }
 	        }
 	        var value = this.props.value;
-	        if (value) {
-	            value = JSON.parse(value);
-	        } else {
-	            value = [];
-	        }
+	        console.log(value);
+
+	        // if (value) {
+	        //     value = JSON.parse(value)
+	        // } else {
+	        //     value = []
+	        // }
 	        return {
 	            value: value,
 	            help: this.props.help,
@@ -10925,10 +10911,10 @@
 	    },
 	    componentDidMount: function componentDidMount() {
 	        if (this.props.ext) {
-	            request.get('api/' + this.props.ext).end(function (err, res) {
-	                var data = JSON.parse(res.text);
+	            getfetch("api/" + this.props.ext).then(function (res) {
+	                console.log(res);
 	                this.setState({
-	                    option: data
+	                    option: res
 	                });
 	            }.bind(this));
 	        }
@@ -10949,7 +10935,7 @@
 	        this.setState({
 	            value: value
 	        });
-	        value = JSON.stringify(value);
+	        // value = JSON.stringify(value)
 	        if (this.props.onChange) {
 	            this.props.onChange(this.props.name, value);
 	        }

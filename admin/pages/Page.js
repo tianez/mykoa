@@ -48,22 +48,6 @@ class Page extends React.Component {
                     info: res.info || {}
                 })
             }.bind(this))
-            // request.get("api/" + requrl)
-            //     .end(function (err, res) {
-            //         let msg
-            //         if (err) {
-            //             this.props.history.pushState(null, '/')
-            //             msg = err.response.text
-            //         } else {
-            //             let data = JSON.parse(res.text);
-            //             msg = data.msg
-            //             this.setState({
-            //                 title: data.title,
-            //                 fields: data.fields,
-            //                 info: data.info || {}
-            //             })
-            //         }
-            //     }.bind(this))
     }
     _onSubmit(e) {
         let {

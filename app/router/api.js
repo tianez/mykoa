@@ -6,6 +6,9 @@ const router = require('koa-router')({
 
 const apicontroller = require('../controllers/api');
 
+/**
+ * 设置响应头信息
+ */
 router.all('*', async(ctx, next) => {
     ctx.set("Access-Control-Allow-Origin", "*");
     ctx.set("Access-Control-Allow-Headers", "x-requested-with,content-type,token");
@@ -17,6 +20,13 @@ router.options('*', async(ctx, next) => {
     ctx.status = 204 
 })
 
+/**
+ * 创建token
+ * 移除token
+ * token验证
+ * 模块权限验证
+ * 获取当前token
+ */
 router.post('/', apicontroller.createToken);
 router.post('/createtoken', apicontroller.createToken);
 router.get('/removetoken', apicontroller.removeToken);
@@ -27,13 +37,30 @@ router.all('*', apicontroller.authModule)
 router.get('/', apicontroller.getToken);
 router.get('/getToken', apicontroller.getToken);
 
+/**
+ * 一些常用数据拉取
+ * 注意不要和后面的模块方法重名，否则会覆盖后面的模块方法
+ */
 router.get('/meun', apicontroller.getMeun);
+router.get('/role', apicontroller.getRole);
+
 
 router.post('/upload', apicontroller.postUpload);
+/**
+ * 权限模块编辑操作
+ */
+router.get('/permissions/detail/:id', apicontroller.getPermissions);
+router.post('/permissions/detail', apicontroller.updatePermissions);
+/**
+ * 用户模块编辑操作
+ */
+router.get('/users/detail/:id', apicontroller.getUsers);
+router.post('/users/detail', apicontroller.updateUsers);
 
-router.get('/user/detail/:id', apicontroller.getUser);
-router.post('/user/detail', apicontroller.updateUser);
-
+/**
+ * 默认系统模块操作方法
+ * 会被前面单独设置的模块方法覆盖
+ */
 router.get('/:module', apicontroller.getList);
 router.get('/:module/add', apicontroller.getAdd);
 router.post('/:module/add', apicontroller.postAdd);

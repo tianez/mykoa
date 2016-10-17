@@ -38,14 +38,13 @@ sequelize.authenticate()
 
 let db = {
     config: sequelize.import("./db_config"),
-    user: sequelize.import("./db_users"),
+    users: sequelize.import("./db_users"),
     roles: sequelize.import("./db_roles"),
-    user_role: sequelize.import("./user_role"),
+    role_user: sequelize.import("./role_user"),
     permissions: sequelize.import("./db_permissions"),
     role_permission: sequelize.import("./role_permission"),
     role_permissions: sequelize.import("./sp_role_permissions"),
     fields: sequelize.import("./db_fields"),
-    meun: sequelize.import("./db_meun"),
     meuns: sequelize.import("./db_meun"),
     topic: sequelize.import("./db_topic"),
     chat: sequelize.import("./db_chat"),
