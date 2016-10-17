@@ -56,6 +56,7 @@
     "socket.io-redis": "^1.1.1",
     "superagent": "^2.0.0",
     "wechat": "^2.0.3",
+    "wechat-api": "^1.28.1",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {

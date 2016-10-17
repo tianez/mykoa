@@ -6,29 +6,49 @@ const moment = require('moment')
 
 const xml2js = require('xml2js');
 
+const fs = require('fs');
+
 const config = {
     token: 'weixin',
     appid: 'wxe99ca8d62941e691',
     encodingAESKey: '42d505a91367458b3313082c8119af55'
 };
+const WechatAPI = require('wechat-api');
 
 async function weixin(ctx, next) {
-    let signature = ctx.query.signature
-    let timestamp = ctx.query.timestamp
-    let nonce = ctx.query.nonce
-    let echostr = ctx.query.echostr
-    let token = config.token
-    var arr = [token, timestamp, nonce];
-    arr.sort();
-    var tmpStr = arr.join('');
-    var sha1 = crypto.createHash('sha1');
-    sha1.update(tmpStr);
-    var resStr = sha1.digest('hex');
-    if (resStr === signature) {
-        ctx.body = echostr;
-    } else {
-        return false;
-    }
+    var api = new WechatAPI('appid', 'secret', function (callback) {
+        // 传入一个获取全局token的方法
+        fs.readFile('access_token.txt', 'utf8', function (err, txt) {
+            if (err) {
+                return callback(err);
+            }
+            callback(null, JSON.parse(txt));
+        });
+    }, function (token, callback) {
+        // 请将token存储到全局，跨进程、跨机器级别的全局，比如写到数据库、redis等
+        // 这样才能在cluster模式及多机情况下使用，以下为写入到文件的示例
+        fs.writeFile('access_token.txt', JSON.stringify(token), callback);
+    });
+    console.log(111);
+    ctx.body = 'sssss'
+    // let signature = ctx.query.signature
+    // let timestamp = ctx.query.timestamp
+    // let nonce = ctx.query.nonce
+    // let echostr = ctx.query.echostr
+    // ctx.body = echostr;
+    // let token = config.token
+    // var arr = [token, timestamp, nonce];
+    // arr.sort();
+    // var tmpStr = arr.join('');
+    // var sha1 = crypto.createHash('sha1');
+    // sha1.update(tmpStr);
+    // var resStr = sha1.digest('hex');
+
+    // if (resStr === signature) {
+    //     ctx.body = echostr;
+    // } else {
+    //     return false;
+    // }
 }
 
 async function postweixin(ctx, next) {
