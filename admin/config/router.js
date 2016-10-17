@@ -5,13 +5,11 @@ const { Router, Route, IndexRoute, IndexRedirect, Redirect, hashHistory, browser
 const history = syncHistoryWithStore(hashHistory, store)
 
 const Layout = require('../layout/layout')
-const { Nomatch, Home, Drag, ApiCloudsIndex, ApiClouds, ApiCloud, Pages, Page, Login, Logout } = require('../pages')
+const { Nomatch, Home, Pages, Page, Login, Logout } = require('../pages')
 
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
     let token = localStorage.token
-    
-    console.log(pathname);
     if(!token || token=='null'){
         token = false
     }else{

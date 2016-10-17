@@ -148,9 +148,9 @@ async function authModule(ctx, next) {
         role.push(ele.role_id)
     }, this);
     console.log(role);
-    if (role.indexOf(1) > -1) { //如果是超级管理员（用户组id=1），则越过后面的权限验证
-        return await next();
-    }
+    // if (role.indexOf(1) > -1) { //如果是超级管理员（用户组id=1），则越过后面的权限验证
+    //     return await next();
+    // }
     let p = await db.role_permissions.findAll({
         where: {
             role_id: {
@@ -167,7 +167,7 @@ async function authModule(ctx, next) {
     console.log(permissions);
     let method = ctx.method
     let params = ctx.request.path.split('/')
-    if (params[2] == 'add') {
+    if (params[3] == 'add') {
         method = 'get'
     }
     let action = method + params[2]

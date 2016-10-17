@@ -10,19 +10,19 @@ var rename = require('gulp-rename') //文件更名
 var webpack = require("gulp-webpack")
 
 var dir = 'admin'
-var dirin = './admin/'
+var dirin = './' + dir + '/'
 var out = './public/' + dir + '/'
 
 var webpackConfig = require(dirin + 'webpack.config.js')
 
-gulp.task("webpack", function() {
+gulp.task("webpack", function () {
     return gulp.src(dirin + 'app.js')
         .pipe(webpack(webpackConfig))
         .pipe(gulp.dest(out + 'js'))
         .pipe(connect.reload())
 })
 
-gulp.task('min-css', function() {
+gulp.task('min-css', function () {
     gulp.src([out + 'css/*.css', '!' + out + 'css/*.min.css'])
         .pipe(cssmin({
             compatibility: 'ie7' //兼容IE7及以下需设置compatibility属性
@@ -33,7 +33,7 @@ gulp.task('min-css', function() {
         .pipe(gulp.dest(out + 'css'))
 })
 
-gulp.task('min-js', function() {
+gulp.task('min-js', function () {
     return gulp.src([out + 'js/*.js', '!' + out + 'js/*.min.js'])
         .pipe(rename({
             suffix: '.min'
@@ -42,25 +42,25 @@ gulp.task('min-js', function() {
         .pipe(gulp.dest(out + 'js'))
 })
 
-gulp.task('less', function() {
+gulp.task('less', function () {
     gulp.src(dirin + 'less/*.less')
         .pipe(less())
         .pipe(gulp.dest(out + 'css'))
         .pipe(connect.reload())
 })
 
-gulp.task('web', function(cb) {
+gulp.task('web', function (cb) {
     runSequence('webpack', 'less', ['min-css', 'min-js'], cb);
 });
 
-gulp.task('connect', function() {
+gulp.task('connect', function () {
     connect.server({
-        port: 3001,
+        port: 3011,
         livereload: true
     })
-}) 
+})
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
     gulp.watch([dirin + 'less/*.less', dirin + 'components/forms/*.less'], ['less'])
         // gulp.watch(['app/html/*', 'app/layout/*.html'], ['html'])
     gulp.watch([

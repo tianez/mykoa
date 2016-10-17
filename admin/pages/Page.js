@@ -9,7 +9,7 @@ const {
     Radio,
     Checkbox,
     Upload,
-    Range, 
+    Range,
     Button,
     Select,
     Hidden,
@@ -41,7 +41,7 @@ class Page extends React.Component {
         } = props.params
         let requrl = page == 'add' ? pages + '/add' : pages + '/detail/' + page
         getfetch("api/" + requrl)
-            .then(function (res) { 
+            .then(function (res) {
                 this.setState({
                     title: res.title,
                     fields: res.fields,
@@ -79,7 +79,7 @@ class Page extends React.Component {
                 Rd.message(res.msg)
             }.bind(this))
     }
-    _onChange(name, value) { 
+    _onChange(name, value) {
         console.log(value);
         let info = this.state.info
         info[name] = value
@@ -135,7 +135,7 @@ class Page extends React.Component {
                     case "radio":
                         return (React.createElement(Radio, d))
                         break;
-                    case "checkbox": 
+                    case "checkbox":
                         return (React.createElement(Checkbox, d))
                         break;
                     case "select":
@@ -143,19 +143,18 @@ class Page extends React.Component {
                         break;
                     case "category":
                         return (React.createElement(Category, d))
-                        break; 
+                        break;
                     case "date":
                         return (React.createElement(Time, d))
                         break;
                     case "hidden":
                         return (React.createElement(Hidden, d))
-                        break; 
+                        break;
                     default:
                         break;
                 }
             })
         }
-        // if (info) {
         render =
             React.createElement('section', {
                     className: 'container pure-u-1'
@@ -163,11 +162,7 @@ class Page extends React.Component {
                 React.createElement("h3", {
                         className: "page-title"
                     },
-                    this.state.title,
-                    this.props.params.page !== 'add' ?
-                    React.createElement(Link, {
-                        to: '/api/' + this.props.params.pages + '/add',
-                    }, '（新增）') : null
+                    this.state.title
                 ),
                 React.createElement(Form, {
                         action: this.state.action,
@@ -180,7 +175,6 @@ class Page extends React.Component {
                     React.createElement(Button)
                 )
             )
-            // }
         return (
             React.createElement('section', {
                 className: 'warp'

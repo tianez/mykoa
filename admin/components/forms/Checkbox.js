@@ -28,8 +28,8 @@ const Checkbox = React.createClass({
     },
     getInitialState: function() {
         let options = []
-        if (!this.props.f_ext) {
-            options = this.props.f_options
+        if (!this.props.ext) {
+            options = this.props.options
             if (typeof options == "string") {
                 options = JSON.parse(options)
             }
@@ -47,8 +47,8 @@ const Checkbox = React.createClass({
         }
     },
     componentDidMount: function() {
-        if (this.props.f_ext) {
-            request.get('admin/'+this.props.f_ext)
+        if (this.props.ext) {
+            request.get('api/'+this.props.ext)
                 .end(function(err, res) {
                     let data = JSON.parse(res.text)
                     this.setState({
