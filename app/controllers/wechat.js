@@ -18,18 +18,18 @@ const WechatAPI = require('wechat-api');
 async function weixin(ctx, next) {
     console.log(111);
     ctx.body = 'sssss'
-    // let signature = ctx.query.signature
-    // let timestamp = ctx.query.timestamp
-    // let nonce = ctx.query.nonce
-    // let echostr = ctx.query.echostr
-    // ctx.body = echostr;
-    // let token = config.token
-    // var arr = [token, timestamp, nonce];
-    // arr.sort();
-    // var tmpStr = arr.join('');
-    // var sha1 = crypto.createHash('sha1');
-    // sha1.update(tmpStr);
-    // var resStr = sha1.digest('hex');
+        // let signature = ctx.query.signature
+        // let timestamp = ctx.query.timestamp
+        // let nonce = ctx.query.nonce
+        // let echostr = ctx.query.echostr
+        // ctx.body = echostr;
+        // let token = config.token
+        // var arr = [token, timestamp, nonce];
+        // arr.sort();
+        // var tmpStr = arr.join('');
+        // var sha1 = crypto.createHash('sha1');
+        // sha1.update(tmpStr);
+        // var resStr = sha1.digest('hex');
 
     // if (resStr === signature) {
     //     ctx.body = echostr;
