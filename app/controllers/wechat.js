@@ -27,9 +27,6 @@ const WechatAPI = require('wechat-api');
 const redis = require('../lib/redis')
 
 async function weixin(ctx, next) {
-<<<<<<< HEAD
-    console.log(111);
-    ctx.body = 'sssss'
         // let signature = ctx.query.signature
         // let timestamp = ctx.query.timestamp
         // let nonce = ctx.query.nonce
@@ -42,8 +39,6 @@ async function weixin(ctx, next) {
         // var sha1 = crypto.createHash('sha1');
         // sha1.update(tmpStr);
         // var resStr = sha1.digest('hex');
-=======
-
     // let token = await gettoken()
     let data = {
         "query": "查一下明天从北京到上海的南航机票",
@@ -68,7 +63,6 @@ async function weixin(ctx, next) {
     // var sha1 = crypto.createHash('sha1');
     // sha1.update(tmpStr);
     // var resStr = sha1.digest('hex');
->>>>>>> 79bd24406caeaf2b388eb5f2b20416afb86cdeb0
 
     // if (resStr === signature) {
     //     ctx.body = echostr;

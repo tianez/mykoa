@@ -10,10 +10,10 @@ class Iframe extends React.Component {
         }
     }
     render() {
-        let left = 0
-        if (this.props.login && !this.props.islogin) {
-            left = '-100%'
-        }
+        // let left = 0
+        // if (this.props.login && !this.props.islogin) {
+        //     left = '-100%'
+        // }
         return (
             React.createElement('video', {
                 id: 'frame',
