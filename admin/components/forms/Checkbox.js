@@ -34,14 +34,10 @@ const Checkbox = React.createClass({
                 options = JSON.parse(options)
             }
         }
-        let value = this.props.value
-        console.log(value);
-        
-        // if (value) {
-        //     value = JSON.parse(value)
-        // } else {
-        //     value = []
-        // }
+        let value = this.props.value 
+        if (value && typeof value == "string") {
+            value = JSON.parse(value)
+        }
         return {
             value: value,
             help: this.props.help,
@@ -75,8 +71,10 @@ const Checkbox = React.createClass({
         this.setState({
             value: value
         })
-        // value = JSON.stringify(value)
         if (this.props.onChange) {
+            if (this.props.value && typeof this.props.value == "string") {
+                value = JSON.stringify(value)
+            }
             this.props.onChange(this.props.name, value)
         }
     },

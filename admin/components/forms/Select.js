@@ -59,7 +59,7 @@ class Select extends React.Component {
     constructor(props) {
         super(props)
         let options = []
-        if (!this.props.f_ext) {
+        if (!this.props.ext) {
             options = this.props.options
             if (typeof options == "string") {
                 options = JSON.parse(options)
@@ -82,8 +82,8 @@ class Select extends React.Component {
         }
     }
     componentDidMount() {
-        if (this.props.f_ext) {
-            request.get('admin/' + this.props.f_ext)
+        if (this.props.ext) {
+            request.get('admin/' + this.props.ext)
                 .end(function(err, res) {
                     let data = JSON.parse(res.text)
                     let title

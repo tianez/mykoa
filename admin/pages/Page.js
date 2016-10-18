@@ -64,7 +64,6 @@ class Page extends React.Component {
             }.bind(this))
     }
     _onChange(name, value) {
-        console.log(value);
         let info = this.state.info
         info[name] = value
         this.setState({
