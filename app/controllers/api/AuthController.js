@@ -21,7 +21,7 @@ async function createToken(ctx, next) {
     //     ctx.body = '你无权访问该页面'
     //     return
     // }
-    let user = await db.user.findOne({
+    let user = await db.users.findOne({
         where: {
             username: ctx.request.fields.username
         }

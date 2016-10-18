@@ -22,6 +22,7 @@
     "pure": "^0.6.0",
     "storedb": "^0.1.2",
     "animate.css": "^3.5.2",
-    "superagent": "^2.2.0"
+    "superagent": "^2.2.0",
+    "moment": "^2.15.1"
   }
 }

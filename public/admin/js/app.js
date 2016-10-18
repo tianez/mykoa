@@ -11574,9 +11574,7 @@
 	        };
 	    },
 	    _onChange: function _onChange(range) {
-	        console.log(range);
 	        console.log(range._d);
-
 	        this.setState({
 	            value: range._d
 	        });
@@ -11588,7 +11586,9 @@
 	        return React.createElement(FormGroup, {
 	            title: this.props.title,
 	            help: this.state.help
-	        }, React.createElement(Calendar, {
+	        }, React.createElement('div', {
+	            className: 'form-input'
+	        }, this.state.value), React.createElement(Calendar, {
 	            onChange: this._onChange,
 	            style: {
 	                width: '281px'

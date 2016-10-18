@@ -20,9 +20,7 @@ var Time = React.createClass({
         }
     },
     _onChange: function (range) {
-        console.log(range);
         console.log(range._d);
-
         this.setState({
             value: range._d
         })
@@ -36,6 +34,9 @@ var Time = React.createClass({
                     title: this.props.title,
                     help: this.state.help
                 },
+                React.createElement('div', {
+                    className: 'form-input'
+                }, this.state.value),
                 React.createElement(Calendar, {
                     onChange: this._onChange,
                     style: {
