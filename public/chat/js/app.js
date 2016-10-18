@@ -6204,6 +6204,7 @@
 	                src: vurl,
 	                poster: poster,
 	                frameBorder: 0,
+	                autoPlay: autoplay || true,
 	                style: {
 	                    width: '100%',
 	                    height: this.state.height
