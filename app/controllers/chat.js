@@ -42,7 +42,7 @@ async function getList(ctx, next) {
 }
 
 async function postLogin(ctx, next) {
-    let user = await db.user.findOne({
+    let user = await db.users.findOne({
         where: {
             username: ctx.request.fields.username
         }
@@ -64,7 +64,7 @@ async function postLogin(ctx, next) {
 }
 
 async function postRegister(ctx, next) {
-    let user = await db.user.findOne({
+    let user = await db.users.findOne({
         where: {
             username: ctx.request.fields.username
         }
@@ -84,7 +84,7 @@ async function postRegister(ctx, next) {
         // }
         let data = ctx.request.fields
         data.head_img = ctx.request.fields.file
-        let user = await db.user.create(ctx.request.fields)
+        let user = await db.users.create(ctx.request.fields)
         if (!user.realname) {
             let username = user.username
             let pre = username.slice(0, 3)

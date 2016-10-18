@@ -32,6 +32,7 @@ router.post('/createtoken', apicontroller.createToken);
 router.get('/removetoken', apicontroller.removeToken);
 
 router.all('*', apicontroller.authToken)
+router.get('/meun', apicontroller.getMeun);
 router.all('*', apicontroller.authModule)
 
 router.get('/', apicontroller.getToken);
@@ -41,7 +42,7 @@ router.get('/getToken', apicontroller.getToken);
  * 一些常用数据拉取
  * 注意不要和后面的模块方法重名，否则会覆盖后面的模块方法
  */
-router.get('/meun', apicontroller.getMeun);
+
 router.get('/role', apicontroller.getRole);
 
 
