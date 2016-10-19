@@ -17,7 +17,7 @@ const Checkbox = React.createClass({
                 value: 1
             }, {
                 title: '选项3',
-                value: 's2'
+                value: 2
             }],
             name: 'state',
             placeholder: '',

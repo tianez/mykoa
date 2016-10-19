@@ -9,8 +9,8 @@ var Radio = React.createClass({
             title: '单选框',
             type: 'radio',
             value: 2,
-            f_default: 'sdsds',
-            f_options: [{
+            default: 'sdsds',
+            options: [{
                 title: '选项1',
                 value: 1
             }, {
@@ -19,15 +19,15 @@ var Radio = React.createClass({
             }],
             name: 'state',
             placeholder: '',
-            help: '',
+            help: ' ',
             disabled: '',
             required: 'required'
         }
     },
     getInitialState: function() {
         let options = []
-        if (!this.props.f_ext) {
-            options = this.props.f_options
+        if (!this.props.ext) {
+            options = this.props.options
             if (typeof options == "string") {
                 options = JSON.parse(options)
             }
@@ -39,8 +39,8 @@ var Radio = React.createClass({
         }
     },
     componentDidMount: function() {
-        if (this.props.f_ext) {
-            request.get('admin/' + this.props.f_ext)
+        if (this.props.ext) {
+            request.get('admin/' + this.props.ext)
                 .end(function(err, res) {
                     let data = JSON.parse(res.text)
                     this.setState({
@@ -71,8 +71,6 @@ var Radio = React.createClass({
                 React.createElement('label', {
                         key: index,
                         className: 'form-radio',
-                        title: this.props.title,
-                        help: this.state.help
                     },
                     React.createElement('div', {
                             className: typeClass + checked
