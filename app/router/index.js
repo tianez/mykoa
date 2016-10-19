@@ -11,6 +11,9 @@ const test = require('../controllers/test');
 router.get('/', controller.home);
 router.get('/dataimport', controller.dataimport);
 
+router.get('/test', async function (ctx, next) {
+    ctx.render('test');
+});
 router.get('/admin', controller.getAdmin);
 
 router.get('/upload', controller.getUpload);

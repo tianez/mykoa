@@ -22,6 +22,7 @@ Object.assign(
     require('./api/BaseController'),
     require('./api/UserController'),
     require('./api/PermissionsController'),
+    require('./api/TestController'),
 )
 
 module.exports = controller

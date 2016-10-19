@@ -51,6 +51,8 @@ let db = {
     chat_win: sequelize.import("./db_chat_win"),
     article: sequelize.import("./db_article"),
     category: sequelize.import("./db_category"),
+    tests: sequelize.import("./db_test"),
+    tests_option: sequelize.import("./db_test_option"),
 }
 
 db.sync = function () {

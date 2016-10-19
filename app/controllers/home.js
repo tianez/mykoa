@@ -151,7 +151,9 @@ async function dataimport(ctx, next) {
     // }).then(function () {
     //     db.role.bulkCreate(roles)
     // })
-    db.sync()
+    db.test.sync()
+    db.test_option.sync()
+    // db.sync()
     ctx.body = 'ok'
 }
 
