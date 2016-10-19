@@ -6,7 +6,7 @@ const FormGroup = require('./FormGroup')
 const Checkbox = React.createClass({
     getDefaultProps: function () {
         return {
-            title: '多选框',
+            title: '多选框' ,
             type: 'checkbox',
             value: [2],
             options: [{
