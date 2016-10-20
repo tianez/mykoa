@@ -12,15 +12,16 @@ module.exports = function (sequelize, DataTypes) {
             },
             title: {
                 type: DataTypes.TEXT,
-                allowNull: false
+                allowNull: true
             },
             type: {
                 type: DataTypes.BOOLEAN,
-                allowNull: false
+                allowNull: true
             },
             answer: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true,
+                defaultValue: '[]'
             },
             status: {
                 type: DataTypes.BOOLEAN,

@@ -94,8 +94,8 @@ var Input = React.createClass({
                     placeholder: this.props.placeholder,
                     disabled: this.props.disabled,
                     autoComplete: this.props.autoComplete,
-                    defaultValue: this.props.value,
-                    // value: this.state.value,
+                    // defaultValue: this.props.value,
+                    value: this.state.value,
                     onChange: this._onChange
                 })
             )

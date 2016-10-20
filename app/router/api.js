@@ -53,7 +53,7 @@ router.post('/upload', apicontroller.postUpload);
  */
 router.get('/tests', apicontroller.get_List_Test);
 router.get('/tests/add', apicontroller.get_Add_Test);
-router.post('/tests/add', apicontroller.post_Add_Test);
+router.get('/tests/addoption', apicontroller.get_Add_Test_Option);
 router.get('/tests/detail/:id', apicontroller.get_Detail_Test);
 router.post('/tests/detail', apicontroller.post_Detail_Test);
 router.get('/tests/delete/:id', apicontroller.get_Delete_Test);

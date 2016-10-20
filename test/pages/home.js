@@ -91,14 +91,14 @@ class Home extends React.Component {
                         value: this.state.info.type,
                         default: 1,
                         options: [{
-                            title: '选项1',
+                            title: '单选题',
                             value: 1
                         }, {
-                            title: '选项2',
+                            title: '多选题',
                             value: 2
                         }],
                         name: 'type',
-                        help: '请选择题目类型，判断题将作为选项为正确和错误的单选题',
+                        help: '判断题将作为单选题（选项为正确和错误）',
                         disabled: '',
                         onChange: this._onChange.bind(this)
                     }),

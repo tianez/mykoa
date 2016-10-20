@@ -4,27 +4,26 @@ const classNames = require('classNames')
 const FormGroup = require('./FormGroup')
 
 var Radio = React.createClass({
-    getDefaultProps: function() {
+    getDefaultProps: function () {
         return {
             title: '单选框',
             type: 'radio',
-            value: 2,
-            default: 'sdsds',
+            value: 1,
+            default: 0,
             options: [{
                 title: '选项1',
-                value: 1
+                value: 0
             }, {
                 title: '选项2',
-                value: 2
+                value: 1
             }],
             name: 'state',
             placeholder: '',
-            help: ' ',
             disabled: '',
             required: 'required'
         }
     },
-    getInitialState: function() {
+    getInitialState: function () {
         let options = []
         if (!this.props.ext) {
             options = this.props.options
@@ -38,10 +37,10 @@ var Radio = React.createClass({
             option: options,
         }
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         if (this.props.ext) {
             request.get('admin/' + this.props.ext)
-                .end(function(err, res) {
+                .end(function (err, res) {
                     let data = JSON.parse(res.text)
                     this.setState({
                         option: data
@@ -49,7 +48,21 @@ var Radio = React.createClass({
                 }.bind(this))
         }
     },
-    _onChange: function(e) {
+    componentWillReceiveProps: function (nextProps) {
+        let options = []
+        if (!nextProps.ext) {
+            options = nextProps.options
+            if (typeof options == "string") {
+                options = JSON.parse(options)
+            }
+        }
+        this.setState({
+            value: nextProps.value,
+            help: nextProps.help,
+            option: options,
+        })
+    },
+    _onChange: function (e) {
         let value = e.target.value
         this.setState({
             value: value
@@ -58,10 +71,10 @@ var Radio = React.createClass({
             this.props.onChange(this.props.name, value)
         }
     },
-    render: function() {
+    render: function () {
         let value = this.state.value
         let name = this.props.name
-        let options = this.state.option.map(function(d, index) {
+        let options = this.state.option.map(function (d, index) {
             let checked = ''
             if (value == d.value) {
                 checked = ' checked'

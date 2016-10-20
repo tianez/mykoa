@@ -6,7 +6,7 @@ const FormGroup = require('./FormGroup')
 const Checkbox = React.createClass({
     getDefaultProps: function () {
         return {
-            title: '多选框' ,
+            title: '多选框',
             type: 'checkbox',
             value: [2],
             options: [{
@@ -21,7 +21,6 @@ const Checkbox = React.createClass({
             }],
             name: 'state',
             placeholder: '',
-            help: '',
             disabled: '',
             required: 'required'
         }
@@ -34,7 +33,7 @@ const Checkbox = React.createClass({
                 options = JSON.parse(options)
             }
         }
-        let value = this.props.value 
+        let value = this.props.value
         if (value && typeof value == "string") {
             value = JSON.parse(value)
         }
@@ -91,8 +90,7 @@ const Checkbox = React.createClass({
                 React.createElement('label', {
                         key: index,
                         className: 'form-radio',
-                        title: this.props.title,
-                        help: this.state.help
+                        title: this.props.title
                     },
                     React.createElement('div', {
                             className: typeClass + checked
