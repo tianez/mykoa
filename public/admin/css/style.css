@@ -277,6 +277,20 @@ hr {
   font-size: 1.8rem;
 }
 .form-group {
+  display: box;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  /* 09版 */
+  -webkit-box-orient: horizontal;
+  /* 12版 */
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  -o-flex-direction: row;
+  flex-direction: row;
   position: relative;
   width: 100%;
   padding: 0 1.5rem;
@@ -293,6 +307,12 @@ hr {
   display: block;
 }
 .form-group .form-control {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
   position: relative;
 }
 .form-group .form-input,
@@ -1584,4 +1604,13 @@ input.uniform-input:focus {
 .filter .active {
   background: #eee;
   border-bottom: 2px solid #f00 !important;
+}
+.form-delete {
+  width: 5.6rem;
+  text-align: center;
+  color: #666;
+  cursor: pointer;
+}
+.form-delete:hover {
+  color: #f00;
 }

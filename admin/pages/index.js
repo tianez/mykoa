@@ -1,18 +1,12 @@
 'use strict'
 
-const Nomatch = require('./Nomatch')
-const Home = require('./home')
-const Pages = require('./Pages')
-const Page = require('./Page')
-const Login = require('./login')
-const Logout = require('./logout')
-
-var Temp = {
-    Nomatch: Nomatch,
-    Home: Home,
-    Pages: Pages,
-    Page: Page,
-    Login: Login,
-    Logout: Logout, 
+module.exports = {
+    Nomatch: require('./Nomatch'),
+    Home: require('./home'),
+    Pages: require('./Pages'),
+    Page: require('./Page'),
+    Login: require('./login'),
+    Logout: require('./logout'),
+    TestAdd: require('./testAdd'),
+    TestDetail: require('./testDetail') 
 }
-module.exports = Temp

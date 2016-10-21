@@ -8,7 +8,7 @@ var Radio = React.createClass({
         return {
             title: '单选框',
             type: 'radio',
-            value: 1,
+            value: [1],
             default: 0,
             options: [{
                 title: '选项1',
@@ -31,8 +31,14 @@ var Radio = React.createClass({
                 options = JSON.parse(options)
             }
         }
+        let value = this.props.value
+        if (value && typeof value == "string") {
+            value = JSON.parse(value)
+        }
+        let v = []
+        v.push(value[0])
         return {
-            value: this.props.value,
+            value: v,
             help: this.props.help,
             option: options,
         }
@@ -63,7 +69,14 @@ var Radio = React.createClass({
         })
     },
     _onChange: function (e) {
-        let value = e.target.value
+        let value = []
+        let v = e.target.value
+        if (!isNaN(v)) {
+            v = parseInt(v)
+        }
+        value.push(v)
+        console.log(value);
+
         this.setState({
             value: value
         })
@@ -76,7 +89,7 @@ var Radio = React.createClass({
         let name = this.props.name
         let options = this.state.option.map(function (d, index) {
             let checked = ''
-            if (value == d.value) {
+            if (value.indexOf(d.value) > -1) {
                 checked = ' checked'
             }
             let typeClass = 'radio'

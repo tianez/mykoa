@@ -4,7 +4,7 @@ const classNames = require('classNames')
 const FormGroup = require('./FormGroup')
 
 var Radio = React.createClass({
-    getDefaultProps: function() {
+    getDefaultProps: function () {
         return {
             title: '单选框',
             type: 'radio',
@@ -24,7 +24,7 @@ var Radio = React.createClass({
             required: 'required'
         }
     },
-    getInitialState: function() {
+    getInitialState: function () {
         let options = []
         if (!this.props.ext) {
             options = this.props.options
@@ -38,10 +38,10 @@ var Radio = React.createClass({
             option: options,
         }
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         if (this.props.ext) {
             request.get('admin/' + this.props.ext)
-                .end(function(err, res) {
+                .end(function (err, res) {
                     let data = JSON.parse(res.text)
                     this.setState({
                         option: data
@@ -49,7 +49,15 @@ var Radio = React.createClass({
                 }.bind(this))
         }
     },
-    _onChange: function(e) {
+    shouldComponentUpdate: function (nextProps, nextState) {
+        return nextProps.value !== this.props.value
+    },
+    componentWillReceiveProps: function (nextProps) {
+        this.setState({
+            value: nextProps.value
+        })
+    },
+    _onChange: function (e) {
         let value = e.target.value
         this.setState({
             value: value
@@ -58,10 +66,10 @@ var Radio = React.createClass({
             this.props.onChange(this.props.name, value)
         }
     },
-    render: function() {
+    render: function () {
         let value = this.state.value
         let name = this.props.name
-        let options = this.state.option.map(function(d, index) {
+        let options = this.state.option.map(function (d, index) {
             let checked = ''
             if (value == d.value) {
                 checked = ' checked'

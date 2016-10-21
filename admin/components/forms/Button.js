@@ -12,6 +12,9 @@ class Botton extends React.Component {
         })
     }
     onClick(e) {
+        if (this.props.onClick) {
+            this.props.onClick(e)
+        }
         let top = e.clientY - e.target.getBoundingClientRect().top
         let left = e.clientX - e.target.getBoundingClientRect().left
         this.setState({
@@ -21,7 +24,7 @@ class Botton extends React.Component {
             },
             dot: true
         })
-        setTimeout(function() {
+        setTimeout(function () {
             this.setState({
                 dot: false
             })
@@ -41,7 +44,7 @@ class Botton extends React.Component {
                         },
                         React.createElement('input', {
                             className: 'pure-button pure-button-primary form-button',
-                            type: 'submit',
+                            type: this.props.type,
                             disabled: this.props.disabled,
                             value: this.props.value
                         }),
@@ -57,7 +60,8 @@ class Botton extends React.Component {
 }
 
 Botton.defaultProps = {
-    value: '保存'
+    value: '保存',
+    type: 'submit'
 }
 
 module.exports = Botton

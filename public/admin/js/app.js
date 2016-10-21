@@ -8473,6 +8473,8 @@
 	var Page = _require.Page;
 	var Login = _require.Login;
 	var Logout = _require.Logout;
+	var TestAdd = _require.TestAdd;
+	var TestDetail = _require.TestDetail;
 
 
 	function onEnter(nextState, replace) {
@@ -8498,7 +8500,7 @@
 	    }
 	}
 
-	var routers = React.createElement(Router, { history: history }, React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter }, React.createElement(IndexRedirect, { to: 'index' }), React.createElement(Route, { path: "index", component: Home }), React.createElement(Route, { path: "api" }, React.createElement(Redirect, { from: ':pages', to: ':pages/index' }), React.createElement(Route, { path: ":pages" }, React.createElement(Route, { path: "index", component: Pages }), React.createElement(Route, { path: ":page", component: Page })))), React.createElement(Route, { path: "login", component: Login, onEnter: onEnter }), React.createElement(Route, { path: "logout", component: Logout }), React.createElement(Route, { path: "*", component: Nomatch }));
+	var routers = React.createElement(Router, { history: history }, React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter }, React.createElement(IndexRedirect, { to: 'index' }), React.createElement(Route, { path: "index", component: Home }), React.createElement(Route, { path: "api" }, React.createElement(Route, { path: "tests/add", component: TestAdd }), React.createElement(Route, { path: "tests/:id", component: TestDetail }), React.createElement(Redirect, { from: ':pages', to: ':pages/index' }), React.createElement(Route, { path: ":pages" }, React.createElement(Route, { path: "index", component: Pages }), React.createElement(Route, { path: ":page", component: Page })))), React.createElement(Route, { path: "login", component: Login, onEnter: onEnter }), React.createElement(Route, { path: "logout", component: Logout }), React.createElement(Route, { path: "*", component: Nomatch }));
 
 	module.exports = routers;
 
@@ -9151,22 +9153,16 @@
 
 	'use strict';
 
-	var Nomatch = __webpack_require__(94);
-	var Home = __webpack_require__(95);
-	var Pages = __webpack_require__(96);
-	var Page = __webpack_require__(97);
-	var Login = __webpack_require__(368);
-	var Logout = __webpack_require__(369);
-
-	var Temp = {
-	    Nomatch: Nomatch,
-	    Home: Home,
-	    Pages: Pages,
-	    Page: Page,
-	    Login: Login,
-	    Logout: Logout
+	module.exports = {
+	    Nomatch: __webpack_require__(94),
+	    Home: __webpack_require__(95),
+	    Pages: __webpack_require__(96),
+	    Page: __webpack_require__(97),
+	    Login: __webpack_require__(368),
+	    Logout: __webpack_require__(369),
+	    TestAdd: __webpack_require__(370),
+	    TestDetail: __webpack_require__(371)
 	};
-	module.exports = Temp;
 
 /***/ },
 /* 94 */
@@ -9586,7 +9582,6 @@
 	    }, {
 	        key: '_onChange',
 	        value: function _onChange(name, value) {
-	            console.log(value);
 	            var info = this.state.info;
 	            info[name] = value;
 	            this.setState({
@@ -10053,6 +10048,12 @@
 	    },
 	    shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
 	        return nextProps.value !== this.props.value;
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        this.state = {
+	            value: nextProps.value,
+	            length: nextProps.value.length || 0
+	        };
 	    },
 	    _onChange: function _onChange(e) {
 	        var error = void 0;
@@ -10772,8 +10773,8 @@
 	            title: '单选框',
 	            type: 'radio',
 	            value: 2,
-	            f_default: 'sdsds',
-	            f_options: [{
+	            default: 'sdsds',
+	            options: [{
 	                title: '选项1',
 	                value: 1
 	            }, {
@@ -10782,15 +10783,15 @@
 	            }],
 	            name: 'state',
 	            placeholder: '',
-	            help: '',
+	            help: ' ',
 	            disabled: '',
 	            required: 'required'
 	        };
 	    },
 	    getInitialState: function getInitialState() {
 	        var options = [];
-	        if (!this.props.f_ext) {
-	            options = this.props.f_options;
+	        if (!this.props.ext) {
+	            options = this.props.options;
 	            if (typeof options == "string") {
 	                options = JSON.parse(options);
 	            }
@@ -10802,14 +10803,22 @@
 	        };
 	    },
 	    componentDidMount: function componentDidMount() {
-	        if (this.props.f_ext) {
-	            request.get('admin/' + this.props.f_ext).end(function (err, res) {
+	        if (this.props.ext) {
+	            request.get('admin/' + this.props.ext).end(function (err, res) {
 	                var data = JSON.parse(res.text);
 	                this.setState({
 	                    option: data
 	                });
 	            }.bind(this));
 	        }
+	    },
+	    shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
+	        return nextProps.value !== this.props.value;
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        this.setState({
+	            value: nextProps.value
+	        });
 	    },
 	    _onChange: function _onChange(e) {
 	        var value = e.target.value;
@@ -10831,9 +10840,7 @@
 	            var typeClass = 'radio';
 	            return React.createElement('label', {
 	                key: index,
-	                className: 'form-radio',
-	                title: this.props.title,
-	                help: this.state.help
+	                className: 'form-radio'
 	            }, React.createElement('div', {
 	                className: typeClass + checked
 	            }, React.createElement('input', {
@@ -11072,6 +11079,9 @@
 	    _createClass(Botton, [{
 	        key: 'onClick',
 	        value: function onClick(e) {
+	            if (this.props.onClick) {
+	                this.props.onClick(e);
+	            }
 	            var top = e.clientY - e.target.getBoundingClientRect().top;
 	            var left = e.clientX - e.target.getBoundingClientRect().left;
 	            this.setState({
@@ -11099,7 +11109,7 @@
 	                onClick: this.onClick.bind(this)
 	            }, React.createElement('input', {
 	                className: 'pure-button pure-button-primary form-button',
-	                type: 'submit',
+	                type: this.props.type,
 	                disabled: this.props.disabled,
 	                value: this.props.value
 	            }), this.state.dot ? React.createElement('div', {
@@ -11113,7 +11123,8 @@
 	}(React.Component);
 
 	Botton.defaultProps = {
-	    value: '保存'
+	    value: '保存',
+	    type: 'submit'
 	};
 
 	module.exports = Botton;
@@ -38220,6 +38231,998 @@
 	}(React.Component);
 
 	module.exports = Logout;
+
+/***/ },
+/* 370 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _require = __webpack_require__(98);
+
+	var Form = _require.Form;
+	var FormGroup = _require.FormGroup;
+	var Input = _require.Input;
+	var Textarea = _require.Textarea;
+	var Radio = _require.Radio;
+	var Button = _require.Button;
+
+
+	var od = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+	var testDetail = function (_React$Component) {
+	    _inherits(testDetail, _React$Component);
+
+	    function testDetail(props) {
+	        _classCallCheck(this, testDetail);
+
+	        var _this = _possibleConstructorReturn(this, (testDetail.__proto__ || Object.getPrototypeOf(testDetail)).call(this, props));
+
+	        _this.state = {
+	            info: {
+	                options: []
+	            },
+	            deleteid: [],
+	            addnew: []
+	        };
+	        return _this;
+	    }
+
+	    _createClass(testDetail, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var id = this.props.params.id;
+	            // let requrl = page == 'add' ? pages + '/add' : pages + '/detail'
+
+	            getfetch('api/tests/add').then(function (res) {
+	                res.info.answer = JSON.parse(res.info.answer);
+	                console.log(res);
+	                res.info.type = [0];
+	                this.setState({
+	                    info: res.info
+	                });
+	            }.bind(this));
+	        }
+
+	        /**
+	         * 修改题目标题
+	         */
+
+	    }, {
+	        key: '_onChange',
+	        value: function _onChange(name, value) {
+	            var info = this.state.info;
+	            info[name] = value;
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 改变题目类型
+	         */
+
+	    }, {
+	        key: '_onChangeType',
+	        value: function _onChangeType(name, value) {
+	            var info = this.state.info;
+	            info[name] = value;
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 修改选项
+	         */
+
+	    }, {
+	        key: '_onChangeOption',
+	        value: function _onChangeOption(name, value) {
+	            var info = this.state.info;
+	            info.options[name].content = value;
+	            if (info.options[name].status == 0) {
+	                info.options[name].status = -2;
+	            }
+	            console.log(value);
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 新增选项
+	         */
+
+	    }, {
+	        key: '_addOption',
+	        value: function _addOption(e) {
+	            var info = this.state.info;
+	            var length = info.options.length - 1;
+	            var isnew = info.options.every(function (o) {
+	                if (o.content == '') {
+	                    alert('还有空白选项未完成，请完成后再新增！');
+	                    return false;
+	                }
+	                return true;
+	            });
+	            if (!isnew) {
+	                return;
+	            }
+	            getfetch('api/tests/addoption', {
+	                test_id: this.state.info.id,
+	                addnew: this.state.addnew
+	            }).then(function (res) {
+	                info.options.push(res.info);
+	                var addnew = this.state.addnew;
+	                addnew.push(res.info.id);
+	                this.setState({
+	                    info: info,
+	                    addnew: addnew
+	                });
+	            }.bind(this));
+	        }
+
+	        /**
+	         * 删除选项
+	         */
+
+	    }, {
+	        key: '_deleteOption',
+	        value: function _deleteOption(index) {
+	            var info = this.state.info;
+	            var deleteid = this.state.deleteid;
+	            deleteid.push(info.options[index].id);
+	            delete info.options.splice(index, 1);
+	            this.setState({
+	                info: info,
+	                deleteid: deleteid
+	            });
+	        }
+
+	        /**
+	         * 改变答案
+	         */
+
+	    }, {
+	        key: '_onAnswer',
+	        value: function _onAnswer(name, value) {
+	            var info = this.state.info;
+	            info[name] = value;
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 提交表单
+	         */
+
+	    }, {
+	        key: '_onSubmit',
+	        value: function _onSubmit(e) {
+	            console.log(this.state);
+	            postfetch('api/tests/detail', this.state).then(function (res) {
+	                this.props.history.pushState(null, 'api/tests/' + this.state.info.id);
+	                Rd.message(res.msg);
+	            }.bind(this));
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var info = this.state.info;
+	            console.log(this.state);
+	            console.log(this.state.info.answer);
+
+	            var render = React.createElement('section', {
+	                className: 'container pure-u-1'
+	            }, React.createElement("h3", {
+	                className: "page-title"
+	            }, this.state.title), React.createElement(Form, {
+	                action: this.state.action,
+	                info: info,
+	                apiSubmit: false,
+	                // legend: this.state.title,
+	                onSubmit: this._onSubmit.bind(this)
+	            }, React.createElement(Textarea, {
+	                title: '题目',
+	                key: 'title',
+	                name: 'title',
+	                value: this.state.info.title,
+	                onChange: this._onChange.bind(this)
+	            }), React.createElement(Radio, {
+	                title: '类型',
+	                type: 'radio',
+	                value: this.state.info.type,
+	                options: [{
+	                    title: '单选题',
+	                    value: 0
+	                }, {
+	                    title: '多选题',
+	                    value: 1
+	                }],
+	                name: 'type',
+	                help: '判断题将作为单选题（选项为正确和错误）',
+	                disabled: '',
+	                onChange: this._onChangeType.bind(this)
+	            }), this.state.info.options.map(function (o, index) {
+	                return React.createElement(Option, {
+	                    title: '选项 ' + od[index],
+	                    key: index,
+	                    name: index,
+	                    value: o.content,
+	                    deleteOption: this._deleteOption.bind(this),
+	                    onChange: this._onChangeOption.bind(this)
+	                });
+	            }.bind(this)), React.createElement(Button, {
+	                type: 'button',
+	                value: '新增选项',
+	                onClick: this._addOption.bind(this)
+	            }), info.type == 0 ? React.createElement(Radio2, {
+	                title: '正确答案',
+	                name: 'answer',
+	                value: this.state.info.answer,
+	                options: this.state.info.options,
+	                onChange: this._onAnswer.bind(this)
+	            }) : React.createElement(Checkbox, {
+	                title: '正确答案',
+	                name: 'answer',
+	                value: this.state.info.answer,
+	                options: this.state.info.options,
+	                onChange: this._onAnswer.bind(this)
+	            }), React.createElement(Button)));
+	            return React.createElement('section', {
+	                className: 'warp'
+	            }, render);
+	        }
+	    }]);
+
+	    return testDetail;
+	}(React.Component);
+
+	module.exports = connect(function (state) {
+	    return {
+	        counter: state.config.show
+	    };
+	})(testDetail);
+
+	var Option = React.createClass({
+	    displayName: 'Option',
+
+	    getDefaultProps: function getDefaultProps() {
+	        return {
+	            type: 'text',
+	            value: ''
+	        };
+	    },
+	    getInitialState: function getInitialState() {
+	        return {
+	            value: this.props.value,
+	            length: this.props.value.length || 0
+	        };
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        this.state = {
+	            value: nextProps.value,
+	            length: nextProps.value.length || 0
+	        };
+	    },
+	    _onChange: function _onChange(e) {
+	        var value = e.target.value.replace(/(^\s*)|(\s*$)/, "");
+	        if (this.props.onChange) {
+	            this.props.onChange(this.props.name, value);
+	        }
+	    },
+	    deleteOption: function deleteOption(e) {
+	        if (this.props.deleteOption) {
+	            this.props.deleteOption(this.props.name);
+	        }
+	    },
+
+	    render: function render() {
+	        var limit = ' ' + this.state.length;
+	        if (this.props.max) {
+	            limit += ' / ' + this.props.max;
+	        }
+	        return React.createElement('div', {
+	            className: 'form-group'
+	        }, React.createElement('label', {
+	            className: 'form-label'
+	        }, this.props.title), React.createElement('div', {
+	            className: 'form-control'
+	        }, limit ? React.createElement('i', {
+	            className: 'form-ico fa'
+	        }, this.props.limit) : null, React.createElement('input', {
+	            className: 'form-input',
+	            type: this.props.type,
+	            max: this.props.max,
+	            value: this.state.value,
+	            onChange: this._onChange
+	        })), React.createElement('div', {
+	            className: 'form-delete',
+	            onClick: this.deleteOption
+	        }, '删除'));
+	    }
+	});
+
+	var Checkbox = React.createClass({
+	    displayName: 'Checkbox',
+
+	    getInitialState: function getInitialState() {
+	        var options = [];
+	        if (!this.props.ext) {
+	            options = this.props.options;
+	            if (typeof options == "string") {
+	                options = JSON.parse(options);
+	            }
+	        }
+	        var value = this.props.value;
+	        if (value && typeof value == "string") {
+	            value = JSON.parse(value);
+	        }
+	        return {
+	            value: value,
+	            help: this.props.help,
+	            option: options
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        if (this.props.ext) {
+	            getfetch("api/" + this.props.ext).then(function (res) {
+	                console.log(res);
+	                this.setState({
+	                    option: res
+	                });
+	            }.bind(this));
+	        }
+	    },
+	    _onChange: function _onChange(e) {
+	        var type = this.props.type;
+	        var v = e.target.value;
+	        if (!isNaN(v)) {
+	            v = parseInt(v);
+	        }
+	        var value = this.state.value;
+	        var index = value.indexOf(v);
+	        if (index == -1) {
+	            value.push(v);
+	        } else {
+	            value.splice(index, 1);
+	        }
+	        this.setState({
+	            value: value
+	        });
+	        if (this.props.onChange) {
+	            if (this.props.value && typeof this.props.value == "string") {
+	                value = JSON.stringify(value);
+	            }
+	            this.props.onChange(this.props.name, value);
+	        }
+	    },
+	    render: function render() {
+	        var value = this.state.value;
+	        var name = this.props.name;
+	        var options = this.state.option.map(function (d, index) {
+	            var checked = '';
+	            if (value.indexOf(d.id) > -1) {
+	                checked = ' checked';
+	            }
+	            var typeClass = 'checker';
+	            return React.createElement('label', {
+	                key: index,
+	                className: 'form-radio'
+	            }, React.createElement('div', {
+	                className: typeClass + checked
+	            }, React.createElement('input', {
+	                type: 'checkbox',
+	                name: name,
+	                value: d.id,
+	                checked: checked,
+	                onChange: this._onChange
+	            })), React.createElement('span', null, od[index]));
+	        }.bind(this));
+	        return this.state.option.length > 0 ? React.createElement(FormGroup, {
+	            title: this.props.title
+	        }, options) : null;
+	    }
+	});
+
+	var Radio2 = React.createClass({
+	    displayName: 'Radio2',
+
+	    getInitialState: function getInitialState() {
+	        var options = [];
+	        if (!this.props.ext) {
+	            options = this.props.options;
+	            if (typeof options == "string") {
+	                options = JSON.parse(options);
+	            }
+	        }
+	        var value = this.props.value;
+	        if (value && typeof value == "string") {
+	            value = JSON.parse(value);
+	        }
+	        var v = [];
+	        v.push(value[0]);
+	        return {
+	            value: v,
+	            help: this.props.help,
+	            option: options
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        if (this.props.ext) {
+	            request.get('admin/' + this.props.ext).end(function (err, res) {
+	                var data = JSON.parse(res.text);
+	                this.setState({
+	                    option: data
+	                });
+	            }.bind(this));
+	        }
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        var options = [];
+	        if (!nextProps.ext) {
+	            options = nextProps.options;
+	            if (typeof options == "string") {
+	                options = JSON.parse(options);
+	            }
+	        }
+	        this.setState({
+	            value: nextProps.value,
+	            help: nextProps.help,
+	            option: options
+	        });
+	    },
+	    _onChange: function _onChange(e) {
+	        var value = [];
+	        var v = e.target.value;
+	        if (!isNaN(v)) {
+	            v = parseInt(v);
+	        }
+	        value.push(v);
+	        console.log(value);
+
+	        this.setState({
+	            value: value
+	        });
+	        if (this.props.onChange) {
+	            this.props.onChange(this.props.name, value);
+	        }
+	    },
+	    render: function render() {
+	        var value = this.state.value;
+	        var name = this.props.name;
+	        var options = this.state.option.map(function (d, index) {
+	            var checked = '';
+	            if (value.indexOf(d.id) > -1) {
+	                checked = ' checked';
+	            }
+	            var typeClass = 'radio';
+	            return React.createElement('label', {
+	                key: index,
+	                className: 'form-radio'
+	            }, React.createElement('div', {
+	                className: typeClass + checked
+	            }, React.createElement('input', {
+	                type: 'radio',
+	                value: d.id,
+	                checked: checked,
+	                onChange: this._onChange
+	            })), React.createElement('span', null, od[index]));
+	        }.bind(this));
+	        return this.state.option.length > 0 ? React.createElement(FormGroup, {
+	            title: this.props.title,
+	            help: this.state.help
+	        }, options) : null;
+	    }
+	});
+
+/***/ },
+/* 371 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _require = __webpack_require__(98);
+
+	var Form = _require.Form;
+	var FormGroup = _require.FormGroup;
+	var Input = _require.Input;
+	var Textarea = _require.Textarea;
+	var Radio = _require.Radio;
+	var Button = _require.Button;
+
+
+	var od = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+
+	var testDetail = function (_React$Component) {
+	    _inherits(testDetail, _React$Component);
+
+	    function testDetail(props) {
+	        _classCallCheck(this, testDetail);
+
+	        var _this = _possibleConstructorReturn(this, (testDetail.__proto__ || Object.getPrototypeOf(testDetail)).call(this, props));
+
+	        _this.state = {
+	            info: {
+	                options: []
+	            },
+	            deleteid: [],
+	            addnew: []
+	        };
+	        return _this;
+	    }
+
+	    _createClass(testDetail, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var id = this.props.params.id;
+	            // let requrl = page == 'add' ? pages + '/add' : pages + '/detail'
+
+	            getfetch('api/tests/detail/' + id).then(function (res) {
+	                res.info.answer = JSON.parse(res.info.answer);
+	                console.log(res);
+	                res.info.type = [0];
+	                this.setState({
+	                    info: res.info
+	                });
+	            }.bind(this));
+	        }
+
+	        /**
+	         * 修改题目标题
+	         */
+
+	    }, {
+	        key: '_onChange',
+	        value: function _onChange(name, value) {
+	            var info = this.state.info;
+	            info[name] = value;
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 改变题目类型
+	         */
+
+	    }, {
+	        key: '_onChangeType',
+	        value: function _onChangeType(name, value) {
+	            var info = this.state.info;
+	            info[name] = value;
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 修改选项
+	         */
+
+	    }, {
+	        key: '_onChangeOption',
+	        value: function _onChangeOption(name, value) {
+	            var info = this.state.info;
+	            info.options[name].content = value;
+	            if (info.options[name].status == 0) {
+	                info.options[name].status = -2;
+	            }
+	            console.log(value);
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 新增选项
+	         */
+
+	    }, {
+	        key: '_addOption',
+	        value: function _addOption(e) {
+	            var info = this.state.info;
+	            var length = info.options.length - 1;
+	            var isnew = info.options.every(function (o) {
+	                if (o.content == '') {
+	                    alert('还有空白选项未完成，请完成后再新增！');
+	                    return false;
+	                }
+	                return true;
+	            });
+	            if (!isnew) {
+	                return;
+	            }
+	            getfetch('api/tests/addoption', {
+	                test_id: this.props.params.id,
+	                addnew: this.state.addnew
+	            }).then(function (res) {
+	                info.options.push(res.info);
+	                var addnew = this.state.addnew;
+	                addnew.push(res.info.id);
+	                this.setState({
+	                    info: info,
+	                    addnew: addnew
+	                });
+	            }.bind(this));
+	        }
+
+	        /**
+	         * 删除选项
+	         */
+
+	    }, {
+	        key: '_deleteOption',
+	        value: function _deleteOption(index) {
+	            var info = this.state.info;
+	            var deleteid = this.state.deleteid;
+	            deleteid.push(info.options[index].id);
+	            delete info.options.splice(index, 1);
+	            this.setState({
+	                info: info,
+	                deleteid: deleteid
+	            });
+	        }
+
+	        /**
+	         * 改变答案
+	         */
+
+	    }, {
+	        key: '_onAnswer',
+	        value: function _onAnswer(name, value) {
+	            var info = this.state.info;
+	            info[name] = value;
+	            this.setState({
+	                info: info
+	            });
+	        }
+
+	        /**
+	         * 提交表单
+	         */
+
+	    }, {
+	        key: '_onSubmit',
+	        value: function _onSubmit(e) {
+	            console.log(this.state);
+	            postfetch('api/tests/detail', this.state).then(function (res) {
+	                console.log(res);
+
+	                // if (page == 'add') {
+	                //     this.props.history.pushState(null, 'api/' + pages + '/' + res.info.id)
+	                // }
+	                Rd.message(res.msg);
+	            }.bind(this));
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var info = this.state.info;
+	            console.log(this.state);
+	            console.log(this.state.info.answer);
+
+	            var render = React.createElement('section', {
+	                className: 'container pure-u-1'
+	            }, React.createElement("h3", {
+	                className: "page-title"
+	            }, this.state.title), React.createElement(Form, {
+	                action: this.state.action,
+	                info: info,
+	                apiSubmit: false,
+	                // legend: this.state.title,
+	                onSubmit: this._onSubmit.bind(this)
+	            }, React.createElement(Textarea, {
+	                title: '题目',
+	                key: 'title',
+	                name: 'title',
+	                value: this.state.info.title,
+	                onChange: this._onChange.bind(this)
+	            }), React.createElement(Radio, {
+	                title: '类型',
+	                type: 'radio',
+	                value: this.state.info.type,
+	                options: [{
+	                    title: '单选题',
+	                    value: 0
+	                }, {
+	                    title: '多选题',
+	                    value: 1
+	                }],
+	                name: 'type',
+	                help: '判断题将作为单选题（选项为正确和错误）',
+	                disabled: '',
+	                onChange: this._onChangeType.bind(this)
+	            }), this.state.info.options.map(function (o, index) {
+	                return React.createElement(Option, {
+	                    title: '选项 ' + od[index],
+	                    key: index,
+	                    name: index,
+	                    value: o.content,
+	                    deleteOption: this._deleteOption.bind(this),
+	                    onChange: this._onChangeOption.bind(this)
+	                });
+	            }.bind(this)), React.createElement(Button, {
+	                type: 'button',
+	                value: '新增选项',
+	                onClick: this._addOption.bind(this)
+	            }), info.type == 0 ? React.createElement(Radio2, {
+	                title: '正确答案',
+	                name: 'answer',
+	                value: this.state.info.answer,
+	                options: this.state.info.options,
+	                onChange: this._onAnswer.bind(this)
+	            }) : React.createElement(Checkbox, {
+	                title: '正确答案',
+	                name: 'answer',
+	                value: this.state.info.answer,
+	                options: this.state.info.options,
+	                onChange: this._onAnswer.bind(this)
+	            }), React.createElement(Button)));
+	            return React.createElement('section', {
+	                className: 'warp'
+	            }, render);
+	        }
+	    }]);
+
+	    return testDetail;
+	}(React.Component);
+
+	module.exports = connect(function (state) {
+	    return {
+	        counter: state.config.show
+	    };
+	})(testDetail);
+
+	var Option = React.createClass({
+	    displayName: 'Option',
+
+	    getDefaultProps: function getDefaultProps() {
+	        return {
+	            type: 'text',
+	            value: ''
+	        };
+	    },
+	    getInitialState: function getInitialState() {
+	        return {
+	            value: this.props.value,
+	            length: this.props.value.length || 0
+	        };
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        this.state = {
+	            value: nextProps.value,
+	            length: nextProps.value.length || 0
+	        };
+	    },
+	    _onChange: function _onChange(e) {
+	        var value = e.target.value.replace(/(^\s*)|(\s*$)/, "");
+	        if (this.props.onChange) {
+	            this.props.onChange(this.props.name, value);
+	        }
+	    },
+	    deleteOption: function deleteOption(e) {
+	        if (this.props.deleteOption) {
+	            this.props.deleteOption(this.props.name);
+	        }
+	    },
+
+	    render: function render() {
+	        var limit = ' ' + this.state.length;
+	        if (this.props.max) {
+	            limit += ' / ' + this.props.max;
+	        }
+	        return React.createElement('div', {
+	            className: 'form-group'
+	        }, React.createElement('label', {
+	            className: 'form-label'
+	        }, this.props.title), React.createElement('div', {
+	            className: 'form-control'
+	        }, limit ? React.createElement('i', {
+	            className: 'form-ico fa'
+	        }, this.props.limit) : null, React.createElement('input', {
+	            className: 'form-input',
+	            type: this.props.type,
+	            max: this.props.max,
+	            value: this.state.value,
+	            onChange: this._onChange
+	        })), React.createElement('div', {
+	            className: 'form-delete',
+	            onClick: this.deleteOption
+	        }, '删除'));
+	    }
+	});
+
+	var Checkbox = React.createClass({
+	    displayName: 'Checkbox',
+
+	    getInitialState: function getInitialState() {
+	        var options = [];
+	        if (!this.props.ext) {
+	            options = this.props.options;
+	            if (typeof options == "string") {
+	                options = JSON.parse(options);
+	            }
+	        }
+	        var value = this.props.value;
+	        if (value && typeof value == "string") {
+	            value = JSON.parse(value);
+	        }
+	        return {
+	            value: value,
+	            help: this.props.help,
+	            option: options
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        if (this.props.ext) {
+	            getfetch("api/" + this.props.ext).then(function (res) {
+	                console.log(res);
+	                this.setState({
+	                    option: res
+	                });
+	            }.bind(this));
+	        }
+	    },
+	    _onChange: function _onChange(e) {
+	        var type = this.props.type;
+	        var v = e.target.value;
+	        if (!isNaN(v)) {
+	            v = parseInt(v);
+	        }
+	        var value = this.state.value;
+	        var index = value.indexOf(v);
+	        if (index == -1) {
+	            value.push(v);
+	        } else {
+	            value.splice(index, 1);
+	        }
+	        this.setState({
+	            value: value
+	        });
+	        if (this.props.onChange) {
+	            if (this.props.value && typeof this.props.value == "string") {
+	                value = JSON.stringify(value);
+	            }
+	            this.props.onChange(this.props.name, value);
+	        }
+	    },
+	    render: function render() {
+	        var value = this.state.value;
+	        var name = this.props.name;
+	        var options = this.state.option.map(function (d, index) {
+	            var checked = '';
+	            if (value.indexOf(d.id) > -1) {
+	                checked = ' checked';
+	            }
+	            var typeClass = 'checker';
+	            return React.createElement('label', {
+	                key: index,
+	                className: 'form-radio'
+	            }, React.createElement('div', {
+	                className: typeClass + checked
+	            }, React.createElement('input', {
+	                type: 'checkbox',
+	                name: name,
+	                value: d.id,
+	                checked: checked,
+	                onChange: this._onChange
+	            })), React.createElement('span', null, od[index]));
+	        }.bind(this));
+	        return this.state.option.length > 0 ? React.createElement(FormGroup, {
+	            title: this.props.title
+	        }, options) : null;
+	    }
+	});
+
+	var Radio2 = React.createClass({
+	    displayName: 'Radio2',
+
+	    getInitialState: function getInitialState() {
+	        var options = [];
+	        if (!this.props.ext) {
+	            options = this.props.options;
+	            if (typeof options == "string") {
+	                options = JSON.parse(options);
+	            }
+	        }
+	        var value = this.props.value;
+	        if (value && typeof value == "string") {
+	            value = JSON.parse(value);
+	        }
+	        var v = [];
+	        v.push(value[0]);
+	        return {
+	            value: v,
+	            help: this.props.help,
+	            option: options
+	        };
+	    },
+	    componentDidMount: function componentDidMount() {
+	        if (this.props.ext) {
+	            request.get('admin/' + this.props.ext).end(function (err, res) {
+	                var data = JSON.parse(res.text);
+	                this.setState({
+	                    option: data
+	                });
+	            }.bind(this));
+	        }
+	    },
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        var options = [];
+	        if (!nextProps.ext) {
+	            options = nextProps.options;
+	            if (typeof options == "string") {
+	                options = JSON.parse(options);
+	            }
+	        }
+	        this.setState({
+	            value: nextProps.value,
+	            help: nextProps.help,
+	            option: options
+	        });
+	    },
+	    _onChange: function _onChange(e) {
+	        var value = [];
+	        var v = e.target.value;
+	        if (!isNaN(v)) {
+	            v = parseInt(v);
+	        }
+	        value.push(v);
+	        console.log(value);
+
+	        this.setState({
+	            value: value
+	        });
+	        if (this.props.onChange) {
+	            this.props.onChange(this.props.name, value);
+	        }
+	    },
+	    render: function render() {
+	        var value = this.state.value;
+	        var name = this.props.name;
+	        var options = this.state.option.map(function (d, index) {
+	            var checked = '';
+	            if (value.indexOf(d.id) > -1) {
+	                checked = ' checked';
+	            }
+	            var typeClass = 'radio';
+	            return React.createElement('label', {
+	                key: index,
+	                className: 'form-radio'
+	            }, React.createElement('div', {
+	                className: typeClass + checked
+	            }, React.createElement('input', {
+	                type: 'radio',
+	                value: d.id,
+	                checked: checked,
+	                onChange: this._onChange
+	            })), React.createElement('span', null, od[index]));
+	        }.bind(this));
+	        return this.state.option.length > 0 ? React.createElement(FormGroup, {
+	            title: this.props.title,
+	            help: this.state.help
+	        }, options) : null;
+	    }
+	});
 
 /***/ }
 /******/ ]);

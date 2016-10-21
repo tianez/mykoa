@@ -34,6 +34,8 @@ const Checkbox = React.createClass({
             }
         }
         let value = this.props.value
+        console.log(value);
+        
         if (value && typeof value == "string") {
             value = JSON.parse(value)
         }

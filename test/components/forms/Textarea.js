@@ -37,6 +37,12 @@ var Textarea = React.createClass({
     shouldComponentUpdate: function(nextProps, nextState) {
         return nextProps.value !== this.props.value
     },
+    componentWillReceiveProps: function(nextProps) {
+        this.state = {
+            value: nextProps.value,
+            length:  nextProps.value.length || 0
+        }
+    },
     _onChange: function(e) {
         let error
         let warning

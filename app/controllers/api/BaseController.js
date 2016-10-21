@@ -60,6 +60,11 @@ const theads = {
         name: '分类名称',
         status: '状态'
     },
+    tests: {
+        id: 'ID',
+        title: '题目',
+        status: '状态'
+    }
 }
 
 const titles = {
@@ -73,7 +78,8 @@ const titles = {
     permissions: '权限',
     roles: '用户组',
     article: '文章',
-    category: '分类'
+    category: '分类',
+    tests: '试题'
 }
 
 async function getList(ctx, next) {

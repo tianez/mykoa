@@ -5,7 +5,7 @@ const { Router, Route, IndexRoute, IndexRedirect, Redirect, hashHistory, browser
 const history = syncHistoryWithStore(hashHistory, store)
 
 const Layout = require('../layout/layout')
-const { Nomatch, Home, Pages, Page, Login, Logout } = require('../pages')
+const { Nomatch, Home, Pages, Page, Login, Logout, TestAdd, TestDetail } = require('../pages')
 
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname
@@ -36,6 +36,8 @@ const routers = (
             React.createElement(IndexRedirect, { to: 'index' }),
             React.createElement(Route, { path: "index", component: Home }),
             React.createElement(Route, { path: "api", },
+                React.createElement(Route, { path: "tests/add", component: TestAdd }),
+                React.createElement(Route, { path: "tests/:id", component: TestDetail }),
                 React.createElement(Redirect, { from: ':pages', to: ':pages/index' }),
                 React.createElement(Route, { path: ":pages" },
                     React.createElement(Route, { path: "index", component: Pages }),

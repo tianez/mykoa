@@ -41,17 +41,8 @@ async function getList(ctx, next) {
  * 新增页面
  */
 async function getAdd(ctx, next) {
-    let module = ctx.params.module
-    let fields = await db.fields.findAll({
-        where: {
-            module: module
-        },
-        order: [
-            ['order', 'ASC']
-        ]
-    })
     let data = await db.tests.findOne({
-        attributes: ['id', 'title', 'type', 'answer'],
+        attributes: ['id', 'title', 'type', 'answer', 'status'],
         where: {
             status: -1
         },
@@ -62,17 +53,24 @@ async function getAdd(ctx, next) {
             status: -1
         })
         data = data.toJSON()
-        delete data.status
         delete data.created_at
         delete data.updated_at
         let option = await db.tests_option.bulkCreate([{
             test_id: data.id,
-            content: '正确'
+            content: '正确',
         }, {
             test_id: data.id,
-            content: '错误'
+            content: '错误',
         }])
     }
+    let options = await db.tests_option.findAll({
+        attributes: ['id', 'content', 'status'],
+        where: {
+            test_id: data.id,
+        },
+        raw: true
+    })
+    data.options = options
     ctx.body = JSON.stringify({
         info: data
     })
@@ -82,9 +80,7 @@ async function getAdd(ctx, next) {
  * 新增数据
  */
 async function getAddOption(ctx, next) {
-    console.log(ctx.query.addnew);
     let notin = ctx.query.addnew
-
     let where = {
         status: -1,
         content: '',
@@ -101,7 +97,7 @@ async function getAddOption(ctx, next) {
         }
     }
     let data = await db.tests_option.findOne({
-        attributes: ['id', 'content'],
+        attributes: ['id', 'content', 'status'],
         where: where,
         raw: true
     })
@@ -116,7 +112,6 @@ async function getAddOption(ctx, next) {
         delete data.created_at
         delete data.updated_at
     }
-    console.log(data);
     ctx.body = JSON.stringify({
         info: data
     })
@@ -124,10 +119,10 @@ async function getAddOption(ctx, next) {
 
 async function getDetail(ctx, next) {
     let data = await db.tests.findOne({
-        attributes: ['id', 'title', 'type', 'answer'],
         where: {
-            status: -1
+            id: ctx.params.id
         },
+        attributes: ['id', 'title', 'type', 'answer', 'status'],
         raw: true
     })
     let options = await db.tests_option.findAll({
@@ -146,24 +141,47 @@ async function getDetail(ctx, next) {
 
 async function postDetail(ctx, next) {
     let data = ctx.request.fields
-    let res = await db.tests.update(data, {
+    data.info.answer = JSON.stringify(data.info.answer)
+    let status = data.info.status
+    if (status == -1) {
+        data.info.status = '0'
+    }
+    let res = await db.tests.update(data.info, {
         where: {
-            id: data.id
+            id: data.info.id,
+            status: status
         }
     })
-    let destroy = await db.role_permission.destroy({
-        where: {
-            permission_id: data.id
+    let deleteid = data.deleteid
+    if (deleteid && deleteid.length > 0) {
+        let where = {}
+        let ins = []
+        if (!isNaN(deleteid)) {
+            ins.push(deleteid)
+        } else {
+            ins = deleteid
         }
-    })
-    let permission = []
-    data.roles.forEach(function (r) {
-        permission.push({
-            permission_id: data.id,
-            id: r
+        where.id = {
+            $In: ins
+        }
+        await db.tests_option.destroy({
+            where: where
         })
-    });
-    await db.role_permission.bulkCreate(permission)
+    }
+    let add = []
+    data.info.options.forEach(function (r) {
+        if (r.status == -1) {
+            r.status = '0'
+            let where = {}
+            where.id = r.id
+            if (data.addnew.indexOf(r.id > -1)) {
+                where.status = '-1'
+            }
+            db.tests_option.update(r, {
+                where: where
+            })
+        }
+    }, this);
     ctx.body = JSON.stringify({
         msg: '保存成功！'
     })
@@ -173,10 +191,14 @@ async function postDetail(ctx, next) {
  * 删除数据
  */
 async function getDelete(ctx, next) {
-    let module = ctx.params.module
-    let data = await db[module].destroy({
+    db.tests.destroy({
         where: {
             id: ctx.params.id
+        }
+    })
+    db.tests_option.destroy({
+        where: {
+            test_id: ctx.params.id
         }
     })
     ctx.body = JSON.stringify({
