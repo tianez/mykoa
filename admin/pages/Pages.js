@@ -242,7 +242,7 @@ const Pages = React.createClass({
                             className: 'pure-menu-link',
                             activeClassName: 'active',
                             query: {
-                                state: 0
+                                status: 0
                             }
                         },
                         '正常'
@@ -252,7 +252,7 @@ const Pages = React.createClass({
                             className: 'pure-menu-link',
                             activeClassName: 'active',
                             query: {
-                                state: 1
+                                status: 1
                             }
                         },
                         '已删除'

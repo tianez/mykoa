@@ -9459,14 +9459,14 @@
 	            className: 'pure-menu-link',
 	            activeClassName: 'active',
 	            query: {
-	                state: 0
+	                status: 0
 	            }
 	        }, '正常'), React.createElement(Link, {
 	            to: '/api/' + this.props.params.pages,
 	            className: 'pure-menu-link',
 	            activeClassName: 'active',
 	            query: {
-	                state: 1
+	                status: 1
 	            }
 	        }, '已删除'), React.createElement(Link, {
 	            to: '/api/' + this.props.params.pages + '/add',

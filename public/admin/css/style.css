@@ -161,8 +161,8 @@ hr {
   width: 20rem;
   background: #364150;
 }
-#sidebar .pure-menu-lis {
-  padding: 2rem 0 4rem;
+#sidebar ul {
+  padding: 2rem 0 4.4rem;
 }
 #content {
   position: relative;
