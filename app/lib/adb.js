@@ -92,9 +92,9 @@ Db.prototype.update = function (data, cb) {
     return this.query(cb);
 }
 
-Db.prototype.delete = function () {
+Db.prototype.delete = function (cb) {
     this.querys = "DELETE FROM " + this.datasheet + this.search;
-    return this.query();
+    return this.query(cb);
 }
 
 Db.prototype.query = function (data) {

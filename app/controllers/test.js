@@ -3,7 +3,8 @@
 const moment = require('moment')
 
 const redis = require('../lib/redis')
-const db2 = require('../model/adb')
+const db2 = require('../lib/adb')
+
 const db = new db2()
 
 // // 载入模块
@@ -32,19 +33,32 @@ const db = new db2()
 //     // files是一个数组，里面是目录/tmp目录下的所有文件（包括子目录）
 // });
 
-async function test(ctx, next) {
-    let res = await redis.set('123', 'woshiahaoren', 20)
-    let res2 = await redis.set('234', 'woshiahaoren')
-    let dbs = await db.table('fields').where({
-        id: 1
-    }).get(function(res){
-        console.log('1');
-        console.log(res);
-        console.log('3');
-    })
-    console.log(dbs);
+const monk = require('../lib/monk')
 
-    console.log(res);
+const products2 = monk('user')
+
+const mongoose = require('../lib/mongoose').users
+
+async function test(ctx, next) {
+    let mm = new mongoose()
+    mm.username = 'woshihaoren22'
+    mm.save(function (err) {
+        console.log(err);
+    });
+    // products2.index('name last')
+    // products2.insert({
+    //     "name": "orange juice",
+    //     "description": "just so so"
+    // })
+    // products2.find({}, {
+    //     limit: 2,
+    //     sort: {
+    //         _id: -1
+    //     }
+    // }).then(function (res) {
+    //     console.log(res)
+    // })
+
     // io.emit('system', '1111111')
     // let chat2 = await chat()
     // console.log(chat2);

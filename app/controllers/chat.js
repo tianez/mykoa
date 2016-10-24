@@ -18,19 +18,6 @@ async function getHome(ctx, next) {
         },
         raw: true
     })
-    let topic = await db.topic.findOne({
-        raw: true
-    })
-    setTimeout(function () {
-        io.emit('system', {
-            content: topic.content,
-            username: 'system',
-            realname: '<span style="color: #f00;">（系统消息）今日话题</span>',
-            time: parseInt(moment() / 1000),
-            user_id: 0,
-            head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
-        })
-    }, 4000)
     ctx.render('chat', {
         title: title.value
     });

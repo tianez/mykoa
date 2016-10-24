@@ -8,6 +8,9 @@ const fs = require('fs')
 
 const db = require('./model/db')
 
+const db2 = require('./lib/adb')
+const dbs = new db2()
+
 const word = fs.readFileSync('./word/word.txt', 'utf-8');
 const words = word.split("\r\n"); //字符分割 
 
@@ -42,7 +45,21 @@ sockets.on('connection', function (socket) {
     console.log('当前在线人数：' + onlineCount);
     socket.emit('login', onlineCount);
     socket.broadcast.emit('login', onlineCount);
-    // 获得客户端的Cookie
+    dbs.table('topic').where({
+            status: 0
+        })
+        .limit(1)
+        .get(function (res) {
+            socket.emit('system', {
+                content: res[0].content,
+                username: 'system',
+                realname: '<span style="color: #f00;">（系统消息）今日话题</span>',
+                time: parseInt(moment() / 1000),
+                user_id: 0,
+                head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
+            })
+        })
+        // 获得客户端的Cookie
     let cookie = socket.handshake.headers.cookie
     let cookies = {};
     cookie && cookie.split(';').forEach(function (c) {
@@ -69,6 +86,12 @@ sockets.on('connection', function (socket) {
             return
         }
         data.time = parseInt(moment() / 1000)
+        if (!data.realname) {
+            let username = data.username
+            let pre = username.slice(0, 3)
+            let aft = username.slice(7)
+            data.realname = pre + '****' + aft
+        }
         db.chat.create(data)
             // socket.emit('chat', data);
             // socket.broadcast.emit('chat', data);

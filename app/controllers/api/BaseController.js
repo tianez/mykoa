@@ -203,7 +203,14 @@ async function updateDetail(ctx, next) {
  */
 async function getDelete(ctx, next) {
     let module = ctx.params.module
-    let data = await db[module].destroy({
+        // let data = await db[module].destroy({
+        //     where: {
+        //         id: ctx.params.id
+        //     }
+        // })
+    let data = await db[module].update({
+        status: 1
+    }, {
         where: {
             id: ctx.params.id
         }
