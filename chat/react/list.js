@@ -12,6 +12,9 @@ class Time extends React.Component {
         let curdate = new Date()
         let seconds = Math.ceil((curdate - date) / 1000)
         if (seconds < 60) {
+            if (seconds < 1) {
+                seconds = 1
+            }
             out = seconds + '秒前'
         } else {
             let minutes = parseInt(seconds / 60)
@@ -47,22 +50,25 @@ class List extends React.Component {
     render() {
         let ul = this.props.data.map(function (d, index) {
             return React.createElement('div', {
-                className: 'li',
-                key: index
-            },
-                React.createElement('div', {
-                    className: 'thumb'
+                    className: 'li',
+                    key: index
                 },
+                React.createElement('div', {
+                        className: 'thumb'
+                    },
                     React.createElement('img', {
                         src: d.head_img
                     })
                 ),
                 React.createElement('div', {
-                    className: 'c'
-                },
+                        className: 'c'
+                    },
                     React.createElement('div', {
-                        className: 'c1'
-                    }, d.realname),
+                        className: 'c1',
+                        dangerouslySetInnerHTML: {
+                            __html: d.realname
+                        }
+                    }),
                     React.createElement(Time, {
                         time: d.time
                     }),

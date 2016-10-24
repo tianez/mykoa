@@ -62,14 +62,33 @@ html, body {
     position: relative;
     .content1, .content2 {
         display: none;
-        padding: 1.5rem;
         font-size: 1.3rem;
         line-height: 2.2rem;
         &.active {
             display: block;
         }
     }
+    .content1 {
+        padding: 1.5rem 1rem;
+        font-size: 1.4rem;
+        .video {
+            border: 1px solid #f6f6f6;
+            width: 50%;
+            float: left;
+            background: #fff;
+            line-height: 3.6rem;
+            height: 3.6rem;
+            text-align: center;
+            cursor: pointer;
+            margin: .1rem 0;
+        }
+        .active {
+            color: #fff;
+            background: #33b1e3;
+        }
+    }
     .content2 {
+        padding: 1.5rem;
         .li {
             .flex;
             border-bottom: 1px solid #dedede;

@@ -233,13 +233,34 @@ body {
 #content .content1,
 #content .content2 {
   display: none;
-  padding: 1.5rem;
   font-size: 1.3rem;
   line-height: 2.2rem;
 }
 #content .content1.active,
 #content .content2.active {
   display: block;
+}
+#content .content1 {
+  padding: 1.5rem 1rem;
+  font-size: 1.4rem;
+}
+#content .content1 .video {
+  border: 1px solid #f6f6f6;
+  width: 50%;
+  float: left;
+  background: #fff;
+  line-height: 3.6rem;
+  height: 3.6rem;
+  text-align: center;
+  cursor: pointer;
+  margin: .1rem 0;
+}
+#content .content1 .active {
+  color: #fff;
+  background: #33b1e3;
+}
+#content .content2 {
+  padding: 1.5rem;
 }
 #content .content2 .li {
   display: box;

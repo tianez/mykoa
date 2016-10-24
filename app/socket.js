@@ -41,17 +41,6 @@ sockets.on('connection', function (socket) {
     onlineCount++
     console.log('当前在线人数：' + onlineCount);
     socket.emit('login', onlineCount);
-    console.log(global.chattopic);
-    
-    socket.emit('system', {
-        content: 'global.chattopic.content',
-        username: 'system',
-        realname: '系统消息：今日话题',
-        time: parseInt(moment() / 1000),
-        user_id: 0,
-        head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
-    })
-
     socket.broadcast.emit('login', onlineCount);
     // 获得客户端的Cookie
     let cookie = socket.handshake.headers.cookie

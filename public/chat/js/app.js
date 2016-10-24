@@ -6282,7 +6282,7 @@
 	                alert('请输入内容');
 	                return;
 	            }
-	            Rd.config('show', 1);
+	            Rd.config('show', 0);
 	            socket.emit('chat', {
 	                content: this.refs.input.value,
 	                username: localStorage.username,
@@ -6627,6 +6627,9 @@
 	            var curdate = new Date();
 	            var seconds = Math.ceil((curdate - date) / 1000);
 	            if (seconds < 60) {
+	                if (seconds < 1) {
+	                    seconds = 1;
+	                }
 	                out = seconds + '秒前';
 	            } else {
 	                var minutes = parseInt(seconds / 60);
@@ -6679,8 +6682,11 @@
 	                })), React.createElement('div', {
 	                    className: 'c'
 	                }, React.createElement('div', {
-	                    className: 'c1'
-	                }, d.realname), React.createElement(Time, {
+	                    className: 'c1',
+	                    dangerouslySetInnerHTML: {
+	                        __html: d.realname
+	                    }
+	                }), React.createElement(Time, {
 	                    time: d.time
 	                }), React.createElement('div', {
 	                    className: 'c3'

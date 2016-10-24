@@ -5,19 +5,13 @@ socket.on('connect', function () {
     socket.on('ping', function (data, fn) {
         fn('ping ' + new Date());
     });
-    // socket.emit('login', {
-    //     userid: localStorage.userid || 0,
-    //     username: localStorage.username || ''
-    // });
 });
 socket.on('login', function (data) {
     data = JSON.parse(data)
     Rd.config('number', data)
-    console.log(data);
 });
 
 socket.on('chat', function (data) {
-    console.log(data);
     Rd.comment(data);
 });
 
@@ -26,7 +20,6 @@ socket.on('nopass', function (data) {
 });
 
 socket.on('system', function (data) {
-    console.log(data);
     Rd.comment(data);
 });
 

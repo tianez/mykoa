@@ -19,6 +19,7 @@ router.options('*', async(ctx, next) => {
 })
 
 router.get('/list', controller.getList);
+router.get('/win', controller.getWin);
 router.post('/login', controller.postLogin);
 router.post('/register', controller.postRegister);
 

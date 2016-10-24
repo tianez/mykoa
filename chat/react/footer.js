@@ -13,7 +13,7 @@ class Footer extends React.Component {
             alert('请输入内容')
             return
         }
-        Rd.config('show', 1)
+        Rd.config('show', 0)
         socket.emit('chat', {
             content: this.refs.input.value,
             username: localStorage.username,

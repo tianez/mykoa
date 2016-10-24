@@ -2,15 +2,41 @@
 
 const uuid = require('node-uuid');
 const moment = require('moment')
+const io = require('socket.io-emitter')({
+    host: '127.0.0.1',
+    port: 6379
+});
 
 const db = require('../model/db')
 
 const cryptopassword = require('../middleware/password');
 
+async function getHome(ctx, next) {
+    let title = await db.config.findOne({
+        where: {
+            name: 'title'
+        },
+        raw: true
+    })
+    let topic = await db.topic.findOne({
+        raw: true
+    })
+    setTimeout(function () {
+        io.emit('system', {
+            content: topic.content,
+            username: 'system',
+            realname: '<span style="color: #f00;">（系统消息）今日话题</span>',
+            time: parseInt(moment() / 1000),
+            user_id: 0,
+            head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
+        })
+    }, 4000)
+    ctx.render('chat', {
+        title: title.value
+    });
+}
+
 async function getList(ctx, next) {
-    // db.chat_win.sync({
-    //     force: true
-    // });
     let chats = await db.chat.findAll({
         attributes: ['id', 'username', 'realname', 'head_img', 'user_id', 'time', 'content'],
         raw: true,
@@ -27,14 +53,14 @@ async function getList(ctx, next) {
             }
         }
     });
-    let yesterday = await db.chat_win.findAll({
-        raw: true,
-        where: {
-            created_at: {
-                $between: [moment().subtract(1, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')]
-            }
-        }
-    });
+    // let yesterday = await db.chat_win.findAll({
+    //     raw: true,
+    //     where: {
+    //         created_at: {
+    //             $between: [moment().subtract(1, 'days').format('YYYY-MM-DD'), moment().format('YYYY-MM-DD')]
+    //         }
+    //     }
+    // });
     let video = await db.video.findAll({
         attributes: ['id', 'name', 'url', 'poster'],
         raw: true
@@ -42,9 +68,22 @@ async function getList(ctx, next) {
     ctx.body = JSON.stringify({
         chat: chats,
         today: today,
-        yesterday: yesterday,
+        // yesterday: yesterday,
         video: video
     })
+}
+
+async function getWin(ctx, next) {
+    console.log(ctx.query.win);
+    io.emit('system', {
+        content: '恭喜手机号码为' + ctx.query.win + '的用户获得大奖，他将获得由xx提供的奖品一份。',
+        username: 'system',
+        realname: '<span style="color: #f00;">（系统消息）中奖信息</span>',
+        time: parseInt(moment() / 1000),
+        user_id: 0,
+        head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
+    })
+    ctx.body = '11111'
 }
 
 async function postLogin(ctx, next) {
@@ -103,9 +142,11 @@ async function postRegister(ctx, next) {
 
 
 let controller = {
+    getHome: getHome,
     getList: getList,
     postLogin: postLogin,
-    postRegister: postRegister
+    postRegister: postRegister,
+    getWin: getWin
 }
 
 module.exports = controller
