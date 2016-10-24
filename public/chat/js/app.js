@@ -6114,10 +6114,10 @@
 	            }, React.createElement('div', {
 	                className: show == 0 ? 'nav1 active' : 'nav1',
 	                onClick: this._onClick.bind(this, 0)
-	            }, '互动（' + this.props.config.number + '）'), React.createElement('div', {
+	            }, '聊天室（' + this.props.config.number + '）'), React.createElement('div', {
 	                className: show == 1 ? 'nav1 active' : 'nav1',
 	                onClick: this._onClick.bind(this, 1)
-	            }, '直播')), React.createElement('div', {
+	            }, '电视广播')), React.createElement('div', {
 	                id: 'content',
 	                ref: 'content'
 	            }, React.createElement(_index.List, {

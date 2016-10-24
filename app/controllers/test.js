@@ -1,12 +1,10 @@
 'use strict'
 
 const moment = require('moment')
-const io = require('socket.io-emitter')({
-    host: '127.0.0.1',
-    port: 6379
-});
 
 const redis = require('../lib/redis')
+const db2 = require('../model/adb')
+const db = new db2()
 
 // // 载入模块
 // var Segment = require('segment');
@@ -37,15 +35,16 @@ const redis = require('../lib/redis')
 async function test(ctx, next) {
     let res = await redis.set('123', 'woshiahaoren', 20)
     let res2 = await redis.set('234', 'woshiahaoren')
-    console.log(res);
-    io.emit('system', {
-        content: 'global.chattopic.content222',
-        username: 'system',
-        realname: '系统消息：今日话题',
-        time: parseInt(moment() / 1000),
-        user_id: 0,
-        head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
+    let dbs = await db.table('fields').where({
+        id: 1
+    }).get(function(res){
+        console.log('1');
+        console.log(res);
+        console.log('3');
     })
+    console.log(dbs);
+
+    console.log(res);
     // io.emit('system', '1111111')
     // let chat2 = await chat()
     // console.log(chat2);
