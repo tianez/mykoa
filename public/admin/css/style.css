@@ -154,12 +154,15 @@ hr {
 }
 #sidebar {
   position: fixed;
+  overflow-y: auto;
   top: 4rem;
   left: 0;
   bottom: 0;
   width: 20rem;
-  padding: 2rem 0 0;
   background: #364150;
+}
+#sidebar .pure-menu-lis {
+  padding: 2rem 0 4rem;
 }
 #content {
   position: relative;
