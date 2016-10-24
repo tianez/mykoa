@@ -10,23 +10,6 @@ class Home extends React.Component {
     constructor() {
         super()
     }
-    componentDidMount() {
-        request
-            .get('chat/list')
-            .set('Accept', 'application/json')
-            .end(function (err, res) {
-                if (res.ok) {
-                    let d = JSON.parse(res.text)
-                    console.log(d);
-                    Rd.comments(d.chat)
-                    Rd.todays(d.today)
-                    Rd.video(d.video)
-                    console.log(JSON.parse(res.text))
-                } else {
-                    alert(res.text)
-                }
-            })
-    }
     _onClick(i) {
         if (this.props.config.show !== i) {
             Rd.config('show', i)
@@ -38,11 +21,6 @@ class Home extends React.Component {
     _scrollTop() {
         this.refs.content.scrollTop = 0
     }
-    _changeVideo(index) {
-        console.log(index);
-
-        Rd.config('curl', index)
-    }
     render() {
         let show = this.props.config.show
         return (
@@ -50,7 +28,10 @@ class Home extends React.Component {
                     id: 'bodyd',
                     className: this.props.config.login ? 'leftx' : ''
                 },
-                React.createElement(Iframe),
+                React.createElement(Iframe, {
+                    login: this.props.config.login,
+                    islogin: this.props.config.islogin
+                }),
                 React.createElement('div', {
                         id: 'main'
                     },
@@ -76,15 +57,26 @@ class Home extends React.Component {
                         React.createElement('div', {
                                 className: show == 1 ? 'content1 active' : 'content1',
                             },
-                            this.props.video.map(function (ele, index) {
-                                return React.createElement('div', {
-                                        key: index,
-                                        className: this.props.config.curl == index ? 'video active' : 'video',
-                                        onClick: this._changeVideo.bind(this, index)
-                                    },
-                                    ele.name
-                                )
-                            }.bind(this))
+                            React.createElement('div', {},
+                                React.createElement('div', {}, '今日话题'),
+                                React.createElement('div', {}, ht)
+                            ),
+                            React.createElement('div', {},
+                                React.createElement('div', {}, '今日中奖名单'),
+                                this.props.today.length > 0 ? this.props.today.map(function (d, index) {
+                                    return React.createElement('div', {
+                                        key: index
+                                    }, d.phone)
+                                }) : '暂无数据',
+                            ),
+                            React.createElement('div', {},
+                                React.createElement('div', {}, '昨日中奖名单'),
+                                this.props.yesterday.length > 0 ? this.props.yesterday.map(function (d, index) {
+                                    return React.createElement('div', {
+                                        key: index
+                                    }, d.phone)
+                                }) : '暂无数据'
+                            )
                         )
                     )
                 ),

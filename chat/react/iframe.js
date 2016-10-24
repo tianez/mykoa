@@ -1,4 +1,7 @@
 'use strict'
+import {
+    connect
+} from 'react-redux'
 
 class Iframe extends React.Component {
     constructor() {
@@ -10,27 +13,29 @@ class Iframe extends React.Component {
         }
     }
     render() {
-        // let left = 0
-        // if (this.props.login && !this.props.islogin) {
-        //     left = '-100%'
-        // }
+        let data = this.props.data
+        let curl = this.props.curl
         return (
-            React.createElement('video', {
+            data.length > 0 ? React.createElement('video', {
                 id: 'frame',
                 controls: 'controls',
                 preload: 'none',
-                src: vurl,
-                poster: poster,
+                src: data[curl].url,
+                poster: data[curl].poster,
                 frameBorder: 0,
                 autoPlay: autoplay || true,
                 style: {
                     width: '100%',
-                    height: this.state.height,
-                    // left: left
+                    height: this.state.height
                 }
-            })
+            }) : null
         )
     }
 }
 
-export default Iframe;
+export default connect(
+    state => ({
+        data: state.video,
+        curl: state.config.curl
+    })
+)(Iframe)

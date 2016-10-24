@@ -61,9 +61,9 @@ function today(state = [], action) {
     }
 }
 
-function yesterday(state = [], action) {
+function video(state = [], action) {
     switch (action.type) {
-        case 'yesterday':
+        case 'video':
             return action.comments;
         default:
             return state;
@@ -76,7 +76,7 @@ const reducer = combineReducers({
     config,
     comment,
     today,
-    yesterday
+    video
 })
 
 export default reducer;

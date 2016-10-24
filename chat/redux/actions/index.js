@@ -22,8 +22,8 @@ export function todays(comments) {
     store.dispatch({ type: 'todays', comments });
 }
 
-export function yesterday(comments) {
-    store.dispatch({ type: 'yesterday', comments });
+export function video(comments) {
+    store.dispatch({ type: 'video', comments });
 }
 module.exports = {
     config: config,
@@ -31,5 +31,5 @@ module.exports = {
     comments: comments,
     today: today,
     todays: todays,
-    yesterday: yesterday
+    video: video
 }

@@ -24,7 +24,8 @@ let initialState = {
         login: false,
         islogin: (localStorage.username && localStorage.username != 'undefined') ? true : false,
         login_title: '登陆',
-        number: 0
+        number: 0,
+        curl: 0
     }
 }
 

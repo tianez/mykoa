@@ -44,23 +44,6 @@ class List extends React.Component {
     constructor() {
         super()
     }
-    componentDidMount() {
-        request
-            .get('chat/list')
-            .set('Accept', 'application/json')
-            .end(function (err, res) {
-                if (res.ok) {
-                    let d = JSON.parse(res.text)
-                    console.log(d);
-                    Rd.comments(d.chat)
-                    Rd.todays(d.today)
-                    Rd.yesterday(d.yesterday)
-                    console.log(JSON.parse(res.text))
-                } else {
-                    alert(res.text)
-                }
-            })
-    }
     render() {
         let ul = this.props.data.map(function (d, index) {
             return React.createElement('div', {
@@ -91,7 +74,7 @@ class List extends React.Component {
         })
         return (
             React.createElement('div', {
-                className: this.props.show == 1 ? 'content2 active' : 'content2',
+                className: this.props.show == 0 ? 'content2 active' : 'content2',
                 ref: 'list'
             }, ul)
         );

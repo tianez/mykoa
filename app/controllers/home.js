@@ -51,35 +51,14 @@ async function home(ctx, next) {
     // var yz = bcrypt.compareSync("gebilaowang", hash);
     // console.log(yz);
     // console.log(bcrypt.hashSync('gebilaowang'));
-    let topic = await db.topic.findOne({
-        order: [
-            ['id', 'DESC']
-        ],
-        raw: true
-    })
     let title = await db.config.findOne({
         where: {
             name: 'title'
         },
         raw: true
     })
-    let poster = await db.config.findOne({
-        where: {
-            name: 'poster'
-        },
-        raw: true
-    })
-    let vurl = await db.config.findOne({
-        where: {
-            name: 'vurl'
-        },
-        raw: true
-    })
     ctx.render('chat', {
-        ht: topic ? topic.content : '暂无话题！',
-        title: title.value,
-        poster: poster.value,
-        vurl: vurl.value,
+        title: title.value
     });
 }
 
@@ -153,7 +132,7 @@ async function dataimport(ctx, next) {
     // })
     db.test.sync()
     db.test_option.sync()
-    // db.sync()
+        // db.sync()
     ctx.body = 'ok'
 }
 

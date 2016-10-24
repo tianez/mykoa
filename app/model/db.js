@@ -49,6 +49,7 @@ let db = {
     topic: sequelize.import("./db_topic"),
     chat: sequelize.import("./db_chat"),
     chat_win: sequelize.import("./db_chat_win"),
+    video: sequelize.import("./db_video"),
     article: sequelize.import("./db_article"),
     category: sequelize.import("./db_category"),
     tests: sequelize.import("./db_test"),
@@ -72,6 +73,7 @@ db.sync = function () {
     db.topic.sync(option)
     db.chat.sync(option)
     db.chat_win.sync(option)
+    db.video.sync(option)
     db.article.sync(option)
     db.category.sync(option)
 }

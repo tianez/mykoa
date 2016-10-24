@@ -27,7 +27,7 @@ socket.on('nopass', function (data) {
 
 socket.on('system', function (data) {
     console.log(data);
-    
+    Rd.comment(data);
 });
 
 socket.on('userconnected', function (data) {

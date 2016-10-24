@@ -64,7 +64,12 @@ const theads = {
         id: 'ID',
         title: '题目',
         status: '状态'
-    }
+    },
+    video: {
+        id: 'ID',
+        name: '频道名称',
+        url: '视频直播流地址',
+    },
 }
 
 const titles = {
@@ -79,7 +84,8 @@ const titles = {
     roles: '用户组',
     article: '文章',
     category: '分类',
-    tests: '试题'
+    tests: '试题',
+    video: '视频'
 }
 
 async function getList(ctx, next) {

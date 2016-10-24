@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    role_id: {
+    id: {
       type: DataTypes.INTEGER(10),
       allowNull: false,
       primaryKey: true

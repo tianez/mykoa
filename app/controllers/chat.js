@@ -12,6 +12,7 @@ async function getList(ctx, next) {
     //     force: true
     // });
     let chats = await db.chat.findAll({
+        attributes: ['id', 'username', 'realname', 'head_img', 'user_id', 'time', 'content'],
         raw: true,
         limit: 20,
         order: [
@@ -34,10 +35,15 @@ async function getList(ctx, next) {
             }
         }
     });
+    let video = await db.video.findAll({
+        attributes: ['id', 'name', 'url', 'poster'],
+        raw: true
+    })
     ctx.body = JSON.stringify({
         chat: chats,
         today: today,
-        yesterday: yesterday
+        yesterday: yesterday,
+        video: video
     })
 }
 
