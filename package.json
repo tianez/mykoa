@@ -5,7 +5,8 @@
   "main": "app/start.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node 1.js"
+    "start": "webpack-dev-server --hot --progress --colors"
+    // "start": "node 1.js"
   },
   "repository": {
     "type": "git",
@@ -89,10 +90,12 @@
     "gulp-webpack": "^1.5.0",
     "less-loader": "^2.2.3",
     "open-browser-webpack-plugin": "^0.0.2",
+    "react-hot-loader": "^3.0.0-beta.6",
     "redux-devtools": "^3.3.1",
     "run-sequence": "^1.2.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.16.2"
   }
 }

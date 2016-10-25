@@ -69,6 +69,7 @@ const theads = {
         id: 'ID',
         name: '频道名称',
         url: '视频直播流地址',
+        order: '排序'
     },
 }
 

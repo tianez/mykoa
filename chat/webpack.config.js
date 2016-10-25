@@ -1,14 +1,16 @@
 var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require("extract-text-webpack-plugin")
+
 module.exports = {
-    entry: [
-        path.resolve(__dirname, 'app.js')
-    ],
+    entry: {
+        app: path.resolve(__dirname, 'app.js'),
+        // mobile: path.resolve(__dirname, 'app/mobile.js'),
+        // vendor: ['react', 'react-dom','react-router']
+    },
     output: {
-        // path: path.resolve(__dirname, '../build'),
-        path: __dirname,
-        filename: 'app.js'
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].js'
     },
     module: {
         loaders: [{
@@ -16,29 +18,29 @@ module.exports = {
             loader: 'babel', // 加载模块 "babel" 是 "babel-loader" 的缩写
             query: {
                 //添加两个presents 使用这两种presets处理js或者jsx文件
-                presets: ['es2015', 'react']
+                presets: ['es2015', 'react'],
+                plugins: ["transform-object-rest-spread"]
             }
         }, { //css
-            test: /\.css$/, // Only .css files
-            loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                test: /\.css$/, // Only .css files
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
                 // loader: 'style!css' // Run both loaders
-        }, { // LESS
-            test: /\.less$/,
-            // loader: 'style!css!less'
-            loader: ExtractTextPlugin.extract("style", "css!less")
-        }, { // SASS
-            test: /\.scss$/,
-            // loader: 'style!css!sass'
-            loader: ExtractTextPlugin.extract("style", "css!sass")
-        }, { //图片
-            test: /\.(png|jpg)$/,
-            // loader: 'url?limit=25000',
-            loader: 'url?limit=25000&name=app/css/images/[name].[ext]',
+            }, { // LESS
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract("style", "css!less")
+            }, { // SASS
+                test: /\.scss$/,
+                loader: 'style!css!sass'
+            }, { //图片
+                test: /\.(png|jpg)$/,
+                // loader: 'url?limit=25000',
+                loader: 'url?limit=50&name=images/[name].[ext]',
 
-        }]
+            }]
     },
     plugins: [
-            new ExtractTextPlugin("app/css/webpack.css")
-        ]
-        // devtool: 'source-map'
+        // new webpack.optimize.CommonsChunkPlugin('vendors', 'build/vendors.js'),
+        // new webpack.optimize.CommonsChunkPlugin('vendor', 'build/vendor.js'),
+        new ExtractTextPlugin("webpack.css")
+    ]
 }
