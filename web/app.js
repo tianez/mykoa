@@ -30,7 +30,7 @@ store.subscribe(() => {
     let state = store.getState()
     console.log(state);
     window.document.title = state.config.title
-})
+}) 
 // if (module.hot) {
 //     // Enable Webpack hot module replacement for reducers
 //     module
@@ -48,7 +48,7 @@ const routers = require('./lib/router')
 
 ReactDOM.render(React.createElement(Provider, {
             store: store
-        },
+        }, 
         React.createElement('div', {},
             routers,
             React.createElement(DevTools)

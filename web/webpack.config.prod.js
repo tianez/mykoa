@@ -18,7 +18,7 @@ module.exports = {
         vendor: ['react', 'react-dom','react-router']
     },
     output: {
-        path: path.resolve(__dirname, '../dist'),
+        path: path.resolve(__dirname, '../public/web/js'),
         filename: '[name].js'
     },
     module: {
