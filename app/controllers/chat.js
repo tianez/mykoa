@@ -49,7 +49,14 @@ async function getList(ctx, next) {
     //     }
     // });
     let video = await db.video.findAll({
-        attributes: ['id', 'name', 'url', 'poster'],
+        attributes: ['id', 'name', 'url', 'poster', 'type'],
+        where: {
+            status: 0
+        },
+        order: [
+            ['order', 'DESC'],
+            ['id', 'ASC'],
+        ],
         raw: true
     })
     ctx.body = JSON.stringify({

@@ -13,22 +13,46 @@ class Iframe extends React.Component {
         }
     }
     render() {
+        let style1
+        let style2
         let data = this.props.data
+        console.log(data);
         let curl = this.props.curl
+        if (data.length > 0) {
+            console.log(data[curl].type);
+            style1 = {
+                width: '100%',
+                height: data[curl].type == 0 ? this.state.height:0
+            }
+            style2 = {
+                width: '100%',
+                height: data[curl].type == 1 ? this.state.height:0
+            }
+            console.log(style1);
+            console.log(style2);
+        }
         return (
-            data.length > 0 ? React.createElement('video', {
-                id: 'frame',
-                controls: 'controls',
-                preload: 'none',
-                src: data[curl].url,
-                poster: data[curl].poster,
-                frameBorder: 0,
-                autoPlay: autoplay || true,
-                style: {
-                    width: '100%',
-                    height: this.state.height
-                }
-            }) : null
+            data.length > 0 ? React.createElement('div', {
+                    id: 'frame',
+                    style: {
+                        width: '100%',
+                        height: this.state.height
+                    }
+                },
+                React.createElement('video', {
+                    controls: 'controls',
+                    preload: 'none',
+                    src: data[curl].url,
+                    poster: data[curl].poster,
+                    frameBorder: 0,
+                    autoPlay: autoplay || true,
+                    style: style1
+                }),
+                React.createElement('img', {
+                    src: data[curl].poster,
+                    style: style2
+                })
+            ) : null
         )
     }
 }

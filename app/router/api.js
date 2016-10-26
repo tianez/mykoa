@@ -70,6 +70,10 @@ router.get('/users/detail/:id', apicontroller.getUsers);
 router.post('/users/detail', apicontroller.updateUsers);
 
 /**
+ * 直播频道模块编辑操作
+ */
+router.get('/video', apicontroller.getVideos);
+/**
  * 默认系统模块操作方法
  * 会被前面单独设置的模块方法覆盖
  */

@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --hot --progress --colors"
-    // "start": "node 1.js"
   },
   "repository": {
     "type": "git",
