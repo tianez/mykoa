@@ -11,7 +11,7 @@ import { message } from './message'
 const reducer = combineReducers({
     config,
     user,
-    comments,
+    comments, 
     pagedata,
     message,
     routing: routerReducer

@@ -17,6 +17,8 @@ class Login extends React.Component {
     }
 
     _onSubmit(e) {
+        console.log('111');
+        Rd.config('title','2323232')
             e.preventDefault()
             postfetch(curl + 'api', this.state)
                 .then(function (res) {
