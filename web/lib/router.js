@@ -17,7 +17,7 @@ const history = syncHistoryWithStore(hashHistory, store)
 const {
     Home,
     Login
-} = require('./pages')
+} = require('../pages')
 
 function onEnter(nextState, replace) {
     let pathname = nextState.location.pathname

@@ -3,10 +3,6 @@
 import Input from '../Weui/input'
 import Button from '../Weui/Button'
 
-const {
-    browserHistory
-} = ReactRouter
-
 class Login extends React.Component {
 
     constructor(props) {

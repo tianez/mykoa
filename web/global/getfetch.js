@@ -119,7 +119,4 @@ function catchs2(err) {
     } catch (err) {
         Rd.message(err.status + '错误！' + err.text)
     }
-    // let req = JSON.parse(err.text)
-    // Rd.message(err.status + '错误！' + req.error)
-    // Rd.message(err.status + '错误！' + err.text)
 }
