@@ -1,5 +1,3 @@
-import * as Types from '../constants/actionTypes';
-import * as Actions from '../actions';
 import objectAssign from 'object-assign';
 
 const initialState = [{
@@ -10,7 +8,7 @@ const initialState = [{
 
 export default function todos(state = initialState, action){
     switch(action.type){
-        case Types.ADD_TODO:
+        case 'ADD_TODO':
             return [
                 ...state,
                 {
@@ -19,7 +17,7 @@ export default function todos(state = initialState, action){
                     text : action.text
                 }
             ];
-        case Types.COMPLETE_TODO:
+        case 'COMPLETE_TODO':
             return state.map(todo =>
                 todo.id === action.id ? objectAssign({}, todo, {completed : !todo.completed}) : todo
             );
