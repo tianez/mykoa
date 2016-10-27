@@ -81,6 +81,10 @@ hr {
   border: none;
   height: 1px;
 }
+input[type=button] {
+  -webkit-appearance: none;
+  outline: none;
+}
 .containter {
   width: 1180px;
   margin: 0 auto;
@@ -154,6 +158,11 @@ body {
   -moz-transition: all 0.6s;
   -webkit-transition: all 0.6s;
   position: relative;
+}
+#frame img {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 #main {
   background: #f6f6f6;
@@ -520,4 +529,17 @@ body {
 }
 #login .content .form .submit2 {
   background: navajowhite;
+}
+#message {
+  position: fixed;
+  width: 60%;
+  left: 20%;
+  top: 20%;
+  padding: 2rem;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 2.2rem;
+  font-size: 1.6rem;
+  z-index: 999999;
+  background: #fff;
 }

@@ -23,6 +23,7 @@ Object.assign(
     require('./api/UserController'),
     require('./api/PermissionsController'),
     require('./api/TestController'),
+    require('./api/VideoController'),
 )
 
 module.exports = controller

@@ -27,24 +27,20 @@ sockets.adapter(redis({
     port: 6379
 }));
 
-// const io = require('socket.io-emitter')({
-//     host: '127.0.0.1',
-//     port: 6379
-// });
-
-// setInterval(function() {
-//     io.emit('system', new Date);
-// }, 4000);
-
 //在线用户
 var onlineUsers = {};
 //当前在线人数
 var onlineCount = 100;
 sockets.on('connection', function (socket) {
     onlineCount++
-    console.log('当前在线人数：' + onlineCount);
-    socket.emit('login', onlineCount);
-    socket.broadcast.emit('login', onlineCount);
+    let m = moment().format('M')
+    let day = moment().format('D')
+    let d = moment().format('d')
+    let taj = Number(m) + Number(day) + Number(d)
+    let allcont = onlineCount + taj
+    console.log('当前在线人数：' + allcont);
+    socket.emit('login', allcont);
+    socket.broadcast.emit('login', allcont);
     dbs.table('topic').where({
             status: 0
         })
@@ -53,7 +49,7 @@ sockets.on('connection', function (socket) {
             socket.emit('system', {
                 content: res[0].content,
                 username: 'system',
-                realname: '<span style="color: #f00;">（系统消息）今日话题</span>',
+                realname: '<span style="color: #f00;">（系统消息）' + res[0].title + '</span>',
                 time: parseInt(moment() / 1000),
                 user_id: 0,
                 head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
@@ -99,7 +95,8 @@ sockets.on('connection', function (socket) {
     });
     socket.on('disconnect', function () {
         onlineCount--
-        console.log('当前在线人数：' + onlineCount);
-        socket.broadcast.emit('userdisconnect', onlineUsers[cookies.uuid] + '下线了！');
+        allcont = onlineCount + taj
+        socket.broadcast.emit('login', allcont);
+        // socket.broadcast.emit('userdisconnect', onlineUsers[cookies.uuid] + '下线了！');
     });
 });

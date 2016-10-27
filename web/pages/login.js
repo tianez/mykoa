@@ -3,10 +3,6 @@
 import Input from '../Weui/input'
 import Button from '../Weui/Button'
 
-const {
-    browserHistory
-} = ReactRouter
-
 class Login extends React.Component {
 
     constructor(props) {
@@ -21,16 +17,18 @@ class Login extends React.Component {
     }
 
     _onSubmit(e) {
-            e.preventDefault()
-            postfetch(curl + 'api', this.state)
-                .then(function (res) {
-                    if (res) {
-                        Rd.config('token', res.token)
-                        localStorage.token = res.token
-                        this.props.history.pushState(null, '/')
-                    }
-                }.bind(this))
-        }
+         Rd.message('你还没有登录，请先登录222！')
+        Rd.config('title', 'sssssssss')
+        e.preventDefault()
+        postfetch('api', this.state)
+            .then(function (res) {
+                if (res) {
+                    Rd.config('token', res.token)
+                    localStorage.token = res.token
+                    this.props.history.pushState(null, '/')
+                }
+            }.bind(this))
+    }
     render() {
         return (
             React.createElement('form', {

@@ -8,8 +8,13 @@ export function user(data) {
 }
 
 export function getuser() {
-    getfetch("admin/user", function (res) {
-        console.log(res);
-        user(res)
-    })
+    Rd.message(111111)
+    setTimeout(function(){
+        Rd.message(22222222222222)
+    },3000)
+    // getfetch("admin/user", function (res) {
+    //     console.log(res);
+        
+    //     user(res)
+    // })
 }

@@ -15,12 +15,6 @@ class Home extends React.Component {
 
     }
 
-    // componentDidMount() {
-    //    getfetch('http://' + document.domain + ':3000/api/user?dd=ssssssssss').then(function(res){
-    //        console.log(res);
-    //    })
-    // }
-
     _onChange(name, value) {
         let state = this.state
         state[name] = value
@@ -29,7 +23,9 @@ class Home extends React.Component {
 
     _onSubmit(e) {
         e.preventDefault()
-        socket.emit('chat', this.state.chat);
+        Rd.getuser()
+        // Rd.message('你还没有登录，请先登录！')
+        // socket.emit('chat', this.state.chat);
         this.setState({
             chat:''
         })

@@ -40,12 +40,12 @@ class List extends React.Component {
     constructor() {
         super()
     }
-    render() {     
+    render() {
         let ul = this.props.comments.map(function (d, index) {
             return React.createElement('div', {
                     className: 'li',
                     key: index
-                }, 
+                },
                 React.createElement('div', {
                         className: 'c'
                     },
@@ -54,9 +54,7 @@ class List extends React.Component {
             )
         })
         return (
-            React.createElement('div', {
-                ref: 'list'
-            }, ul)
+            React.createElement('div', {}, ul)
         );
     }
 }

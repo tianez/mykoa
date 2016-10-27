@@ -8,7 +8,7 @@ html, body {
 #app {
     height: 100%;
 }
-
+ 
 #bodyd {
     .flex;
     .flex-direction;
@@ -28,6 +28,11 @@ html, body {
     z-index: 9;
     .transition;
     position: relative;
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 }
 
 #main {
@@ -245,4 +250,18 @@ html, body {
             }
         }
     }
+}
+
+#message {
+    position: fixed;
+    width: 60%;
+    left: 20%;
+    top: 20%;
+    padding: 2rem;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2.2rem;
+    font-size: 1.6rem;
+    z-index: 999999;
+    background: #fff;
 }

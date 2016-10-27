@@ -105,12 +105,6 @@
     -webkit-transition: all @time;
 }
 
-.transform(@rotate: rotate(45deg)) {
-    transform: @rotate;
-    -moz-transform: @rotate;
-    -webkit-transform: @rotate;
-}
-
 .text-overflow() {
     display: block;
     overflow: hidden;
@@ -122,26 +116,24 @@
 * {
     margin: 0;
     padding: 0;
-    -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
-    font-family: 'microsoft yahei', PingFangSC-Light, 'helvetica neue', 'hiragino sans gb', tahoma, 'microsoft yahei ui', simsun, sans-serif;
     .box-sizing();
-}
-
-html, body {
-    width: 100%;
 }
 
 html {
     font-size: 62.5%;
-    font-size: 10px;
-    font-size: 3.125vw;
-    max-width: 100%;
+    width: 100%;
     overflow-x: hidden;
+    background: #FBFBFB;
 }
 
+
+/* 设置默认字体 */
+
 body {
+    font-family: '微软雅黑';
+    width: 100%;
+    overflow-x: hidden;
     font-size: 1.4rem;
-    position: relative;
 }
 
 a, a:hover {
@@ -153,14 +145,12 @@ a {
     color: #3a3a3a;
 }
 
-fieldset, img {
-    border: none;
+a:hover {
 }
 
-img {
-    max-width: 100%;
-}
-
+// fieldset, img {
+//     border: none;
+// }
 
 /* img 搭车：让链接里的 img 无边框 */
 
@@ -194,16 +184,6 @@ hr {
     height: 1px;
 }
 
-input[type=button] {
-    -webkit-appearance: none;
-    outline: none;
-}
-
-.containter {
-    width: 1180px;
-    margin: 0 auto;
-}
-
 .clear {
     clear: both !important;
 }
@@ -216,14 +196,6 @@ input[type=button] {
     float: right !important;
 }
 
-.f_12 {
-    font-size: 12px !important;
-}
-
-.f_14 {
-    font-size: 14px !important;
-}
-
-.f_b {
-    font-weight: bold !important;
+.pure-g [class *="pure-u"] {
+    font-family: '微软雅黑';
 }

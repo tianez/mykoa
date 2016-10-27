@@ -9,11 +9,8 @@ let Configuration = {
     // paranoid 属性只在启用 timestamps 时适用
     // paranoid: true,
     defaultScope: {
-        where: {
-            status: 0
-        },
         order: [
-            ['id', 'ASC']
+            ['id', 'ASC'],
         ]
     }
 }

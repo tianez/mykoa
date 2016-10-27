@@ -25,14 +25,15 @@ let initialState = {
         islogin: (localStorage.username && localStorage.username != 'undefined') ? true : false,
         login_title: '登陆',
         number: 0,
-        curl: 0
+        curl: 0,
+        message: {
+            msg: '',
+            show: 0
+        }
     }
 }
 
 window.store = createStore(reducer, initialState);
-store.subscribe(() =>
-    console.log(store.getState())
-);
 
 function mapStateToProps(state) {
     return state
