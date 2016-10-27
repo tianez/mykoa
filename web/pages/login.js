@@ -17,7 +17,7 @@ class Login extends React.Component {
     }
 
     _onSubmit(e) {
-         Rd.message('你还没有登录，请先登录222！')
+        Rd.message('你还没有登录，请先登录222！')
         Rd.config('title', 'sssssssss')
         e.preventDefault()
         postfetch('api', this.state)
@@ -32,8 +32,8 @@ class Login extends React.Component {
     render() {
         return (
             React.createElement('form', {
-                    onSubmit: this._onSubmit.bind(this)
-                },
+                onSubmit: this._onSubmit.bind(this)
+            },
                 React.createElement(Input, {
                     onChange: this._onChange.bind(this),
                     name: 'username',

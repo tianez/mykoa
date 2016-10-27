@@ -1,19 +1,18 @@
-require('fetch-ie8');
-require('./lib/global');
-import './less/style.less' //webpack编译时导入
+// import React from 'react';
+import { render } from 'react-dom';
 
-window.React = React;
-const render = require('react-dom').render;
+window.React = require('react');
+import './less/style.less'
 
 import {
-  createStore,
-  applyMiddleware,
-  compose
+    createStore,
+    applyMiddleware,
+    compose
 } from 'redux'
 
 import {
-  Provider,
-  connect
+    Provider,
+    connect
 } from 'react-redux'
 window.connect = connect
 
@@ -23,33 +22,32 @@ import rootReducer from './redux/reducer'
 import DevTools from './lib/DevTools';
 
 const enhancer = compose(
-  DevTools.instrument()
+    DevTools.instrument()
 )
 
 window.store = createStore(
-  rootReducer,
-  enhancer,
-  applyMiddleware(thunkMiddleware, createLogger())
+    rootReducer,
+    enhancer,
+    applyMiddleware(thunkMiddleware, createLogger())
 )
 
 if (module.hot) {
-  module.hot.accept('./redux/reducer', () => {
-    const nextReducer = require('./redux/reducer').default
-    store.replaceReducer(nextReducer)
-  })
+    module.hot.accept('./redux/reducer', () => {
+        const nextReducer = require('./redux/reducer').default
+        store.replaceReducer(nextReducer)
+    })
 }
 
 window.Rd = require('./redux/actions')
-const Home = require('./pages/home')
 const routers = require('./lib/router')
 render(
-  React.createElement(Provider, {
-      store: store
+    React.createElement(Provider, {
+        store: store
     },
-    React.createElement('div', {},
-      routers,
-      React.createElement(DevTools)
-    )
-  ),
-  document.getElementById('app')
+        React.createElement('div', {},
+            routers,
+            React.createElement(DevTools)
+        )
+    ),
+    document.getElementById('app')
 )

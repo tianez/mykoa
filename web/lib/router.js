@@ -3,7 +3,7 @@
 import {
     syncHistoryWithStore
 } from 'react-router-redux'
-const {
+import {
     Router,
     Route,
     IndexRoute,
@@ -11,7 +11,7 @@ const {
     Redirect,
     hashHistory,
     browserHistory
-} = ReactRouter
+} from 'react-router'
 const history = syncHistoryWithStore(hashHistory, store)
 
 const {

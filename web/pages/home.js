@@ -12,7 +12,7 @@ class Home extends React.Component {
     }
 
     componentWillMount() {
-
+ 
     }
 
     _onChange(name, value) {
