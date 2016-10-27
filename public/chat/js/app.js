@@ -62,7 +62,7 @@
 
 	window.connect = _reactRedux.connect;
 
-	window.Rd = __webpack_require__(66);
+	window.Rd = __webpack_require__(67);
 
 	window.request = superagent;
 
@@ -73,7 +73,11 @@
 	        islogin: localStorage.username && localStorage.username != 'undefined' ? true : false,
 	        login_title: '登陆',
 	        number: 0,
-	        curl: 0
+	        curl: 0,
+	        message: {
+	            msg: '',
+	            show: 0
+	        }
 	    }
 	};
 
@@ -6088,10 +6092,10 @@
 	                        localStorage.head_img = d.user.head_img ? d.user.head_img : './public/images/avatar/' + Math.floor(Math.random() * 6) + '.jpg';
 	                    } else {
 	                        Rd.config('islogin', false);
-	                        localStorage.removeitem('username');
-	                        localStorage.removeitem('realname');
-	                        localStorage.removeitem('userid');
-	                        localStorage.removeitem('head_img');
+	                        localStorage.removeItem('username');
+	                        localStorage.removeItem('realname');
+	                        localStorage.removeItem('userid');
+	                        localStorage.removeItem('head_img');
 	                    }
 	                    Rd.comments(d.chat);
 	                    Rd.todays(d.today);
@@ -6158,7 +6162,7 @@
 	            }.bind(this))))), React.createElement(_index.Footer, {
 	                islogin: this.props.config.islogin,
 	                scrollTop: this._scrollTop.bind(this)
-	            }), React.createElement(_index.Login));
+	            }), React.createElement(_index.Login), React.createElement(_index.Message));
 	        }
 	    }]);
 
@@ -6189,13 +6193,18 @@
 
 	var _List2 = _interopRequireDefault(_List);
 
+	var _Message = __webpack_require__(66);
+
+	var _Message2 = _interopRequireDefault(_Message);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var React = {
 	    Iframe: _Iframe2.default,
 	    Footer: _Footer2.default,
 	    Login: _Login2.default,
-	    List: _List2.default
+	    List: _List2.default,
+	    Message: _Message2.default
 	};
 
 	module.exports = React;
@@ -6491,6 +6500,7 @@
 	                    localStorage.realname = user.realname;
 	                    localStorage.userid = user.id;
 	                    localStorage.head_img = user.head_img ? user.head_img : './public/images/avatar/' + Math.floor(Math.random() * 6) + '.jpg';
+	                    Rd.message('恭喜你' + this.props.title + '成功！');
 	                    Rd.config('login', false);
 	                    Rd.config('islogin', true);
 	                } else {
@@ -6752,6 +6762,53 @@
 
 /***/ },
 /* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _reactRedux = __webpack_require__(17);
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Message = function (_React$Component) {
+	    _inherits(Message, _React$Component);
+
+	    function Message() {
+	        _classCallCheck(this, Message);
+
+	        return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).apply(this, arguments));
+	    }
+
+	    _createClass(Message, [{
+	        key: 'render',
+	        value: function render() {
+	            return this.props.data.show == 1 ? React.createElement('div', {
+	                id: 'message'
+	            }, this.props.data.msg) : null;
+	        }
+	    }]);
+
+	    return Message;
+	}(React.Component);
+
+	exports.default = (0, _reactRedux.connect)(function (state) {
+	    return {
+	        data: state.config.message
+	    };
+	})(Message);
+
+/***/ },
+/* 67 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6761,8 +6818,13 @@
 	});
 	exports.todays = todays;
 	exports.video = video;
+	exports.message = message;
 	function config(name, value) {
-	    store.dispatch({ type: 'config', name: name, value: value });
+	    store.dispatch({
+	        type: 'config',
+	        name: name,
+	        value: value
+	    });
 	}
 
 	function comment(comment) {
@@ -6771,7 +6833,10 @@
 	}
 
 	function comments(comments) {
-	    store.dispatch({ type: 'comments', comments: comments });
+	    store.dispatch({
+	        type: 'comments',
+	        comments: comments
+	    });
 	}
 
 	function today(comment) {
@@ -6780,19 +6845,40 @@
 	}
 
 	function todays(comments) {
-	    store.dispatch({ type: 'todays', comments: comments });
+	    store.dispatch({
+	        type: 'todays',
+	        comments: comments
+	    });
 	}
 
 	function video(comments) {
-	    store.dispatch({ type: 'video', comments: comments });
+	    store.dispatch({
+	        type: 'video',
+	        comments: comments
+	    });
 	}
+
+	function message(data) {
+	    Rd.config('message', {
+	        msg: data,
+	        show: 1
+	    });
+	    setTimeout(function () {
+	        Rd.config('message', {
+	            msg: '',
+	            show: 0
+	        });
+	    }, 3000);
+	}
+
 	module.exports = {
 	    config: config,
 	    comment: comment,
 	    comments: comments,
 	    today: today,
 	    todays: todays,
-	    video: video
+	    video: video,
+	    message: message
 	};
 
 /***/ }

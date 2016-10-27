@@ -2,7 +2,7 @@ require('fetch-ie8');
 require('./lib/global');
 import './less/style.less' //webpack编译时导入
 
-const React = require('react');
+window.React = React;
 const render = require('react-dom').render;
 
 import {
@@ -15,6 +15,7 @@ import {
   Provider,
   connect
 } from 'react-redux'
+window.connect = connect
 
 import thunkMiddleware from 'redux-thunk'
 import createLogger from 'redux-logger'
@@ -37,7 +38,7 @@ if (module.hot) {
     store.replaceReducer(nextReducer)
   })
 }
-window.connect = connect
+
 window.Rd = require('./redux/actions')
 const Home = require('./pages/home')
 render(

@@ -22,7 +22,7 @@ class Login extends React.Component {
         this.setState({
             'realname': e.target.value
         })
-    } 
+    }
     _onChangePassword(e) {
         this.setState({
             'password': e.target.value
@@ -53,7 +53,7 @@ class Login extends React.Component {
                 console.log((e.loaded / e.total) * 100 + '%')
             },
             onLoad: (e) => {
-                let res = JSON.parse(e.currentTarget.responseText) 
+                let res = JSON.parse(e.currentTarget.responseText)
                 file.state = 1
                 this.setState({
                     file: res[0].path
@@ -70,7 +70,7 @@ class Login extends React.Component {
         if (this.state.username.length != 11 || !reg.test(this.state.username)) {
             alert('请输入正确的手机号码！')
             return
-        } 
+        }
         if (!this.state.password.trim()) {
             alert('密码不能为空！')
             return
@@ -86,10 +86,11 @@ class Login extends React.Component {
                     localStorage.realname = user.realname
                     localStorage.userid = user.id
                     localStorage.head_img = user.head_img ? user.head_img : './public/images/avatar/' + Math.floor(Math.random() * 6) + '.jpg'
+                    Rd.message('恭喜你' + this.props.title + '成功！')
                     Rd.config('login', false)
                     Rd.config('islogin', true)
                 } else {
-                    alert(res.text) 
+                    alert(res.text)
                 }
             }.bind(this))
     }
@@ -133,12 +134,12 @@ class Login extends React.Component {
                             onChange: this._onChangeUsername.bind(this)
                         }),
                         title == '注册' ? React.createElement('div', {
-                            style:{
-                                color:'#666',
-                                fontSize:'1.2rem',
+                            style: {
+                                color: '#666',
+                                fontSize: '1.2rem',
                                 padding: '.5rem'
                             }
-                        },'请填写真实手机号码，该号码将抽奖所用。') : null,
+                        }, '请填写真实手机号码，该号码将抽奖所用。') : null,
                         React.createElement('input', {
                             type: 'password',
                             className: 'input',

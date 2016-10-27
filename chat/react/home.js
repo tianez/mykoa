@@ -4,7 +4,8 @@ import {
     Iframe,
     Footer,
     Login,
-    List
+    List,
+    Message
 } from './index'
 class Home extends React.Component {
     constructor() {
@@ -27,10 +28,10 @@ class Home extends React.Component {
                         localStorage.head_img = d.user.head_img ? d.user.head_img : './public/images/avatar/' + Math.floor(Math.random() * 6) + '.jpg'
                     }else{
                         Rd.config('islogin',false)
-                        localStorage.removeitem('username')
-                        localStorage.removeitem('realname')
-                        localStorage.removeitem('userid')
-                        localStorage.removeitem('head_img')
+                        localStorage.removeItem('username')
+                        localStorage.removeItem('realname')
+                        localStorage.removeItem('userid')
+                        localStorage.removeItem('head_img')
                     }
                     Rd.comments(d.chat)
                     Rd.todays(d.today)
@@ -100,12 +101,13 @@ class Home extends React.Component {
                             }.bind(this))
                         )
                     )
-                ),
+                ), 
                 React.createElement(Footer, {
                     islogin: this.props.config.islogin,
                     scrollTop: this._scrollTop.bind(this)
                 }),
-                React.createElement(Login)
+                React.createElement(Login),
+                React.createElement(Message)
             )
         )
     }

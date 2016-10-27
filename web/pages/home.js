@@ -23,7 +23,8 @@ class Home extends React.Component {
 
     _onSubmit(e) {
         e.preventDefault()
-        Rd.message('你还没有登录，请先登录！')
+        Rd.getuser()
+        // Rd.message('你还没有登录，请先登录！')
         // socket.emit('chat', this.state.chat);
         this.setState({
             chat:''
