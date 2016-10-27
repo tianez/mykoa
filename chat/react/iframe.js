@@ -16,10 +16,8 @@ class Iframe extends React.Component {
         let style1
         let style2
         let data = this.props.data
-        console.log(data);
         let curl = this.props.curl
         if (data.length > 0) {
-            console.log(data[curl].type);
             style1 = {
                 width: '100%',
                 height: data[curl].type == 0 ? this.state.height:0
@@ -28,8 +26,6 @@ class Iframe extends React.Component {
                 width: '100%',
                 height: data[curl].type == 1 ? this.state.height:0
             }
-            console.log(style1);
-            console.log(style2);
         }
         return (
             data.length > 0 ? React.createElement('div', {

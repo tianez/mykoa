@@ -30,9 +30,6 @@ let initialState = {
 }
 
 window.store = createStore(reducer, initialState);
-store.subscribe(() =>
-    console.log(store.getState())
-);
 
 function mapStateToProps(state) {
     return state

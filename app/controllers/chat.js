@@ -40,6 +40,13 @@ async function getList(ctx, next) {
             }
         }
     });
+    let user = await db.users.findOne({
+        attributes: ['id', 'username', 'realname', 'head_img'],
+        raw: true,
+        where: {
+            username: ctx.query.username
+        }
+    });
     // let yesterday = await db.chat_win.findAll({
     //     raw: true,
     //     where: {
@@ -63,7 +70,8 @@ async function getList(ctx, next) {
         chat: chats,
         today: today,
         // yesterday: yesterday,
-        video: video
+        video: video,
+        user: user
     })
 }
 

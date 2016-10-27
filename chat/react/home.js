@@ -13,15 +13,28 @@ class Home extends React.Component {
     componentDidMount() {
         request
             .get('chat/list')
+            .query({
+                username: localStorage.username
+            })
             .set('Accept', 'application/json')
             .end(function (err, res) {
                 if (res.ok) {
                     let d = JSON.parse(res.text)
-                    console.log(d);
+                    if (d.user) {
+                        localStorage.username = d.user.username
+                        localStorage.realname = d.user.realname
+                        localStorage.userid = d.user.id
+                        localStorage.head_img = d.user.head_img ? d.user.head_img : './public/images/avatar/' + Math.floor(Math.random() * 6) + '.jpg'
+                    }else{
+                        Rd.config('islogin',false)
+                        localStorage.removeitem('username')
+                        localStorage.removeitem('realname')
+                        localStorage.removeitem('userid')
+                        localStorage.removeitem('head_img')
+                    }
                     Rd.comments(d.chat)
                     Rd.todays(d.today)
                     Rd.video(d.video)
-                    console.log(JSON.parse(res.text))
                 } else {
                     alert(res.text)
                 }
