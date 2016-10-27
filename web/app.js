@@ -41,12 +41,13 @@ if (module.hot) {
 
 window.Rd = require('./redux/actions')
 const Home = require('./pages/home')
+const routers = require('./lib/router')
 render(
   React.createElement(Provider, {
       store: store
     },
     React.createElement('div', {},
-      React.createElement(Home),
+      routers,
       React.createElement(DevTools)
     )
   ),
