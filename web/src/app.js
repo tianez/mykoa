@@ -1,7 +1,7 @@
 import { render } from 'react-dom';
 
 window.React = require('react');
-// import '../less/style.less'
+import '../less/style.less'
 
 import {
     createStore,

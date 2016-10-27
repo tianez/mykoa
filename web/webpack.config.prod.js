@@ -4,11 +4,11 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'source-map',
   entry: [
-    './app'
+    './src/app'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'app.js',
     publicPath: '/static/'
   },
   plugins: [
@@ -28,11 +28,11 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       loaders: ['babel'],
-      include: path.join(__dirname)
-    }, {
+      include: path.join(__dirname, 'src')
+    },, {
       test: /\.less$/,
       loader: 'style!css!less',
-      include: path.join(__dirname, 'less')
+      include: path.join(__dirname, 'src/less')
     }]
   }
 };
