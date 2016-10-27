@@ -1,12 +1,14 @@
 require('fetch-ie8');
+require('./lib/global');
 
-const React = require('react');
-const render = require('react-dom').render;
+// const React = require('react');
+// const render = require('react-dom').render;
+
+import './less/style.less' //webpack编译时导入
 import {
     Provider,
     connect
 } from 'react-redux'
-const App = require('./containers/App');
 
 import {
     createStore,
@@ -16,7 +18,7 @@ import {
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './redux/reducer'
 
-import DevTools from './containers/dev';
+import DevTools from './lib/DevTools';
 const enhancer = compose(
 
     DevTools.instrument()
@@ -42,7 +44,7 @@ window.connect = connect
 window.Rd = require('./redux/actions')
 const routers = require('./lib/router')
 
-render(React.createElement(Provider, {
+ReactDOM.render(React.createElement(Provider, {
             store: store
         },
         React.createElement('div', {},
