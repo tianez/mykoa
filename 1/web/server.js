@@ -17,11 +17,11 @@ app.use(require('webpack-hot-middleware')(compiler));
 //use in webpack production mode
 //app.use(express.static(__dirname));
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3099, 'localhost', function(err) {
+app.listen(3099, 'localhost', function (err) {
     if (err) {
         console.log(err);
         return;
