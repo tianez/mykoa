@@ -12,6 +12,8 @@ import {
     hashHistory,
     browserHistory
 } from 'react-router'
+
+// const { Router, Route, IndexRoute, IndexRedirect, Redirect, hashHistory, browserHistory } = ReactRouter
 const history = syncHistoryWithStore(hashHistory, store)
 
 const {

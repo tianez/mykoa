@@ -1,6 +1,9 @@
+'use strict'
 import { render } from 'react-dom';
 
 window.React = require('react');
+
+require('./lib/global')
 import './less/style.less'
 
 import {
@@ -26,7 +29,7 @@ const enhancer = compose(
 
 window.store = createStore(
     rootReducer,
-    enhancer,
+    // enhancer,
     applyMiddleware(thunkMiddleware, createLogger())
 )
 
@@ -44,8 +47,8 @@ render(
         store: store
     },
         React.createElement('div', {},
-            routers,
-            React.createElement(DevTools)
+            routers
+            // React.createElement(DevTools)
         )
     ),
     document.getElementById('app')

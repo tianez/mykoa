@@ -25,7 +25,7 @@ class Login extends React.Component {
             info: info
         })
     }
-    _onSubmit(e) {
+    _onSubmit(e) { 
         e.preventDefault();
         postfetch('api/createtoken', this.state.info)
             .then(function (res) {
