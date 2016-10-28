@@ -1,8 +1,8 @@
 /** 
  * 请求数据
  */
-// window.request = require('superagent')
-window.request = superagent
+window.request = require('superagent')
+// window.request = superagent
 
 window.curl = 'http://' + document.domain + ':4000/'
 

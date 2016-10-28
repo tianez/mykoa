@@ -1,10 +1,8 @@
 'use strict'
 
-const Home = require('./home')
-const Login = require('./login')
-
-var Temp = {
-    Home: Home,
-    Login: Login
+module.exports = {
+    Nomatch: require('./Nomatch'),
+    Home: require('./home'),
+    Login: require('./login'),
+    Profile: require('./profile')
 }
-module.exports = Temp 

@@ -50,5 +50,4 @@ function Init() {
             console.log("Fetch错误:" + err);
         })
 }
- 
 Init()

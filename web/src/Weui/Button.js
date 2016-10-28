@@ -1,18 +1,9 @@
 'use strict'
 const classNames = require('classNames')
 class Button extends React.Component {
-    constructor() {
-        super()
-    }
-    _onClick() {
-        if (this.props.onClick) {
-            this.props.onClick.bind(this)
-        }
-    }
     render() {
         const {
-            className,
-            onClick
+            className
         } = this.props;
         const cls = classNames({
             weui_btn: true,
@@ -25,8 +16,7 @@ class Button extends React.Component {
                 },
                 React.createElement('button', {
                     className: cls,
-                    type: this.props.type,
-                    onClick: this._onClick.bind(this)
+                    type: this.props.type
                 }, this.props.title)
             )
         )

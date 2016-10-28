@@ -62,7 +62,6 @@ FormGroup.defaultProps = {
     show2: true
 }
 
-
 class Input extends React.Component {
     constructor(props) {
         super(props)

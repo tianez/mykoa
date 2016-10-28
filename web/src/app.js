@@ -1,7 +1,7 @@
 'use strict'
-import { render } from 'react-dom';
 
-window.React = require('react');
+// window.React = require('react');
+import { render } from 'react-dom';
 
 require('./lib/global')
 import './less/style.less'
@@ -29,8 +29,8 @@ const enhancer = compose(
 
 window.store = createStore(
     rootReducer,
-    // enhancer,
-    applyMiddleware(thunkMiddleware, createLogger())
+    enhancer,
+    // applyMiddleware(thunkMiddleware, createLogger())
 )
 
 if (module.hot) {
@@ -41,14 +41,14 @@ if (module.hot) {
 }
 
 window.Rd = require('./redux/actions')
-const routers = require('./lib/router')
+const router = require('./lib/router')
 render(
     React.createElement(Provider, {
         store: store
     },
         React.createElement('div', {},
-            routers
-            // React.createElement(DevTools)
+            router,
+            React.createElement(DevTools)
         )
     ),
     document.getElementById('app')

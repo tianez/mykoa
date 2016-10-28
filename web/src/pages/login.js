@@ -46,7 +46,7 @@ class Login extends React.Component {
                 }),
                 React.createElement(Button, {
                     type: 'submit',
-                    title: '登录'
+                    value: '登录'
                 })
             )
         )
