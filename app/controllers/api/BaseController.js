@@ -15,7 +15,8 @@ const theads = {
     topic: {
         id: 'ID',
         title: '标题',
-        content: '内容'
+        content: '内容',
+        order: '排序'
     },
     chat: {
         id: 'ID',

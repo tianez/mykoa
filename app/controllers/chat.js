@@ -76,15 +76,30 @@ async function getList(ctx, next) {
 }
 
 async function getWin(ctx, next) {
-    console.log(ctx.query.win);
-    io.emit('system', {
-        content: '恭喜手机号码为' + ctx.query.win + '的用户获得大奖，他将获得由xx提供的奖品一份。',
-        username: 'system',
-        realname: '<span style="color: #f00;">（系统消息）中奖信息</span>',
-        time: parseInt(moment() / 1000),
-        user_id: 0,
-        head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
-    })
+    if (ctx.query.win) {
+        let win = ctx.query.win
+        let pre = win.slice(0, 3)
+        let aft = win.slice(7)
+        let str = await db.topic.findOne({
+            attributes: ['win'],
+            where: {
+                status: 0
+            },
+            order: [
+                ['order', 'DESC'],
+                ['id', 'DESC']
+            ],
+            raw: true
+        })
+        io.emit('system', {
+            content: str.win.replace(/&&/, pre + '****' + aft),
+            username: 'system',
+            realname: '<span style="color: #f00;">（系统消息）中奖信息</span>',
+            time: parseInt(moment() / 1000),
+            user_id: 0,
+            head_img: 'public/images/zhibo/logo.jpg'
+        })
+    }
     ctx.body = '11111'
 }
 

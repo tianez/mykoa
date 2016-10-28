@@ -52,7 +52,7 @@ sockets.on('connection', function (socket) {
                 realname: '<span style="color: #f00;">（系统消息）' + res[0].title + '</span>',
                 time: parseInt(moment() / 1000),
                 user_id: 0,
-                head_img: 'uploads/jpeg/20161018/copyff035120-9518-11e6-8296-77df509974f6-07e6a044ad345982a4a810b004f431adcbef84a9.jpg'
+                head_img: 'public/images/zhibo/logo.jpg'
             })
         })
         // 获得客户端的Cookie

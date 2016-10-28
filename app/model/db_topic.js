@@ -17,6 +17,15 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: true
         },
+        win: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
+        order: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false,
+            defaultValue: '0'
+        },
         status: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
