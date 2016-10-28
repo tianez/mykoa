@@ -3,59 +3,38 @@
 const classNames = require('classNames')
 const FormGroup = require('./FormGroup')
 
-const Checkbox = React.createClass({
-    getDefaultProps: function () {
-        return {
-            title: '多选框',
-            type: 'checkbox',
-            value: [2],
-            options: [{
-                title: '选项1',
-                value: 0
-            }, {
-                title: '选项2',
-                value: 1
-            }, {
-                title: '选项3',
-                value: 's2'
-            }],
-            name: 'state',
-            placeholder: '',
-            help: '',
-            disabled: '',
-            required: 'required'
-        }
-    },
-    getInitialState: function () {
+class Checkbox extends React.Component {
+    constructor(props) {
+        super(props)
         let options = []
-        if (!this.props.ext) {
-            options = this.props.options
+        if (!props.ext) {
+            options = props.options
             if (typeof options == "string") {
                 options = JSON.parse(options)
             }
         }
-        let value = this.props.value 
+        let value = props.value
         if (value && typeof value == "string") {
             value = JSON.parse(value)
         }
-        return {
+        this.state = {
             value: value,
-            help: this.props.help,
+            help: props.help,
             option: options
         }
-    },
-    componentDidMount: function () {
+    }
+    componentDidMount() {
         if (this.props.ext) {
             getfetch("api/" + this.props.ext)
-                .then(function (res) {
+                .then(function(res) {
                     console.log(res);
                     this.setState({
                         option: res
                     })
                 }.bind(this))
         }
-    },
-    _onChange: function (e) {
+    }
+    _onChange(e) {
         let type = this.props.type
         let v = e.target.value
         if (!isNaN(v)) {
@@ -77,11 +56,11 @@ const Checkbox = React.createClass({
             }
             this.props.onChange(this.props.name, value)
         }
-    },
-    render: function () {
+    }
+    render() {
         let value = this.state.value
         let name = this.props.name
-        let options = this.state.option.map(function (d, index) {
+        let options = this.state.option.map(function(d, index) {
             let checked = ''
             if (value.indexOf(d.value) > -1) {
                 checked = ' checked'
@@ -91,8 +70,7 @@ const Checkbox = React.createClass({
                 React.createElement('label', {
                         key: index,
                         className: 'form-radio',
-                        title: this.props.title,
-                        help: this.state.help
+                        title: this.props.title
                     },
                     React.createElement('div', {
                             className: typeClass + checked
@@ -102,7 +80,7 @@ const Checkbox = React.createClass({
                             name: name,
                             value: d.value,
                             checked: checked,
-                            onChange: this._onChange
+                            onChange: this._onChange.bind(this)
                         })
                     ),
                     React.createElement('span', null, d.title)
@@ -118,5 +96,27 @@ const Checkbox = React.createClass({
             ) : null
         )
     }
-})
+}
+
+Checkbox.defaultProps = {
+    title: '多选框',
+    type: 'checkbox',
+    value: [2],
+    options: [{
+        title: '选项1',
+        value: 0
+    }, {
+        title: '选项2',
+        value: 1
+    }, {
+        title: '选项3',
+        value: 's2'
+    }],
+    name: 'state',
+    placeholder: '',
+    help: ' ',
+    disabled: '',
+    required: 'required'
+}
+
 module.exports = Checkbox
