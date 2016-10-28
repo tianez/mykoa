@@ -1,61 +1,30 @@
 'use strict'
 
-import {
-    syncHistoryWithStore
-} from 'react-router-redux'
-
-const {
-    Router,
-    Route,
-    IndexRoute,
-    IndexRedirect,
-    Redirect,
-    hashHistory,
-    browserHistory
-    // } = require('react-router')
-} = ReactRouter
-
+import { syncHistoryWithStore } from 'react-router-redux'
+const { Router, Route, IndexRoute, IndexRedirect, Redirect, hashHistory, browserHistory } = ReactRouter
 const history = syncHistoryWithStore(hashHistory, store)
 
-const {
-    Home,
-    Login,
-    Profile,
-    Nomatch
-} = require('../pages')
-
 const Layout = require('../layout/layout')
-
+const { Nomatch, Home, Pages, Page, Login, Logout, TestAdd, TestDetail } = require('../pages')
 const routers = (
-    React.createElement(Router, {
-            history: history
-        },
-        React.createElement(Route, {
-                path: "/",
-                component: Layout,
-                onEnter: onEnter
-            },
-            React.createElement(IndexRedirect, {
-                to: 'index'
-            }),
-            React.createElement(Route, {
-                path: "index",
-                component: Home
-            }),
-            React.createElement(Route, {
-                path: "profile",
-                component: Profile
-            })
+    React.createElement(Router, { history: history },
+        React.createElement(Route, { path: "/", component: Layout, onEnter: onEnter},
+            React.createElement(IndexRedirect, { to: 'index' }),
+            React.createElement(Route, { path: "index", component: Home }),
+            React.createElement(Route, { path: "api", },
+                React.createElement(Route, { path: ":pages/index", component: Pages }),
+                React.createElement(Route, { path: "tests/add", component: TestAdd }),
+                React.createElement(Route, { path: "tests/:id", component: TestDetail }),
+                React.createElement(Redirect, { from: ':pages', to: ':pages/index' }),
+                React.createElement(Route, { path: ":pages" },
+                    React.createElement(Route, { path: "index", component: Pages }),
+                    React.createElement(Route, { path: ":page", component: Page })
+                )
+            )
         ),
-        React.createElement(Route, {
-            path: "login",
-            component: Login,
-            onEnter: onEnter
-        }),
-        React.createElement(Route, {
-            path: "*",
-            component: Nomatch
-        })
+        React.createElement(Route, { path: "login", component: Login, onEnter: onEnter }),
+        React.createElement(Route, { path: "logout", component: Logout }),
+        React.createElement(Route, { path: "*", component: Nomatch })
     )
 )
 

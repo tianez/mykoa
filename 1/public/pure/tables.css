@@ -1,24 +1,10 @@
-@import '../lessc/base.less';
-@import '../lessc/layout.less';
-@import '../lessc/sidebar.less';
-@import '../lessc/Form.less';
-@import '../lessc/paginator.less';
-@import '../lessc/editer.less';
-@import '../lessc/swiper.less';
-@import '../lessc/index.less'; 
-@import '../lessc/login.less';
-@import '../lessc/apicloud.less';  
-
-.form-delete { 
-    width: 5.6rem;  
-    text-align: center;
-    color: #666;
-    cursor: pointer;
-    &:hover {
-        color: #f00;
-    }
-}
- .pure-table {
+/*!
+Pure v0.5.0
+Copyright 2014 Yahoo! Inc. All rights reserved.
+Licensed under the BSD License.
+https://github.com/yui/pure/blob/master/LICENSE.md
+*/
+.pure-table {
     /* Remove spacing between table cells (from Normalize.css) */
     border-collapse: collapse;
     border-spacing: 0;

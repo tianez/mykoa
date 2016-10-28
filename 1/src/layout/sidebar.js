@@ -5,16 +5,19 @@ const {
 
 const Apicloud = require('../components/utils/Apicloud')
 class A extends React.Component {
+    constructor() {
+        super()
+    }
     render() {
         return (
             React.createElement('li', {
-                    className: 'pure-menu-item'
-                },
+                className: 'pure-menu-item'
+            },
                 React.createElement(Link, {
-                        className: 'pure-menu-link',
-                        to: '/' + this.props.to,
-                        activeClassName: 'active'
-                    },
+                    className: 'pure-menu-link',
+                    to: '/' + this.props.to,
+                    activeClassName: 'active'
+                },
                     React.createElement("i", {
                         className: this.props.icon || 'fa fa-home'
                     }),
@@ -60,12 +63,12 @@ class Sidebar extends React.Component {
         }
         return (
             React.createElement('aside', {
-                    id: 'sidebar',
-                    className: 'pure-u-1 pure-menu sidebar'
-                },
+                id: 'sidebar',
+                className: 'pure-u-1 pure-menu sidebar'
+            },
                 React.createElement('ul', {
-                        className: 'pure-menu-list'
-                    },
+                    className: 'pure-menu-list'
+                },
                     menus
                 )
             )

@@ -3,39 +3,32 @@
 const classNames = require('classNames')
 const FormGroup = require('./FormGroup')
 
-var Input = React.createClass({
-    getDefaultProps: function() {
-        return {
-            type: 'text',
-            value: '',
-            autocomplete: 'off',
-            required: 'required',
+class Input extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            value: props.value,
+            help: props.help,
+            length: props.value.length || 0
         }
-    },
-    getInitialState: function() {
-        return {
-            value: this.props.value,
-            help: this.props.help,
-            length:  this.props.value.length || 0
-        }
-    },
-    componentWillMount: function() {
+    }
+    componentWillMount() {
         let length = this.props.value.length || 0
         let help = this.props.help || '请输入' + this.props.title
         this.setState({
             help: help
         })
-    },
-    shouldComponentUpdate: function(nextProps, nextState) {
+    }
+    shouldComponentUpdate(nextProps, nextState) {
         return nextProps.value !== this.props.value
-    },
-    componentWillReceiveProps: function(nextProps) {
+    }
+    componentWillReceiveProps(nextProps) {
         this.state = {
             value: nextProps.value,
-            length:  nextProps.value.length || 0
+            length: nextProps.value.length || 0
         }
-    },
-    _onChange: function(e) {
+    }
+    _onChange(e) {
         let error
         let warning
         let success
@@ -68,8 +61,8 @@ var Input = React.createClass({
         if (this.props.onChange) {
             this.props.onChange(this.props.name, value)
         }
-    },
-    render: function() {
+    }
+    render() {
         let Class = classNames({
             'has-error': this.state.error,
             'has-warning': this.state.warning,
@@ -81,11 +74,11 @@ var Input = React.createClass({
         }
         return (
             React.createElement(FormGroup, {
-                    class: Class,
-                    title: this.props.title,
-                    limit: limit,
-                    help: this.state.help
-                },
+                class: Class,
+                title: this.props.title,
+                limit: limit,
+                help: this.state.help
+            },
                 React.createElement('input', {
                     className: 'form-input',
                     type: this.props.type,
@@ -95,11 +88,18 @@ var Input = React.createClass({
                     disabled: this.props.disabled,
                     autoComplete: this.props.autoComplete,
                     value: this.state.value,
-                    onChange: this._onChange
+                    onChange: this._onChange.bind(this)
                 })
             )
         )
     }
-})
+}
+
+Input.defaultProps = {
+    type: 'text',
+    value: '',
+    autocomplete: 'off',
+    required: 'required',
+}
 
 module.exports = Input

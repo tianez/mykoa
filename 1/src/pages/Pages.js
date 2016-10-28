@@ -6,9 +6,10 @@ const {
 const request = require('superagent')
 const Pagination = require('../layout/Pagination')
 
-const Pages = React.createClass({
-    getInitialState: function () {
-        return {
+class Pages extends React.Component {
+    constructor() {
+        super()
+        this.state ={
             items: [],
             del_id: [],
             del_all: [],
@@ -16,21 +17,19 @@ const Pages = React.createClass({
             thead: [],
             title: ''
         }
-    },
+    }
 
-    getDefaultProps: function () {},
-
-    componentDidMount: function () {
+    componentDidMount () {
         this._reQuest(this.props)
-    },
-    componentWillReceiveProps: function (nextProps) {
+    }
+    componentWillReceiveProps (nextProps) {
         let page = nextProps.location.query.page || 1
         let page2 = this.props.location.query.page || 1
         if (this.props.params.pages != nextProps.params.pages || page != page2 || nextProps.location.search !== this.state.search) {
             this._reQuest(nextProps)
         }
-    },
-    _reQuest: function (props) {
+    }
+    _reQuest (props) {
         console.log(props.location);
         getfetch('api/' + props.params.pages, props.location.query)
             .then(function (res) {
@@ -45,20 +44,20 @@ const Pages = React.createClass({
                     title: res.title,
                 });
             }.bind(this))
-    },
-    _set_del_all: function (items) {
+    }
+    _set_del_all (items) {
         let del_all = []
         let x
         for (x in items) {
             del_all.push(items[x]['id'])
         }
         return del_all
-    },
-    _del: function (e) {
+    }
+    _del (e) {
         console.log(e.target)
         console.log(e.target.value)
-    },
-    _thead: function () {
+    }
+    _thead () {
         let isdel_all = this.state.isdel_all
         let checked
         if (isdel_all) {
@@ -90,7 +89,7 @@ const Pages = React.createClass({
                                 React.createElement("input", {
                                     className: "group-checkable",
                                     type: "checkbox",
-                                    onClick: this._isdel_all,
+                                    onClick: this._isdel_all.bind(this),
                                 })
                             )
                         )
@@ -100,8 +99,8 @@ const Pages = React.createClass({
                 )
             )
         )
-    },
-    _list: function (data) {
+    }
+    _list (data) {
         let list = []
         let p
         let thead = this.state.thead
@@ -112,8 +111,8 @@ const Pages = React.createClass({
             list.push(p)
         }
         return list
-    },
-    _isdel_all: function () {
+    }
+    _isdel_all () {
         let isdel_all = this.state.isdel_all
         let del_all = this.state.del_all
         let del_id = []
@@ -127,8 +126,8 @@ const Pages = React.createClass({
             isdel_all: isdel_all,
             del_id: del_id
         });
-    },
-    _click: function (e) {
+    }
+    _click (e) {
         let del_id = this.state.del_id
         let k = parseInt(e.target.value)
         let index = del_id.indexOf(k)
@@ -140,8 +139,8 @@ const Pages = React.createClass({
         this.setState({
             del_id: del_id
         })
-    },
-    _onDel: function (e) {
+    }
+    _onDel (e) {
         e.preventDefault()
         let id = e.target.id
         id = id.split("_")
@@ -151,13 +150,8 @@ const Pages = React.createClass({
             this.componentDidMount()
             Rd.message(res.msg)
         }.bind(this))
-    },
-    qq: function () {
-        let query = this.props.location.query
-        console.log(query);
-        return query
-    },
-    render: function () {
+    }
+    render () {
         let url = this.props.params.pages
         let list = this.state.items.map(function (data) {
             let curl = '/api/' + url + '/' + data.id
@@ -168,16 +162,6 @@ const Pages = React.createClass({
                 checked = 'checked'
             } else {
                 checked = ''
-            }
-            let role
-            if (url == 'roles') {
-                role = React.createElement(Link, {
-                    activeClassName: "active",
-                    to: '/permissions/' + data.id,
-                    style: {
-                        marginLeft: '20px'
-                    }
-                }, "用户组权限")
             }
             return (
                 React.createElement("tr", {
@@ -192,7 +176,7 @@ const Pages = React.createClass({
                                 value: data.id,
                                 name: 'del_id[]',
                                 type: "checkbox",
-                                onClick: this._click,
+                                onClick: this._click.bind(this),
                             })
                         )
                     ),
@@ -204,11 +188,9 @@ const Pages = React.createClass({
                         }, "编辑"),
                         ' | ',
                         React.createElement('a', {
-                            activeClassName: "active",
                             id: 'del_' + data.id,
-                            onClick: this._onDel
-                        }, "删除"),
-                        role
+                            onClick: this._onDel.bind(this)
+                        }, "删除")
                     )
                 )
             )
@@ -280,8 +262,7 @@ const Pages = React.createClass({
             )
         )
     }
-})
-
+}
 module.exports = connect(
     state => ({
         counter: state.config.show

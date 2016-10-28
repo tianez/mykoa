@@ -40,7 +40,7 @@ if (module.hot) {
 }
 
 window.Rd = require('./redux/actions')
-const router = require('./config/router')
+const router = require('./lib/router')
 function render2() {
 render(
     React.createElement(Provider, {

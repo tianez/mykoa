@@ -3,47 +3,35 @@
 const classNames = require('classNames')
 const FormGroup = require('./FormGroup')
 
-var Textarea = React.createClass({
-    getDefaultProps: function() {
-        return {
-            title: '字段名称',
-            value: '',
-            placeholder: '',
-            help: '',
-            disabled: '',
-            autocomplete: 'off',
-            required: 'required',
-            min: 2,
-            rows: 2,
-        }
-    },
-    getInitialState: function() {
-        return {
+class Textarea extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
             value: this.props.value,
             help: this.props.help,
             error: false,
             warning: false,
             success: false,
         }
-    },
-    componentWillMount: function() {
+    }
+    componentWillMount() {
         let length = this.props.value.length
         let help = this.props.help || '请输入' + this.props.title
         this.setState({
             help: help,
             length: length
         })
-    },
-    shouldComponentUpdate: function(nextProps, nextState) {
+    }
+    shouldComponentUpdate(nextProps, nextState) {
         return nextProps.value !== this.props.value
-    },
-    componentWillReceiveProps: function(nextProps) {
+    }
+    componentWillReceiveProps(nextProps) {
         this.state = {
             value: nextProps.value,
-            length:  nextProps.value.length || 0
+            length: nextProps.value.length || 0
         }
-    },
-    _onChange: function(e) {
+    }
+    _onChange(e) {
         let error
         let warning
         let success
@@ -76,19 +64,19 @@ var Textarea = React.createClass({
         if (this.props.onChange) {
             this.props.onChange(this.props.name, value)
         }
-    },
-    onWheel: function(obj) {
+    }
+    onWheel(obj) {
         console.log(obj)
         console.log(obj.currentTarget.offsetTop)
-    },
-    onKeyPress: function(obj) {
+    }
+    onKeyPress(obj) {
         console.log(obj)
         console.log(obj.nativeEvent.charCode)
-    },
-    onCopy: function(obj) {
+    }
+    onCopy(obj) {
         console.log(obj)
-    },
-    render: function() {
+    }
+    render() {
         let Class = classNames({
             'has-error': this.state.error,
             'has-warning': this.state.warning,
@@ -100,14 +88,14 @@ var Textarea = React.createClass({
         }
         return (
             React.createElement(FormGroup, {
-                    class: Class,
-                    title: this.props.title,
-                    limit: limit,
-                    help: this.state.help,
-                    onWheel: this.onWheel,
-                    onCopy: this.onCopy,
-                    onKeyPress: this.onKeyPress,
-                },
+                class: Class,
+                title: this.props.title,
+                limit: limit,
+                help: this.state.help,
+                onWheel: this.onWheel.bind(this),
+                onCopy: this.onCopy.bind(this),
+                onKeyPress: this.onKeyPress.bind(this)
+            },
                 React.createElement('textarea', {
                     className: 'form-textarea',
                     rows: this.props.rows,
@@ -115,11 +103,21 @@ var Textarea = React.createClass({
                     disabled: this.props.disabled,
                     autoComplete: this.props.autoComplete,
                     value: this.state.value,
-                    onChange: this._onChange
+                    onChange: this._onChange.bind(this)
                 })
             )
         )
     }
-})
-
+}
+Textarea.defaultProps = {
+    title: '字段名称',
+    value: '',
+    placeholder: '',
+    help: '',
+    disabled: '',
+    autocomplete: 'off',
+    required: 'required',
+    min: 2,
+    rows: 2
+}
 module.exports = Textarea

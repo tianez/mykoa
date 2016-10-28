@@ -4,7 +4,7 @@
 
 class Toast extends React.Component {
     constructor() {
-        super()
+        super() 
     }
     render() {
         return (

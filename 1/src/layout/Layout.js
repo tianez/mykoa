@@ -1,6 +1,4 @@
 'use strict'
-// var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup
-const Apicloud = require('../components/utils/Apicloud')
 
 const {
     Header,
@@ -8,42 +6,20 @@ const {
     Footer,
     Message
 } = require('./index')
-var Layout = React.createClass({
-    componentDidMount: function () {
-        let filter = {
-            where: {
-                state: 1
-            },
-            order: ['order DESC', 'createdAt DESC'],
-            limit: 100
-        }
-        Apicloud.get('role', filter, function (err, res) {
-            let roles = JSON.parse(res.text)
-            Rd.config('roles', roles)
-        })
-    },
-    render: function () {
+class Layout extends React.Component {
+    constructor() {
+        super()
+    }
+    render() {
         return (
-            // React.createElement(ReactCSSTransitionGroup, {
-            //         component: 'div',
-            //         id: 'warper',
-            //         className: 'pure-g',
-            //         transitionName: 'switch',
-            //         transitionEnterTimeout: 500,
-            //         transitionLeaveTimeout: 500
-            //     },
             React.createElement('div', {
-                    id: 'warper',
-                    className: 'pure-g',
-                },
-                // React.createElement('div', {
-                //         className: 'switch',
-                //         key: this.props.location.pathname
-                //     },
+                id: 'warper',
+                className: 'pure-g',
+            },
                 React.createElement(Header),
                 React.createElement('section', {
-                        id: 'main'
-                    },
+                    id: 'main'
+                },
                     React.createElement(Sidebar),
                     React.createElement('section', {
                         id: 'content',
@@ -55,5 +31,5 @@ var Layout = React.createClass({
             )
         )
     }
-})
+}
 module.exports = Layout
