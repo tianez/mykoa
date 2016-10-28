@@ -1,5 +1,4 @@
 'use strict'
-
 // window.React = require('react');
 import { render } from 'react-dom';
 
