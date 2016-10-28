@@ -32,19 +32,19 @@ const db = new db2()
 //     console.log(files);
 //     // files是一个数组，里面是目录/tmp目录下的所有文件（包括子目录）
 // });
+ 
+// const monk = require('../lib/monk')
 
-const monk = require('../lib/monk')
+// const products2 = monk('user')
 
-const products2 = monk('user')
-
-const mongoose = require('../lib/mongoose').users
+// const mongoose = require('../lib/mongoose').users
 
 async function test(ctx, next) {
-    let mm = new mongoose()
-    mm.username = 'woshihaoren22'
-    mm.save(function (err) {
-        console.log(err);
-    });
+    // let mm = new mongoose()
+    // mm.username = 'woshihaoren22'
+    // mm.save(function (err) {
+        // console.log(err);
+    // });
     // products2.index('name last')
     // products2.insert({
     //     "name": "orange juice",

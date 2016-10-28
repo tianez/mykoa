@@ -16,7 +16,7 @@ import log from './redux/middleware';
 let createStoreWithLog = applyMiddleware(thunk)(createStore);
 window.store = createStoreWithLog(reducer)
 store.subscribe(() => {
-    let state = store.getState()
+    let state = store.getState() 
     console.log(state);
 
     window.document.title = state.config.title
