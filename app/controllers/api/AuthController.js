@@ -89,7 +89,7 @@ async function removeToken(ctx, next) {
  */
 async function authToken(ctx, next) {
     let token
-    if (ctx.request.fields.token) {
+    if (ctx.request.fields && ctx.request.fields.token) {
         token = ctx.request.fields.token
     }
     else if (ctx.query.token) {
