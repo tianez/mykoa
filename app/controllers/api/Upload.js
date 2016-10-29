@@ -1,10 +1,11 @@
 'use strict'
 
 const fs = require('fs');
+const mime = require('mime');
 const moment = require('moment')
 
 module.exports = async function postUpload(ctx, next) {
-    let floder = __dirname + './../uploads/'
+    let floder = __dirname + './../../uploads/'
     console.log(floder);
     if (!fs.existsSync(floder)) {
         await fs.mkdir(floder);
@@ -36,6 +37,7 @@ module.exports = async function postUpload(ctx, next) {
         r.ext = ext
         r.lastModifiedDate = files[i].lastModifiedDate
         r.path = path + files[i].name
+        console.log(r);
         res.push(r)
     }
     ctx.body = JSON.stringify(res)
