@@ -1,9 +1,10 @@
 'use strict'
 
+const fs = require('fs');
 const moment = require('moment')
 
-module.exports =  async function postUpload(ctx, next) {
-    let floder =  __dirname +'./../uploads/'
+module.exports = async function postUpload(ctx, next) {
+    let floder = __dirname + './../uploads/'
     console.log(floder);
     if (!fs.existsSync(floder)) {
         await fs.mkdir(floder);

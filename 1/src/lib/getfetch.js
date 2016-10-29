@@ -44,6 +44,9 @@ export function postfetch(url, data = {}, query = {}, ) {
 function catchs(err) {
     try {
         let req = JSON.parse(err.text)
+        if(err.status==403){
+            localStorage.token = null
+        }
         Rd.message(err.status + '错误！' + req.error)
     } catch (err) {
         Rd.message(err.status + '错误！' + err.text)

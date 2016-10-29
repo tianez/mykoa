@@ -1,6 +1,6 @@
 'use strict'
 // window.React = require('react');
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 
 require('./lib/global')
 import './less/style.less'
@@ -41,23 +41,23 @@ if (module.hot) {
 
 window.Rd = require('./redux/actions')
 const router = require('./lib/router')
-function render2() {
-render(
-    React.createElement(Provider, {
-        store: store
-    },
-        React.createElement('div', {},
-            router,
-            React.createElement(DevTools)
-        )
-    ),
-    document.getElementById('app')
-)
+function render() {
+    ReactDOM.render(
+        React.createElement(Provider, {
+            store: store
+        },
+            React.createElement('div', {},
+                router,
+                React.createElement(DevTools)
+            )
+        ),
+        document.getElementById('app')
+    )
 }
 function Init() {
     getfetch("api")
         .then(function (res) {
-            render2()
+            render()
         }).catch(function (err) {
             console.log("Fetch错误:" + err);
         })

@@ -11,7 +11,7 @@ const apicontroller = require('../controllers/api');
  */
 router.all('*', async(ctx, next) => {
     ctx.set("Access-Control-Allow-Origin", "*");
-    ctx.set("Access-Control-Allow-Headers", "x-requested-with,content-type,token");
+    ctx.set("Access-Control-Allow-Headers", "x-requested-with,content-type,token,x-file-name");
     ctx.set("Access-Control-Allow-Method", "PUT,POST,GET,DELETE,OPTIONS");
     await next();
 })

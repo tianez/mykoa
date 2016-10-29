@@ -89,7 +89,10 @@ async function removeToken(ctx, next) {
  */
 async function authToken(ctx, next) {
     let token
-    if (ctx.query.token) {
+    if (ctx.request.fields.token) {
+        token = ctx.request.fields.token
+    }
+    else if (ctx.query.token) {
         token = ctx.query.token
     } else if (ctx.headers.token) {
         token = ctx.headers.token
@@ -122,7 +125,7 @@ async function authToken(ctx, next) {
             })
         }
     } else {
-        ctx.status = 401;
+        ctx.status = 403;
         ctx.type = 'json';
         ctx.set({
             token: null
