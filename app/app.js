@@ -34,7 +34,7 @@ app.use(require('koa-better-body')({
 
 const serve = require("koa-static2")
 app.use(serve("public", __dirname + "/../public"));
-app.use(serve("uploads", __dirname + "/uploads"));
+app.use(serve("uploads", __dirname + "/../uploads"));
 
 const session = require('koa-session');
 app.keys = ['some secret hurr'];

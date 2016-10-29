@@ -7,8 +7,7 @@ const moment = require('moment')
 
 module.exports = async function postUpload(ctx, next) {
     // let floder = __dirname + './../../../uploads/'
-    let floder = path.resolve('uploads/');
-    console.log(floder);
+    let floder = path.resolve('../uploads');
     if (!fs.existsSync(floder)) {
         await fs.mkdir(floder);
     }
@@ -20,17 +19,18 @@ module.exports = async function postUpload(ctx, next) {
         }
         let r = {}
         let ext = mime.extension(files[i].type);
-        let path = floder + ext
-        if (!fs.existsSync(path)) {
-            await fs.mkdir(path);
+        let filepath = floder + '/' + ext
+        if (!fs.existsSync(filepath)) {
+            await fs.mkdir(filepath);
         }
-        path += moment().format("/YYYYMMDD/")
-        if (!fs.existsSync(path)) {
-            await fs.mkdir(path);
+        let ctime = moment().format("/YYYYMMDD/")
+        filepath += ctime
+        if (!fs.existsSync(filepath)) {
+            await fs.mkdir(filepath);
         }
-        console.log(path);
+        console.log(filepath);
         let is = fs.createReadStream(files[i].path);
-        let os = fs.createWriteStream(path + files[i].name);
+        let os = fs.createWriteStream(filepath + files[i].name);
         is.pipe(os);
         is.on('end', function () {
             fs.unlinkSync(files[i].path);
@@ -39,9 +39,14 @@ module.exports = async function postUpload(ctx, next) {
         r.size = files[i].size
         r.ext = ext
         r.lastModifiedDate = files[i].lastModifiedDate
-        r.path = path + files[i].name
+        r.path = 'http://localhost:4000/uploads/' + ext + ctime + files[i].name
         console.log(r);
         res.push(r)
     }
-    ctx.body = JSON.stringify(res)
+    let f = {
+        "success": true,
+        "msg": "上传成功！",
+        "file_path": res[0].path
+    }
+    ctx.body = JSON.stringify(f)
 }
