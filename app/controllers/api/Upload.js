@@ -5,7 +5,7 @@ const mime = require('mime');
 const moment = require('moment')
 
 module.exports = async function postUpload(ctx, next) {
-    let floder = __dirname + './../../uploads/'
+    let floder =   './../../../uploads/'
     console.log(floder);
     if (!fs.existsSync(floder)) {
         await fs.mkdir(floder);
@@ -26,6 +26,7 @@ module.exports = async function postUpload(ctx, next) {
         if (!fs.existsSync(path)) {
             await fs.mkdir(path);
         }
+        console.log(path);
         let is = fs.createReadStream(files[i].path);
         let os = fs.createWriteStream(path + files[i].name);
         is.pipe(os);
